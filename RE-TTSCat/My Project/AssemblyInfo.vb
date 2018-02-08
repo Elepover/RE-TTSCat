@@ -12,10 +12,10 @@ Imports System.Windows
 '查看程序集特性的值
 
 <Assembly: AssemblyTitle("RE_TTSCat")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyDescription("RE: TTSCat - 重写版 TTSDanmaku")>
+<Assembly: AssemblyCompany("Elepover")>
 <Assembly: AssemblyProduct("RE_TTSCat")>
-<Assembly: AssemblyCopyright("Copyright @  2018")>
+<Assembly: AssemblyCopyright("Copyright © 2017 - 2018 Elepover")>
 <Assembly: AssemblyTrademark("")> 
 <Assembly: ComVisible(false)>
 
@@ -42,7 +42,7 @@ Imports System.Windows
 
 
 '如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-<Assembly: Guid("b2258842-83df-48ce-bebe-3b87c94bb959")> 
+<Assembly: Guid("b2258842-83df-48ce-bebe-3b87c94bb959")>
 
 ' 程序集的版本信息由下列四个值组成: 
 '
@@ -55,5 +55,5 @@ Imports System.Windows
 ' 方法是按如下所示使用“*”: :
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("0.0.0.0")>
+<Assembly: AssemblyFileVersion("0.0.0.0")>
