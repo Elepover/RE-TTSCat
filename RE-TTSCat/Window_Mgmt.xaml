@@ -1,0 +1,52 @@
+﻿<Window x:Class="Window_Mgmt"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RE_TTSCat"
+        mc:Ignorable="d"
+        Title="Re: TTSCat - 插件管理" Height="400" Width="700">
+    <Grid>
+        <TabControl Margin="0,0,0,58">
+            <TabItem Header="一般选项">
+                <Grid>
+                    <CheckBox x:Name="CheckBox_Options_PluginEnabled" Content="启用插件" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="CheckBox_Options_ReadDanmakuSender" Content="读出 - 弹幕发送者" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="CheckBox_Options_ReadGifts" Content="读出 - 收到的礼物" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="CheckBox_Options_ReadTTSInArray" Content="逐条读出 TTS" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="CheckBox_AutoUpdate" Content="自动检查插件更新" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="高级设置">
+                <Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="屏蔽选项">
+                <Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="统计数据">
+
+            </TabItem>
+            <TabItem Header="插件测试">
+                <Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="关于插件">
+                <Grid>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button Content="捐赠" HorizontalAlignment="Left" Margin="10,0,0,34" Width="75" Height="19" VerticalAlignment="Bottom"/>
+        <Button Content="检查更新" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="19" VerticalAlignment="Bottom"/>
+        <Button Content="放弃" Margin="0,0,90,34" HorizontalAlignment="Right" Width="75" Height="19" VerticalAlignment="Bottom"/>
+        <Button Content="应用" Margin="0,0,10,34" HorizontalAlignment="Right" Width="75" Height="19" VerticalAlignment="Bottom"/>
+        <Button Content="确定" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Height="19" VerticalAlignment="Bottom"/>
+        <Button Content="取消" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="19" VerticalAlignment="Bottom"/>
+        <TextBlock Margin="90,0,170,10" TextWrapping="Wrap" Text="感谢使用本插件" Height="19" TextAlignment="Center" FontSize="14" VerticalAlignment="Bottom"/>
+    </Grid>
+</Window>

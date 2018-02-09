@@ -10,6 +10,7 @@
 
 Imports System.IO
 Imports System.Threading
+Imports System.Windows.Threading
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports RE_TTSCat.Consts
@@ -34,11 +35,6 @@ Public Class Settings
         ''' </summary>
         ''' <returns></returns>
         Public Property TTSGiftsReceived As Boolean
-        ''' <summary>
-        ''' 自动清理缓存是否启用
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property AutoClearCache As Boolean
         ''' <summary>
         ''' 新增于 2017/04/25 17:34 - 是否启用 TTS 冷却
         ''' </summary>
@@ -223,7 +219,6 @@ Public Class Settings
             DebugMode = False
             TTSDanmakuSender = True
             TTSGiftsReceived = True
-            AutoClearCache = True
             TTSDelayEnabled = False
             TTSDelayValue = 5000
             DanmakuText = "$USER 说: $DM"
@@ -266,11 +261,17 @@ Public Class Settings
     Public Shared Sub Init()
         If Not Directory.Exists(ConfDir) Then
             Directory.CreateDirectory(ConfDir)
+            CreateConf()
         End If
-        CreateConf()
         If Not Directory.Exists(CacheDir) Then
             Directory.CreateDirectory(CacheDir)
         End If
+        Try
+            ReadConf()
+        Catch ex As Exception
+            CreateConf()
+            ReadConf()
+        End Try
     End Sub
     ''' <summary>
     ''' Initiates Settings File.
@@ -287,26 +288,19 @@ Public Class Settings
     ''' </summary>
     ''' <param name="obj">Object to serialize.</param>
     Public Shared Sub SaveConf(obj As Conf)
-        Dim XSSubmit As XmlSerializer = New XmlSerializer(GetType(Conf))
-        Dim XMLText = ""
-        Using StringWriteParser = New StringWriter()
-            Using XWriter As XmlWriter = XmlWriter.Create(StringWriteParser)
-                XSSubmit.Serialize(XWriter, obj)
-                XMLText = StringWriteParser.ToString()
-            End Using
-        End Using
-        Dim Writer As New StreamWriter(ConfFile, False, System.Text.Encoding.UTF8)
-        Writer.Write(XMLText)
-        Writer.Close()
+        Dim fileStream As IO.FileStream = New IO.FileStream(ConfFile, IO.FileMode.Create)
+        Dim serializer As New Runtime.Serialization.DataContractSerializer(GetType(Conf))
+        serializer.WriteObject(fileStream, obj)
+        fileStream.Close()
     End Sub
     ''' <summary>
     ''' Reads Settings File
     ''' </summary>
     Public Shared Sub ReadConf()
-        Dim Serializer As XmlSerializer = New XmlSerializer(GetType(Conf))
-        Using FStream As FileStream = New FileStream(ConfFile, FileMode.Open)
-            CurrentSettings = CType(Serializer.Deserialize(FStream), Conf)
-        End Using
+        Dim fileStream As FileStream = New FileStream(ConfFile, FileMode.Open)
+        Dim gottenResult As Conf = New Runtime.Serialization.DataContractSerializer(GetType(Conf)).ReadObject(fileStream)
+        fileStream.Close()
+        CurrentSettings = gottenResult
     End Sub
 End Class
 
@@ -315,10 +309,17 @@ Public Class Consts
     Public Shared ReadOnly Property DLLPath As String = (New FileInfo(DLLFile)).DirectoryName
     Public Shared ReadOnly Property ConfDir As String = Path.Combine(DLLPath, "RE-TTSCat")
     Public Shared ReadOnly Property CacheDir As String = Path.Combine(ConfDir, "Cache")
-    Public Shared ReadOnly Property ConfFile As String = Path.Combine(ConfDir, "TTSCat.ini")
+    Public Shared ReadOnly Property ConfFile As String = Path.Combine(ConfDir, "TTSCat.xml")
     Public Shared ReadOnly Property AudioLibFile As String = Path.Combine(DLLPath, "NAudio.dll")
+    Public Shared Property StartedOnce As Boolean = False
     Public Shared Property CurrentSettings As Settings.Conf
-    Public Shared Property DMJWindow As Window
+    Public Shared WithEvents DMJWindow As Window
+    Public Shared Property TrayWindow As Form_TrayKeeper
+    Public Shared Property PluginEnabled As Boolean = False
+
+    Private Shared Sub DMJWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles DMJWindow.Loaded
+        DMJWindow.Activate()
+    End Sub
 End Class
 
 Public Class Stats
@@ -336,10 +337,9 @@ End Class
 
 Public Class MainBridge
     Public Shared PendingLogs As List(Of Log) = New List(Of Log)
-    Public Shared ReqStop As Boolean = False
-    Public Shared ReqStart As Boolean = False
-    Public Shared ReqAdmin As Boolean = False
-    Public Shared ReqExit As Boolean = False
+    Public Shared Property Started As Boolean = False
+    Public Shared Property StartError As Boolean = False
+    Public Shared Property PluginInstance As Main
 End Class
 
 Public Class Log
@@ -349,7 +349,6 @@ Public Class Log
     End Sub
     Public Property LogContent As String
     Public Property DebugOnly As Boolean
-
 End Class
 
 Public Module ModularSubs
@@ -357,14 +356,18 @@ Public Module ModularSubs
         Dim Obj As New Log() With {.LogContent = Content, .DebugOnly = Debug}
         MainBridge.PendingLogs.Add(Obj)
     End Sub
-    Public Sub Delay(interval As Single)
-        Dim TimerCount As Single
-        Dim Timer As New Stopwatch
-        Timer.Start()
-        interval = interval / 1000
-        TimerCount = Timer.Elapsed.TotalSeconds + interval
-        While TimerCount - Timer.Elapsed.TotalSeconds > 0
-            Thread.Sleep(1)
-        End While
+    ''' <summary>
+    ''' Wait a minute... emmm...
+    ''' via Stack Overflow.
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Sub Delay(ByVal Time As Double)
+        Dim Frame = New DispatcherFrame()
+        Dim Thr As New Thread(CType((Sub()
+                                         Thread.Sleep(Time)
+                                         Frame.[Continue] = False
+                                     End Sub), ThreadStart))
+        Thr.Start()
+        Dispatcher.PushFrame(Frame)
     End Sub
 End Module

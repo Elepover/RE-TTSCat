@@ -1,0 +1,21 @@
+﻿<Window x:Class="Window_Loading"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RE_TTSCat"
+        mc:Ignorable="d" WindowStyle="None" Background="Transparent"
+        Title="Window_Loading" Height="100" Width="300" AllowsTransparency="True" ShowInTaskbar="False" Topmost="True">
+    <Grid Background="Transparent">
+        <Border x:Name="OuterGlow" Margin="7" Background="White" BorderBrush="DarkCyan" BorderThickness="7">
+            <Border.Effect>
+                <BlurEffect KernelType="Gaussian" Radius="15" RenderingBias="Quality" />
+            </Border.Effect>
+        </Border>
+        <Grid Background="White" Margin="7">
+            <TextBlock Background="white" Margin="10,10,10,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="25" Text="Re: TTSCat: 正在准备..."/>
+            <ProgressBar Background="white" Margin="10,0,10,10" IsIndeterminate="True" Height="10" VerticalAlignment="Bottom"/>
+            <TextBox Background="white" x:Name="TextBox_Status" TextWrapping="Wrap" Text="准备中..." FontSize="14" IsReadOnly="True" Margin="10,35,10,0" Height="23" VerticalAlignment="Top"/>
+        </Grid>
+    </Grid>
+</Window>
