@@ -1,0 +1,30 @@
+﻿<Window x:Class="Window_StatusReport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RE_TTSCat"
+        mc:Ignorable="d"
+        Title="Re: TTSCat - 状态报告" Height="450" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="功能开关" VerticalAlignment="Top" FontSize="17"/>
+        <Grid Height="80" Margin="10,37,0,0" VerticalAlignment="Top" Width="474">
+            <CheckBox x:Name="CheckBox_EnableStatusReport" Content="启用状态报告" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="启动状态报告功能。"/>
+            <CheckBox x:Name="CheckBox_EnableAdvVars" Content="允许使用高级变量" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" ToolTip="允许使用与直播间状态无关的变量。"/>
+            <Button x:Name="Button_Save" Content="保存" HorizontalAlignment="Right" Margin="0,7,10,0" VerticalAlignment="Top" Width="75" IsDefault="True" ToolTip="保存设置。"/>
+            <Button x:Name="Button_Cancel" Content="取消" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" IsCancel="True" HorizontalContentAlignment="Center" ToolTip="放弃设置，关闭。"/>
+        </Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,122,0,0" TextWrapping="Wrap" Text="细节设置" VerticalAlignment="Top" FontSize="17"/>
+        <Grid Height="110" Margin="15,149,5,0" VerticalAlignment="Top" Width="474">
+            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="状态报告时间间隔（45 ~ 3600）（秒）" VerticalAlignment="Top"/>
+            <TextBox x:Name="NumericUpDown_Interval" HorizontalAlignment="Left" Height="23" Margin="10,30,0,0" TextWrapping="Wrap" Text="60" VerticalAlignment="Top" Width="214" MaxLines="1" ToolTip="每个多少时间后播放状态报告。"/>
+            <TextBlock HorizontalAlignment="Left" Margin="10,58,0,0" TextWrapping="Wrap" Text="自定义状态报告内容" VerticalAlignment="Top"/>
+            <TextBox x:Name="TextBox_ReportText" HorizontalAlignment="Left" Height="23" Margin="10,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="214" MaxLines="1" ToolTip="自定义状态报告时的读出内容。"/>
+        </Grid>
+        <Expander Header="变量帮助" Margin="10,269,10,10" Width="474">
+            <Grid Background="White">
+                <TextBox x:Name="TextBox_VarsHelp" TextWrapping="Wrap" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"/>
+            </Grid>
+        </Expander>
+    </Grid>
+</Window>

@@ -26,12 +26,12 @@ Partial Class Form_TrayKeeper
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form_TrayKeeper))
         Me.NotifyIcon_Default = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.ContextMenuStrip_Default = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.显示隐藏弹幕姬窗口ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.启动插件ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.停用插件ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.管理插件ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.优雅关闭弹幕姬ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.强制关闭弹幕姬ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.显示隐藏弹幕姬窗口ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip_Default.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -46,7 +46,15 @@ Partial Class Form_TrayKeeper
         Me.ContextMenuStrip_Default.BackColor = System.Drawing.Color.White
         Me.ContextMenuStrip_Default.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.显示隐藏弹幕姬窗口ToolStripMenuItem, Me.启动插件ToolStripMenuItem, Me.停用插件ToolStripMenuItem, Me.管理插件ToolStripMenuItem, Me.优雅关闭弹幕姬ToolStripMenuItem, Me.强制关闭弹幕姬ToolStripMenuItem})
         Me.ContextMenuStrip_Default.Name = "ContextMenuStrip_Default"
-        Me.ContextMenuStrip_Default.Size = New System.Drawing.Size(199, 158)
+        Me.ContextMenuStrip_Default.Size = New System.Drawing.Size(199, 136)
+        '
+        '显示隐藏弹幕姬窗口ToolStripMenuItem
+        '
+        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Font = New System.Drawing.Font("Microsoft YaHei UI", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Image = CType(resources.GetObject("显示隐藏弹幕姬窗口ToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Name = "显示隐藏弹幕姬窗口ToolStripMenuItem"
+        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Text = "显示 / 隐藏弹幕姬窗口"
         '
         '启动插件ToolStripMenuItem
         '
@@ -59,7 +67,7 @@ Partial Class Form_TrayKeeper
         '
         Me.停用插件ToolStripMenuItem.Image = CType(resources.GetObject("停用插件ToolStripMenuItem.Image"), System.Drawing.Image)
         Me.停用插件ToolStripMenuItem.Name = "停用插件ToolStripMenuItem"
-        Me.停用插件ToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.停用插件ToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.停用插件ToolStripMenuItem.Text = "停用插件"
         '
         '管理插件ToolStripMenuItem
@@ -74,23 +82,15 @@ Partial Class Form_TrayKeeper
         '
         Me.优雅关闭弹幕姬ToolStripMenuItem.Image = CType(resources.GetObject("优雅关闭弹幕姬ToolStripMenuItem.Image"), System.Drawing.Image)
         Me.优雅关闭弹幕姬ToolStripMenuItem.Name = "优雅关闭弹幕姬ToolStripMenuItem"
-        Me.优雅关闭弹幕姬ToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.优雅关闭弹幕姬ToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.优雅关闭弹幕姬ToolStripMenuItem.Text = "优雅关闭弹幕姬"
         '
         '强制关闭弹幕姬ToolStripMenuItem
         '
         Me.强制关闭弹幕姬ToolStripMenuItem.Image = CType(resources.GetObject("强制关闭弹幕姬ToolStripMenuItem.Image"), System.Drawing.Image)
         Me.强制关闭弹幕姬ToolStripMenuItem.Name = "强制关闭弹幕姬ToolStripMenuItem"
-        Me.强制关闭弹幕姬ToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.强制关闭弹幕姬ToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
         Me.强制关闭弹幕姬ToolStripMenuItem.Text = "强制关闭弹幕姬"
-        '
-        '显示隐藏弹幕姬窗口ToolStripMenuItem
-        '
-        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Font = New System.Drawing.Font("Microsoft YaHei UI", 9.0!, System.Drawing.FontStyle.Bold)
-        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Image = CType(resources.GetObject("显示隐藏弹幕姬窗口ToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Name = "显示隐藏弹幕姬窗口ToolStripMenuItem"
-        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
-        Me.显示隐藏弹幕姬窗口ToolStripMenuItem.Text = "显示 / 隐藏弹幕姬窗口"
         '
         'Form_TrayKeeper
         '

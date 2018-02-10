@@ -10,6 +10,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MyType>Custom</MyType>
     <ProjectGuid>{C4F09CC6-FB5C-4F3B-AECD-4C473EC3EFAB}</ProjectGuid>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,6 +76,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Edition.vb" />
     <Compile Include="Form_TrayKeeper.Designer.vb">
       <DependentUpon>Form_TrayKeeper.vb</DependentUpon>
     </Compile>
@@ -90,6 +92,15 @@
     </Compile>
     <Compile Include="Window_Mgmt.xaml.vb">
       <DependentUpon>Window_Mgmt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_ProxySettings.xaml.vb">
+      <DependentUpon>Window_ProxySettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_StatusReport.xaml.vb">
+      <DependentUpon>Window_StatusReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_Updates.xaml.vb">
+      <DependentUpon>Window_Updates.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -148,9 +159,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Window_ProxySettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_StatusReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_Updates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Manage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\avatar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\avatar_t.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

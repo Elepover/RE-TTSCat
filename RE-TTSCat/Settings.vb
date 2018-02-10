@@ -9,6 +9,7 @@
 '
 
 Imports System.IO
+Imports System.Net
 Imports System.Threading
 Imports System.Windows.Threading
 Imports System.Xml
@@ -227,7 +228,7 @@ Public Class Settings
             StatusReport = False
             StatusReport_ResolveAdvVars = True
             StatusReportInterval = 60
-            StatusReportContent = "当前在线人数: $ONLINE, 弹幕总数: $TOTALDM, 现在是 $YEAR 年 $MONTH 月 $DAY 日，$HOUR 时 $MINUTE 分 $SEC 秒，当前物理内存可用 $MEMAVAI GB，已用百分之 $MPERCENT，虚拟内存可用 $VMEM GB，已用百分之 $VPERCENT_VM。"
+            StatusReportContent = "当前人气值: $ONLINE, 现在是 $YEAR 年 $MONTH 月 $DAY 日，$HOUR 时 $MINUTE 分 $SEC 秒，当前物理内存可用 $MEMAVAI GB，已用百分之 $MPERCENT，虚拟内存可用 $VMEM GB，已用百分之 $VPERCENT_VM。"
             TTSVolume = 100
             DoNotKeepCache = False
             ConnectSuccessful = "已成功连接至房间: %s"
@@ -351,6 +352,125 @@ Public Class Log
     Public Property DebugOnly As Boolean
 End Class
 
+Public Class KruinUpdates
+
+    Public Class Update
+        ''' <summary>
+        ''' 产生一个新的 Update 对象。
+        ''' </summary>
+        ''' <param name="latestVer">最新版本</param>
+        ''' <param name="updTime">更新日期</param>
+        ''' <param name="updDesc">更新描述</param>
+        Sub New(latestVer As Version, updTime As Date, updDesc As String, dlLink As String)
+            pLatestVersion = latestVer
+            pUpdateTime = updTime
+            pUpdateDescription = updDesc
+            pDLLink = dlLink
+        End Sub
+
+        ''' <summary>
+        ''' 获得的最新版本
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property LatestVersion As Version
+            Get
+                Return pLatestVersion
+            End Get
+        End Property
+        ''' <summary>
+        ''' 最新版本更新日期
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property UpdateTime As Date
+            Get
+                Return pUpdateTime
+            End Get
+        End Property
+        ''' <summary>
+        ''' 更新描述
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property UpdateDescription As String
+            Get
+                Return pUpdateDescription
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 更新下载链接
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property DLURL As String
+            Get
+                Return pDLLink
+            End Get
+        End Property
+
+        Private Property pLatestVersion As Version
+        Private Property pUpdateTime As Date
+        Private Property pUpdateDescription As String
+        Private Property pDLLink As String
+    End Class
+
+    ''' <summary>
+    ''' 获取最新的插件版本
+    ''' </summary>
+    ''' <returns></returns>
+    Public Shared Function GetLatestUpd() As Update
+        Dim gottenResult As String
+        gottenResult = HttpGet(New Uri("https://www.danmuji.org/api/v2/TTSDanmaku"))
+        Dim jsonObj As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.Linq.JObject.Parse(gottenResult)
+        Dim latestVer As Version = New Version(jsonObj("version").ToString())
+        Dim updDesc As String = jsonObj("update_desc").ToString()
+        Dim updTime As Date = DateTimeOffset.Parse(jsonObj("update_datetime"), Nothing).DateTime
+        Dim dlLink As String = jsonObj("dl_url").ToString()
+
+        Return New Update(latestVer, updTime, updDesc, dlLink)
+    End Function
+
+    ''' <summary>
+    ''' 等同于 DownloadString 吧，mmp
+    ''' </summary>
+    ''' <param name="uri">请求 URI</param>
+    ''' <returns></returns>
+    Public Shared Function HttpGet(uri As Uri) As String
+        Dim request As HttpWebRequest = DirectCast(WebRequest.Create(uri), HttpWebRequest)
+        request.UserAgent = "KruinUpdates/" & New Main().PluginVer & " (TTSDanmaku;)"
+        Using response As HttpWebResponse = DirectCast(request.GetResponse(), HttpWebResponse)
+            Using stream As IO.Stream = response.GetResponseStream()
+                Using reader As New IO.StreamReader(stream)
+                    Dim text = reader.ReadToEnd()
+                    Return text
+                End Using
+            End Using
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' 插件是不是最新版?
+    ''' </summary>
+    ''' <param name="currentVer">当前版本</param>
+    ''' <returns></returns>
+    Public Shared Function CheckIfLatest(currentVer As Version) As Boolean
+        Dim upd As Update = GetLatestUpd()
+        Return CheckIfLatest(upd, currentVer)
+    End Function
+
+    ''' <summary>
+    ''' 插件是不是最新版?
+    ''' </summary>
+    ''' <param name="upd">检查到的最新版本</param>
+    ''' <param name="currentVer">当前版本</param>
+    ''' <returns></returns>
+    Public Shared Function CheckIfLatest(upd As Update, currentVer As Version) As Boolean
+        If upd.LatestVersion > currentVer Then
+            Return False
+        Else
+            Return True
+        End If
+    End Function
+End Class
+
 Public Module ModularSubs
     Public Sub L(Content As String, Optional Debug As Boolean = False)
         Dim Obj As New Log() With {.LogContent = Content, .DebugOnly = Debug}
@@ -370,4 +490,18 @@ Public Module ModularSubs
         Thr.Start()
         Dispatcher.PushFrame(Frame)
     End Sub
+    ''' <summary>
+    ''' Converts an object into System.Windows.Media.ImageSource object.
+    ''' </summary>
+    ''' <param name="source">Source object to convert.</param>
+    ''' <returns>Converted ImageSource object.</returns>
+    ''' <remarks></remarks>
+    Public Function ConvertToImageSource(source As Object, Width As Integer, Height As Integer) As ImageSource
+        Dim result As ImageSource = Interop.Imaging.CreateBitmapSourceFromHBitmap(
+             source.GetHbitmap(),
+             IntPtr.Zero,
+             Int32Rect.Empty,
+             BitmapSizeOptions.FromWidthAndHeight(Width, Height))
+        Return result
+    End Function
 End Module

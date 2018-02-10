@@ -12,6 +12,8 @@ Public Class TTSPlay
     ''' </summary>
     ''' <param name="Content"></param>
     Public Shared Async Function DLPlayTTS(Content As String, Optional TestMode As Boolean = False) As Task(Of Boolean)
+        'Null protection
+        If IsNothing(Content) Then Return False
         Try
             'If testmode, then play directly (no sound)
             If TestMode Then
@@ -35,6 +37,10 @@ Public Class TTSPlay
                     Return True
                 Else 'If Not, just add to list.
                     PendingTTSes.Add(Await DownloadTTS(Content, Consts.CurrentSettings.Engine, Consts.CurrentSettings.DLFailRetry))
+                    'If accidentally stopped, restart.
+                    If WaveOutDevice.PlaybackState = PlaybackState.Stopped Then
+                        PlayTTS(PendingTTSes(0))
+                    End If
                     Return True
                 End If
             End If
@@ -50,7 +56,11 @@ Public Class TTSPlay
         PendingTTSes.RemoveAt(0)
         'Check if playlist is empty.
         If Not PendingTTSes.Count = 0 Then
-            PlayTTS(PendingTTSes(0))
+            Try
+                PlayTTS(PendingTTSes(0))
+            Catch ex As Exception
+                CALLBACK_PlaybackStopped()
+            End Try
         End If
     End Sub
 
@@ -147,7 +157,8 @@ Retrieval:
                 Try
                     Dim Outputter As New Speech.Synthesis.SpeechSynthesizer()
                     Outputter.SetOutputToWaveFile(FullFileName.Replace(".mp3", ".wav"))
-                    Outputter.Speak(Text)
+                    Outputter.SpeakAsync(Text)
+                    Delay(3000)
                     Return FullFileName
                 Catch ex As Exception
                     Stats.FAILURE_ErrorCounter += 1
@@ -197,4 +208,70 @@ Retrieval_GG:
                 Return "$FAIL"
         End Select
     End Function
+    ''' <summary>
+    ''' Check eligibility of a message. If any 'type' is wrong, returns true.
+    ''' ONLY CAN BE USED WHEN SETTINGS SYSTEM IS READY!
+    ''' </summary>
+    ''' <param name="Sender">Message sender.</param>
+    ''' <param name="Content">Message content.</param>
+    ''' <param name="Type">Message type.</param>
+    ''' <returns></returns>
+    Public Shared Function CheckEligibility(Sender As String, Content As String, Type As BilibiliDM_PluginFramework.MsgTypeEnum) As Boolean
+        Select Case Type
+            Case BilibiliDM_PluginFramework.MsgTypeEnum.Comment
+                'Detect user block type.
+                Select Case Consts.CurrentSettings.Block_Mode
+                    Case 0 'Disabled
+                        Return True
+                    Case 1 'Blacklist
+                        For Each TmpStr As String In Consts.CurrentSettings.Blacklist.Replace(vbCr, "").Split({vbLf}, StringSplitOptions.RemoveEmptyEntries)
+                            If TmpStr = Sender Then Return False
+                        Next
+                        Return True
+                    Case 2 'Whitelist
+                        'Just opposite to blacklist mode.
+                        For Each TmpStr As String In Consts.CurrentSettings.Whitelist.Replace(vbCr, "").Split({vbLf}, StringSplitOptions.RemoveEmptyEntries)
+                            If TmpStr = Sender Then Return True
+                        Next
+                        Return False
+                    Case Else 'Not happens
+                        Return True
+                End Select
+            Case BilibiliDM_PluginFramework.MsgTypeEnum.GiftSend
+                'Check if gifts tts is enabled.
+                If Not Consts.CurrentSettings.TTSGiftsReceived Then
+                    Return False
+                End If
+                'Recursively check if sender is eligible or not.
+                If CheckEligibility(Sender, "", MsgType.Danmaku) Then
+                    Select Case Consts.CurrentSettings.GiftBlock_Mode
+                        Case 0 'Disable
+                            Return True
+                        Case 1 'Blacklist
+                            For Each TmpStr As String In Consts.CurrentSettings.GiftBlacklist.Replace(vbCr, "").Split({vbLf}, StringSplitOptions.RemoveEmptyEntries)
+                                If TmpStr = Content Then Return False
+                            Next
+                            Return True
+                        Case 2 'Whitelist
+                            For Each TmpStr As String In Consts.CurrentSettings.GiftWhitelist.Replace(vbCr, "").Split({vbLf}, StringSplitOptions.RemoveEmptyEntries)
+                                If TmpStr = Content Then Return True
+                            Next
+                            Return False
+                        Case Else 'Not happens.
+                            Return True
+                    End Select
+                Else
+                    Return False
+                End If
+            Case Else
+                Return True
+        End Select
+    End Function
+    ''' <summary>
+    ''' Indicates message type.
+    ''' </summary>
+    Public Enum MsgType
+        Danmaku = 0
+        Gift = 1
+    End Enum
 End Class
