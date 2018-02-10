@@ -78,7 +78,7 @@ DLoop:
         Log("启动成功！")
     End Sub
 
-    Public Async Sub ThrStartPlugin()
+    Public Sub ThrStartPlugin()
         Dim WindowObj As New Window_Loading
         WindowObj.Show()
         'Delay(500)
@@ -102,9 +102,19 @@ DLoop:
 
         Delay(100)
         WindowObj.TextBox_Status.Text = "正在测试网络..."
-        If Await TTSPlay.DLPlayTTS("这是一个中文语音合成的例子。", True) = False Then
-            MessageBox.Show("网络测试失败，可能会遇到一些玄学问题。", "Re: TTSCat", vbOKOnly, MessageBoxImage.Warning)
-        End If
+        Dim Frame_NET = New DispatcherFrame()
+        Dim Thr_NET As New Thread(CType((Sub()
+                                             Dim Util As New Net.NetworkInformation.Ping
+                                             Try
+                                                 Util.Send("fanyi.baidu.com", 5000)
+                                                 Util.Send("translate.google.cn", 5000)
+                                             Catch ex As Exception
+                                                 MessageBox.Show("网络测试出错: " & ex.Message, "Re: TTSCat", vbOKOnly, MessageBoxImage.Warning)
+                                             End Try
+                                             Frame_NET.[Continue] = False
+                                         End Sub), ThreadStart))
+        Thr_NET.SetApartmentState(ApartmentState.STA)
+        Thr_NET.Start()
 
         Delay(100)
         WindowObj.TextBox_Status.Text = "正在清理缓存..."
