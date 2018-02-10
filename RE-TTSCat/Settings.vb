@@ -315,7 +315,6 @@ Public Class Consts
     Public Shared Property StartedOnce As Boolean = False
     Public Shared Property CurrentSettings As Settings.Conf
     Public Shared WithEvents DMJWindow As Window
-    Public Shared Property TrayWindow As Form_TrayKeeper
     Public Shared Property PluginEnabled As Boolean = False
 
     Private Shared Sub DMJWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles DMJWindow.Loaded

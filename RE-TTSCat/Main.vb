@@ -192,7 +192,6 @@ DLoop:
     Public Overrides Sub DeInit()
         On Error Resume Next
         MyBase.DeInit()
-        If (Consts.StartedOnce And (Not MainBridge.StartError)) Then Consts.TrayWindow.NotifyIcon_Default.Visible = False
         Process.GetCurrentProcess.Kill()
     End Sub
 #Disable Warning BC42358
