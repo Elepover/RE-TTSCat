@@ -187,8 +187,6 @@ DLoop:
         SRThread = New Thread(AddressOf ThrStatusReport)
         SRThread.SetApartmentState(ApartmentState.STA)
         SRThread.Start()
-        Consts.TrayWindow = New Form_TrayKeeper
-        Consts.TrayWindow.Show() 'Tray requires configurations and MainBridge. So we need to start it later than conf. system.
     End Sub
 
     Public Overrides Sub DeInit()
