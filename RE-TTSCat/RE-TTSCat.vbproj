@@ -79,8 +79,8 @@
     <Compile Include="Edition.vb" />
     <Compile Include="GGTTS.vb" />
     <Compile Include="Main.vb" />
+    <Compile Include="Re_TTSPlay.vb" />
     <Compile Include="Settings.vb" />
-    <Compile Include="TTSPlay.vb" />
     <Compile Include="Window_Loading.xaml.vb">
       <DependentUpon>Window_Loading.xaml</DependentUpon>
     </Compile>

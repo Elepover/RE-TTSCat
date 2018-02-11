@@ -9,7 +9,7 @@ Public Class Main
         PluginAuth = "Elepover"
         PluginName = "Re: TTSCat"
         PluginCont = "elepover@outlook.com"
-        PluginVer = "2.0.0.1"
+        PluginVer = "2.0.0.2" '改版本的时候注意 Consts.CurrentVersion
         PluginDesc = "TTSDanmaku 重写版（读弹幕姬）"
     End Sub
 #Region "MainBridge"
@@ -56,7 +56,7 @@ Public Class Main
                 content = content.Replace("$ONLINE", UserCountLatest)
             End If
 #Disable Warning BC42358 ' 在调用完成之前，会继续执行当前方法，原因是此调用不处于等待状态
-            TTSPlay.DLPlayTTS(content)
+            Re_TTSPlay.DownloadTTS(content, Consts.CurrentSettings.ReadInArray)
 #Enable Warning BC42358 ' 在调用完成之前，会继续执行当前方法，原因是此调用不处于等待状态
 DLoop:
         Loop
@@ -67,14 +67,59 @@ DLoop:
             Log("拒绝启动: 插件激活过程中出现问题。")
             Exit Sub
         End If
-        MyBase.Start()
         Try
             Settings.Init()
         Catch ex As Exception
             Log("启动失败: " & ex.Message)
             Exit Sub
         End Try
+
+        Dim AUThr As New Thread(CType(Sub()
+                                          Dim TmpWindow As New Window_Loading()
+                                          TmpWindow.Show()
+                                          TmpWindow.TextBox_Status.Text = "正在检查更新..."
+                                          Dim Frame = New DispatcherFrame()
+                                          Dim ChkThr As New Thread(CType(Sub()
+                                                                             Dim latest As KruinUpdates.Update
+                                                                             Dim currVer As Version = Consts.CurrentVersion
+                                                                             Try
+                                                                                 'Check release
+                                                                                 latest = KruinUpdates.GetLatestUpd()
+                                                                                 If KruinUpdates.CheckIfLatest(latest, currVer) Then
+                                                                                     Log("插件已为最新 (v" & currVer.ToString & ")。")
+                                                                                 Else
+                                                                                     Log("发现更新 (v" & latest.LatestVersion.ToString & ")。")
+                                                                                     Consts.UpdateFound = True
+                                                                                 End If
+                                                                                 Frame.[Continue] = False
+                                                                             Catch ex As Exception
+                                                                                 Log("检查更新时出错: " & ex.Message)
+                                                                             End Try
+                                                                         End Sub, ThreadStart))
+                                          ChkThr.Start()
+                                          Dispatcher.PushFrame(Frame)
+                                          If Consts.UpdateFound Then
+                                              TmpWindow.TextBox_Status.Text = "发现更新！"
+                                              For i = 0 To 2 Step 1
+                                                  TmpWindow.OuterGlow.BorderBrush = Brushes.DarkCyan
+                                                  Delay(300)
+                                                  TmpWindow.OuterGlow.BorderBrush = Brushes.Red
+                                                  Delay(300)
+                                              Next
+                                              Delay(1000)
+                                              TmpWindow.Close()
+                                          Else
+                                              TmpWindow.TextBox_Status.Text = "已为最新版本。"
+                                              Delay(1000)
+                                              TmpWindow.Close()
+                                          End If
+                                      End Sub, ThreadStart))
+        AUThr.SetApartmentState(ApartmentState.STA)
+        AUThr.Start()
+
+        MyBase.Start()
         Consts.PluginEnabled = True
+
         Log("启动成功！")
     End Sub
 
@@ -150,6 +195,7 @@ DLoop:
         If MainBridge.StartError Then
             Log("拒绝操作: 插件激活过程中出现问题。")
         End If
+
         MyBase.Stop()
         Consts.PluginEnabled = False
     End Sub
@@ -176,11 +222,12 @@ DLoop:
         'Initialize All Stuff
         MainBridge.Started = False
         MainBridge.StartError = False
+        '赋值
         Consts.StartedOnce = True
         Consts.DMJWindow = Application.Current.MainWindow
         MainBridge.PluginInstance = Me
         Net.ServicePointManager.SecurityProtocol = Net.SecurityProtocolType.Tls12
-        'Start thread
+        'Start threads
         Dim LoadThr As New Thread(AddressOf ThrStartPlugin)
         LoadThr.SetApartmentState(ApartmentState.STA)
         LoadThr.Start()
@@ -197,6 +244,7 @@ DLoop:
         SRThread = New Thread(AddressOf ThrStatusReport)
         SRThread.SetApartmentState(ApartmentState.STA)
         SRThread.Start()
+        Re_TTSPlay.StartWorker()
     End Sub
 
     Public Overrides Sub DeInit()
@@ -210,26 +258,26 @@ DLoop:
         L("连接成功，获取到的房间号: " & e?.roomid, True)
         If Consts.PluginEnabled Then
             If Consts.CurrentSettings.ConnectSuccessful = "" Then
-                TTSPlay.DLPlayTTS("已成功连接至房间: " & e.roomid)
+                Re_TTSPlay.DownloadTTS("已成功连接至房间: " & e.roomid, Consts.CurrentSettings.ReadInArray)
             Else
-                TTSPlay.DLPlayTTS(Consts.CurrentSettings.ConnectSuccessful.Replace("%s", e.roomid))
+                Re_TTSPlay.DownloadTTS(Consts.CurrentSettings.ConnectSuccessful.Replace("%s", e.roomid), Consts.CurrentSettings.ReadInArray)
             End If
         End If
     End Sub
 #Enable Warning BC42358
-    Private Async Sub Main_ReceivedDanmaku(sender As Object, e As ReceivedDanmakuArgs) Handles Me.ReceivedDanmaku
+    Private Sub Main_ReceivedDanmaku(sender As Object, e As ReceivedDanmakuArgs) Handles Me.ReceivedDanmaku
         Stats.EVENT_DanmakuReceived += 1
         'Start checking eligibility.
         'UID / Username
         Select Case Consts.CurrentSettings.BlockType
             Case 0
                 L("UID 屏蔽模式", True)
-                If Not TTSPlay.CheckEligibility(e.Danmaku.UserID, e.Danmaku.GiftName, e.Danmaku.MsgType) Then
+                If Not Re_TTSPlay.CheckEligibility(e.Danmaku.UserID, e.Danmaku.GiftName, e.Danmaku.MsgType) Then
                     L("用户 " & e.Danmaku.UserName & " (" & e.Danmaku.UserID & ")不符合条件，退出。", True)
                     Exit Sub
                 End If
             Case 1
-                If Not TTSPlay.CheckEligibility(e.Danmaku.UserName, e.Danmaku.GiftName, e.Danmaku.MsgType) Then
+                If Not Re_TTSPlay.CheckEligibility(e.Danmaku.UserName, e.Danmaku.GiftName, e.Danmaku.MsgType) Then
                     L("用户 " & e.Danmaku.UserName & " (" & e.Danmaku.UserID & ")不符合条件，退出。", True)
                     Exit Sub
                 End If
@@ -261,7 +309,7 @@ DLoop:
         End Select
         L("播放内容: " & PlayStr, True)
 
-        Await TTSPlay.DLPlayTTS(PlayStr) 'Start playing!
+        Re_TTSPlay.DownloadTTS(PlayStr, Consts.CurrentSettings.ReadInArray, Consts.CurrentSettings.Engine, Consts.CurrentSettings.DLFailRetry) 'Start playing!
     End Sub
 
     Private Sub Main_ReceivedRoomCount(sender As Object, e As ReceivedRoomCountArgs) Handles Me.ReceivedRoomCount

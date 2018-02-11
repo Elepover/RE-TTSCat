@@ -17,6 +17,7 @@
                 TextBlock_Status.Text = "插件已为最新。"
             Else
                 TextBlock_Status.Text = "发现更新。"
+                Consts.UpdateFound = True
             End If
             TextBox_UpdContents.Text = "更新时间: " & latest.UpdateTime.ToString() & vbCrLf & "更新日志: " & vbCrLf & latest.UpdateDescription.Replace(vbLf, vbCrLf) 'LF Optimized.
             PluginDLURL = "https://www.danmuji.org" & latest.DLURL

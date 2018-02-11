@@ -14,6 +14,13 @@ Public Class Window_Mgmt
     End Sub
     Private Sub LoadToControl() Handles Me.Loaded, Button_Reload.Click
         Settings.ReadConf()
+        'Updates
+        If Consts.UpdateFound Then
+            Button_CheckUpd.Foreground = Brushes.Red
+        Else
+            Button_CheckUpd.Foreground = Brushes.Black
+        End If
+
         'Tab 1
         CheckBox_Options_PluginEnabled.IsChecked = PluginEnabled
         CheckBox_Options_ReadDanmakuSender.IsChecked = CurrentSettings.TTSDanmakuSender
@@ -56,7 +63,7 @@ Public Class Window_Mgmt
             TextBox_Stats.AppendText("总计出错次数: " & Stats.FAILURE_ErrorCounter & vbCrLf)
             TextBox_Stats.AppendText("下载失败次数: " & Stats.FAILURE_DownloadFailed & vbCrLf)
             TextBox_Stats.AppendText("播放失败次数: " & Stats.FAILURE_PlayFailed & vbCrLf)
-            TextBox_Stats.AppendText("队列中 TTS 数量: " & TTSPlay.PendingTTSes.Count & vbCrLf)
+            TextBox_Stats.AppendText("队列中 TTS 数量: " & Re_TTSPlay.PendingTTSes.Count & vbCrLf)
             'Needs some process.
             Dim ErrStr As String = ""
             Try
@@ -175,7 +182,7 @@ Public Class Window_Mgmt
     End Sub
 
     Private Sub Button_About_Click(sender As Object, e As RoutedEventArgs) Handles Button_About.Click
-        Process.Start("https://www.danmuji.cn/plugins/Re_TTSCat")
+        Process.Start("https://www.danmuji.org/plugins/Re_TTSCat")
     End Sub
 
     Private Sub Button_Suggestions_Click(sender As Object, e As RoutedEventArgs) Handles Button_Suggestions.Click
@@ -209,9 +216,7 @@ Public Class Window_Mgmt
 
     Private Sub Button_TestGo_Click(sender As Object, e As RoutedEventArgs) Handles Button_TestGo.Click
         Try
-#Disable Warning BC42358 ' 在调用完成之前，会继续执行当前方法，原因是此调用不处于等待状态
-            TTSPlay.DLPlayTTS(TextBox_TTSTest.Text)
-#Enable Warning BC42358 ' 在调用完成之前，会继续执行当前方法，原因是此调用不处于等待状态
+            Re_TTSPlay.DownloadTTS(TextBox_TTSTest.Text, Consts.CurrentSettings.ReadInArray)
         Catch ex As Exception
             MessageBox.Show(ex.ToString, "DEBUG", vbOKOnly, MessageBoxImage.Error)
         End Try

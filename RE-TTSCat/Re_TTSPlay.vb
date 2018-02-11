@@ -1,97 +1,83 @@
-﻿Imports System.Threading
+﻿' Separated as two different modules.
+' Mod. 1: TTSPlay
+' Mod. 2: TTSDownload
+' Two modules only have communications over 'List PendingTTSes(Of String)'
+'
+' Mod. 1: Check list and play.
+' Mod. 2: Download and add to list.
+'
+' Both modules are required to check if 'ReadInArray' is enabled.
+
 Imports NAudio.Wave
 
-Public Class TTSPlay
-    Public Shared WithEvents WaveOutDevice As WaveOutEvent
-    ''' <summary>
-    ''' A collection of filenames of Pending TTS files.
-    ''' </summary>
+Public Class Re_TTSPlay
+    Public Shared TTSPlayer As Threading.Thread
     Public Shared PendingTTSes As New List(Of String)
     ''' <summary>
-    ''' Download TTS and Play! Returning whether succeed or not.
+    ''' Check if Worker has started.
     ''' </summary>
-    ''' <param name="Content"></param>
-    Public Shared Async Function DLPlayTTS(Content As String, Optional TestMode As Boolean = False) As Task(Of Boolean)
-        'Null protection
-        If IsNothing(Content) Then Return False
-        Try
-            'If testmode, then play directly (no sound)
-            If TestMode Then
-                Try
-                    PlayTTS(Await DownloadTTS("这是一个中文语音合成的例子。", 0, 5), True, True)
-                    Return True
-                Catch ex As Exception
-                    Return False
-                End Try
-            End If
-            'If not playing in row, play directly.
-            If Not Consts.CurrentSettings.ReadInArray Then
-                PlayTTS(Await DownloadTTS(Content, Consts.CurrentSettings.Engine, Consts.CurrentSettings.DLFailRetry),, True)
-                Return True
-            Else
-                'If playing in row, check extra stuff.
-                'If already empty, add to list and start playing.
-                If PendingTTSes.Count = 0 Then
-                    PendingTTSes.Add(Await DownloadTTS(Content, Consts.CurrentSettings.Engine, Consts.CurrentSettings.DLFailRetry))
-                    PlayTTS(PendingTTSes(0))
-                    Return True
-                Else 'If Not, just add to list.
-                    PendingTTSes.Add(Await DownloadTTS(Content, Consts.CurrentSettings.Engine, Consts.CurrentSettings.DLFailRetry))
-                    'If accidentally stopped, restart.
-                    If WaveOutDevice.PlaybackState = PlaybackState.Stopped Then
-                        PlayTTS(PendingTTSes(0))
-                    End If
-                    Return True
-                End If
-            End If
-        Catch ex As Exception
-            Stats.FAILURE_ErrorCounter += 1
-            Stats.FAILURE_LatestError = ex
-            Return False
-        End Try
-    End Function
-
-    Private Shared Sub CALLBACK_PlaybackStopped()
-        'Remove in playlist.
-        PendingTTSes.RemoveAt(0)
-        'Check if playlist is empty.
-        If Not PendingTTSes.Count = 0 Then
+    ''' <returns></returns>
+    Private Shared ReadOnly Property WorkerStarted As Boolean
+        Get
             Try
-                PlayTTS(PendingTTSes(0))
-            Catch ex As Exception
-                CALLBACK_PlaybackStopped()
+                Return TTSPlayer.IsAlive
+            Catch ex As Exception When (ex.GetType = GetType(NullReferenceException))
+                Return False
             End Try
+        End Get
+    End Property
+    Public Shared Sub StartWorker()
+        If Not WorkerStarted Then
+            TTSPlayer = New Threading.Thread(AddressOf ThrPlayTTS)
+            TTSPlayer.Start()
         End If
     End Sub
-
-    ''' <summary>
-    ''' Plays TTS with provided filename.
-    ''' </summary>
-    ''' <param name="AudioFile"></param>
-    Private Shared Sub PlayTTS(AudioFile As String, Optional Silent As Boolean = False, Optional NoCallBack As Boolean = False)
-        Using FileReader = New AudioFileReader(AudioFile)
-            WaveOutDevice = New WaveOutEvent()
-            WaveOutDevice.Init(FileReader)
-            If Not Silent Then
-                WaveOutDevice.Play()
+    Private Shared Sub ThrPlayTTS()
+        'Enter cycle
+        'ONLY PLAYS WHEN PLUGIN IS ACTIVE.
+        While (True)
+            If Consts.PluginEnabled = False Then
+                Delay(1990)
+                GoTo ExitCycle
             End If
-            While (Not WaveOutDevice.PlaybackState = PlaybackState.Stopped)
-                Delay(500)
+            While (Not PendingTTSes.Count = 0)
+                Try
+                    PlayTTS(PendingTTSes(0))
+                    Stats.SUCCEED_OnTTSPlayed += 1
+                Catch ex As Exception
+                    Stats.FAILURE_ErrorCounter += 1
+                    Stats.FAILURE_LatestError = ex
+                Finally
+                    PendingTTSes.RemoveAt(0)
+                End Try
             End While
-            WaveOutDevice.Dispose()
-            If Not NoCallBack Then CALLBACK_PlaybackStopped()
+ExitCycle:
+            Delay(100)
+        End While
+    End Sub
+    ''' <summary>
+    ''' Play TTS file.
+    ''' </summary>
+    ''' <param name="Filename">File to play.</param>
+    Private Shared Sub PlayTTS(Filename As String)
+        'Play and wait for done.
+        Using FileReader = New AudioFileReader(Filename)
+            Using WaveOutDevice = New WaveOutEvent()
+                WaveOutDevice.Init(FileReader)
+                WaveOutDevice.Play()
+                While (Not WaveOutDevice.PlaybackState = PlaybackState.Stopped)
+                    Delay(500)
+                End While
+            End Using
         End Using
     End Sub
     ''' <summary>
-    ''' Downloads/Generates TTS file following selected source and returns filename.
+    ''' Download TTS And Add To List.
     ''' </summary>
-    ''' <param name="Text">Text to speak.</param>
-    ''' <param name="Engine">Engine Selection.</param>
-    ''' <param name="Retry">Retry Option.</param>
-    ''' <returns>Filename.</returns>
-#Disable Warning BC42356 ' 此异步方法缺少 "Await" 运算符，因此将以同步方式运行
-    Private Shared Async Function DownloadTTS(Text As String, Optional Engine As Short = 0, Optional Retry As Integer = 5) As Task(Of String)
-#Enable Warning BC42356 ' 此异步方法缺少 "Await" 运算符，因此将以同步方式运行
+    ''' <param name="Text">TTS Text.</param>
+    ''' <param name="Engine">TTS Engine.</param>
+    ''' <param name="Retry">Retrival Count.</param>
+    Public Shared Sub DownloadTTS(Text As String, PlayInArray As Boolean, Optional Engine As Short = 0, Optional Retry As Integer = 5)
         Dim DLTimer As New Stopwatch()
         DLTimer.Start()
         Dim PartialFilename As String = $"TTS{(New Random()).Next(10000000, 49999999)}{(New Random()).Next(49999999, 99999999)}.mp3"
@@ -129,7 +115,8 @@ Retrieval:
                     If Retry = 0 Then
                         Stats.FAILURE_DownloadFailed += 1
                         L("下载失败，丢弃。（未启用自动重下）", True)
-                        Return "$FAIL"
+                        'EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXIT
+                        Exit Sub
                     End If
                     If RetryCount < Retry Then
                         RetryCount += 1
@@ -147,11 +134,18 @@ Retrieval:
                     End If
                     'Over 5 times
                     L("在重试 " & Retry & " 次以后，TTS 下载失败: " & ex.Message)
-                    Return "$FAIL"
+                    'EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXIT
+                    Exit Sub
                 End Try
                 DLTimer.Stop()
                 L("下载成功，耗时 " & DLTimer.ElapsedMilliseconds & "ms.", True)
-                Return FullFileName
+                Stats.SUCCEED_OnTTSDownloaded += 1
+                If Not PlayInArray Then
+                    PlayTTS(FullFileName)
+                Else
+                    PendingTTSes.Add(FullFileName)
+                End If
+                Exit Sub
             Case 1
                 ' Generate TTS
                 Try
@@ -159,12 +153,19 @@ Retrieval:
                     Outputter.SetOutputToWaveFile(FullFileName.Replace(".mp3", ".wav"))
                     Outputter.SpeakAsync(Text)
                     Delay(3000)
-                    Return FullFileName
+                    Stats.SUCCEED_OnTTSDownloaded += 1
+                    If Not PlayInArray Then
+                        PlayTTS(FullFileName)
+                    Else
+                        PendingTTSes.Add(FullFileName)
+                    End If
+                    Exit Sub
                 Catch ex As Exception
                     Stats.FAILURE_ErrorCounter += 1
                     Stats.FAILURE_LatestError = ex
                     L(".NET 框架错误: " & ex.Message)
-                    Return "$FAIL"
+                    'EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXIT
+                    Exit Sub
                 End Try
             Case 2
 Retrieval_GG:
@@ -181,7 +182,8 @@ Retrieval_GG:
                     If Retry = 0 Then
                         Stats.FAILURE_DownloadFailed += 1
                         L("下载失败，丢弃。（未启用自动重下）", True)
-                        Return "$FAIL"
+                        'EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXIT
+                        Exit Sub
                     End If
                     If RetryCount < Retry Then
                         RetryCount += 1
@@ -199,15 +201,24 @@ Retrieval_GG:
                     End If
                     'Over 5 times
                     L("在重试 " & Retry & " 次以后，TTS 下载失败: " & ex.Message)
-                    Return "$FAIL"
+                    'EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXIT
+                    Exit Sub
                 End Try
                 DLTimer.Stop()
                 L("下载成功，耗时 " & DLTimer.ElapsedMilliseconds & "ms.", True)
-                Return FullFileName
+                Stats.SUCCEED_OnTTSDownloaded += 1
+                If Not PlayInArray Then
+                    PlayTTS(FullFileName)
+                Else
+                    PendingTTSes.Add(FullFileName)
+                End If
+                Exit Sub
             Case Else
-                Return "$FAIL"
+                L("退出: 无效引擎。", True)
+                'EXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXIT
+                Exit Sub
         End Select
-    End Function
+    End Sub
     ''' <summary>
     ''' Check eligibility of a message. If any 'type' is wrong, returns true.
     ''' ONLY CAN BE USED WHEN SETTINGS SYSTEM IS READY!
@@ -243,7 +254,7 @@ Retrieval_GG:
                     Return False
                 End If
                 'Recursively check if sender is eligible or not.
-                If CheckEligibility(Sender, "", MsgType.Danmaku) Then
+                If CheckEligibility(Sender, "", BilibiliDM_PluginFramework.MsgTypeEnum.Comment) Then
                     Select Case Consts.CurrentSettings.GiftBlock_Mode
                         Case 0 'Disable
                             Return True
@@ -267,11 +278,4 @@ Retrieval_GG:
                 Return True
         End Select
     End Function
-    ''' <summary>
-    ''' Indicates message type.
-    ''' </summary>
-    Public Enum MsgType
-        Danmaku = 0
-        Gift = 1
-    End Enum
 End Class
