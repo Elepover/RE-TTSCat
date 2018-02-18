@@ -419,7 +419,7 @@ Public Class KruinUpdates
     ''' <returns></returns>
     Public Shared Function GetLatestUpd() As Update
         Dim gottenResult As String
-        gottenResult = HttpGet(New Uri("https://www.danmuji.org/api/v2/TTSDanmaku"))
+        gottenResult = HttpGet(New Uri("https://www.danmuji.org/api/v2/Re-TTSCat"))
         Dim jsonObj As Newtonsoft.Json.Linq.JObject = Newtonsoft.Json.Linq.JObject.Parse(gottenResult)
         Dim latestVer As Version = New Version(jsonObj("version").ToString())
         Dim updDesc As String = jsonObj("update_desc").ToString()
@@ -436,7 +436,7 @@ Public Class KruinUpdates
     ''' <returns></returns>
     Public Shared Function HttpGet(uri As Uri) As String
         Dim request As HttpWebRequest = DirectCast(WebRequest.Create(uri), HttpWebRequest)
-        request.UserAgent = "KruinUpdates/" & New Main().PluginVer & " (TTSDanmaku;)"
+        request.UserAgent = "KruinUpdates/" & New Main().PluginVer & " (Re-TTSCat;)"
         Using response As HttpWebResponse = DirectCast(request.GetResponse(), HttpWebResponse)
             Using stream As IO.Stream = response.GetResponseStream()
                 Using reader As New IO.StreamReader(stream)

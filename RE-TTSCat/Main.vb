@@ -258,15 +258,24 @@ DLoop:
         L("连接成功，获取到的房间号: " & e?.roomid, True)
         If Consts.PluginEnabled Then
             If Consts.CurrentSettings.ConnectSuccessful = "" Then
-                Re_TTSPlay.DownloadTTS("已成功连接至房间: " & e.roomid, Consts.CurrentSettings.ReadInArray)
+                Re_TTSPlay.DownloadTTS("已成功连接至房间: " & e.roomid, Consts.CurrentSettings.ReadInArray, Consts.CurrentSettings.Engine, Consts.CurrentSettings.DLFailRetry)
             Else
-                Re_TTSPlay.DownloadTTS(Consts.CurrentSettings.ConnectSuccessful.Replace("%s", e.roomid), Consts.CurrentSettings.ReadInArray)
+                Re_TTSPlay.DownloadTTS(Consts.CurrentSettings.ConnectSuccessful.Replace("%s", e.roomid), Consts.CurrentSettings.ReadInArray, Consts.CurrentSettings.Engine, Consts.CurrentSettings.DLFailRetry)
             End If
         End If
     End Sub
 #Enable Warning BC42358
     Private Sub Main_ReceivedDanmaku(sender As Object, e As ReceivedDanmakuArgs) Handles Me.ReceivedDanmaku
         Stats.EVENT_DanmakuReceived += 1
+        'Check length eligibility.
+        If e.Danmaku.CommentText.Length >= 128 Then
+            L("弹幕长度 >= 128 (" & e.Danmaku.CommentText.Length & ")，放弃。", True)
+            Exit Sub
+        End If
+        If e.Danmaku.CommentText.Length < Consts.CurrentSettings.MiniumDMLength Then
+            L("弹幕长度 < " & Consts.CurrentSettings.MiniumDMLength & " (" & e.Danmaku.CommentText.Length & ")，放弃。", True)
+            Exit Sub
+        End If
         'Start checking eligibility.
         'UID / Username
         Select Case Consts.CurrentSettings.BlockType

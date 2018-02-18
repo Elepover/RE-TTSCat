@@ -41,7 +41,7 @@
                     <Slider x:Name="NumericUpDown_SpeechSpeed" HorizontalAlignment="Left" Margin="10,162,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" ToolTip="（仅适用于框架自带引擎）&#xA;设置 TTS 语速，范围从 -10 到 10。" Minimum="-10"/>
                     <TextBlock x:Name="TextBlock_SpeechSpeed" HorizontalAlignment="Left" Margin="135,162,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="18"/>
                     <TextBlock HorizontalAlignment="Left" Margin="170,10,0,0" TextWrapping="Wrap" Text="最低弹幕字数限制" VerticalAlignment="Top"/>
-                    <Slider IsEnabled="False" x:Name="Slider_DMLengthLimit" HorizontalAlignment="Left" Margin="170,30,0,0" VerticalAlignment="Top" Width="120" Height="21" Minimum="1" Maximum="100" Value="1"/>
+                    <Slider x:Name="Slider_DMLengthLimit" HorizontalAlignment="Left" Margin="170,30,0,0" VerticalAlignment="Top" Width="120" Height="21" Minimum="1" Maximum="100" Value="1"/>
                     <TextBlock x:Name="TextBlock_DMLengthLimit" HorizontalAlignment="Left" Margin="295,30,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="21"/>
                     <CheckBox x:Name="CheckBox_IgnoreTTSVolume" Content="忽略 TTS 音量设置" HorizontalAlignment="Left" Margin="170,56,0,0" VerticalAlignment="Top" ToolTip="如果您经常遇到 &quot;NAudio.MmException: NoDriver calling waveOutSetVolume&quot; 问题，请尝试启用此选项。"/>
                     <CheckBox x:Name="CheckBox_DebugMode" Content="启用调试模式" HorizontalAlignment="Left" Margin="170,76,0,0" VerticalAlignment="Top"/>
