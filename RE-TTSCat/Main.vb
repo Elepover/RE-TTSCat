@@ -9,7 +9,7 @@ Public Class Main
         PluginAuth = "Elepover"
         PluginName = "Re: TTSCat"
         PluginCont = "elepover@outlook.com"
-        PluginVer = "2.0.0.2" '改版本的时候注意 Consts.CurrentVersion
+        PluginVer = "2.0.0.3" '改版本的时候注意 Consts.CurrentVersion
         PluginDesc = "TTSDanmaku 重写版（读弹幕姬）"
     End Sub
 #Region "MainBridge"
@@ -226,7 +226,7 @@ DLoop:
         Consts.StartedOnce = True
         Consts.DMJWindow = Application.Current.MainWindow
         MainBridge.PluginInstance = Me
-        Net.ServicePointManager.SecurityProtocol = Net.SecurityProtocolType.Tls12
+        Net.ServicePointManager.SecurityProtocol = Net.SecurityProtocolType.Tls12 + Net.SecurityProtocolType.Tls11 + Net.SecurityProtocolType.Tls
         'Start threads
         Dim LoadThr As New Thread(AddressOf ThrStartPlugin)
         LoadThr.SetApartmentState(ApartmentState.STA)
@@ -266,59 +266,72 @@ DLoop:
     End Sub
 #Enable Warning BC42358
     Private Sub Main_ReceivedDanmaku(sender As Object, e As ReceivedDanmakuArgs) Handles Me.ReceivedDanmaku
-        Stats.EVENT_DanmakuReceived += 1
-        'Check length eligibility.
-        If e.Danmaku.CommentText.Length >= 128 Then
-            L("弹幕长度 >= 128 (" & e.Danmaku.CommentText.Length & ")，放弃。", True)
-            Exit Sub
-        End If
-        If e.Danmaku.CommentText.Length < Consts.CurrentSettings.MiniumDMLength Then
-            L("弹幕长度 < " & Consts.CurrentSettings.MiniumDMLength & " (" & e.Danmaku.CommentText.Length & ")，放弃。", True)
-            Exit Sub
-        End If
-        'Start checking eligibility.
-        'UID / Username
-        Select Case Consts.CurrentSettings.BlockType
-            Case 0
-                L("UID 屏蔽模式", True)
-                If Not Re_TTSPlay.CheckEligibility(e.Danmaku.UserID, e.Danmaku.GiftName, e.Danmaku.MsgType) Then
-                    L("用户 " & e.Danmaku.UserName & " (" & e.Danmaku.UserID & ")不符合条件，退出。", True)
-                    Exit Sub
-                End If
-            Case 1
-                If Not Re_TTSPlay.CheckEligibility(e.Danmaku.UserName, e.Danmaku.GiftName, e.Danmaku.MsgType) Then
-                    L("用户 " & e.Danmaku.UserName & " (" & e.Danmaku.UserID & ")不符合条件，退出。", True)
-                    Exit Sub
-                End If
-        End Select
-        'Get string.
-        Dim PlayStr As String = ""
-        L("PlayType: " & e.Danmaku.MsgType.ToString(), True)
-        Select Case e.Danmaku.MsgType
-            Case MsgTypeEnum.Comment
-                If Consts.CurrentSettings.TTSDanmakuSender Then
-                    PlayStr = Consts.CurrentSettings.DanmakuText.Replace("$USER", e.Danmaku.UserName).Replace("$DM", e.Danmaku.CommentText)
-                Else
-                    PlayStr = Consts.CurrentSettings.DanmakuText.Replace("$USER", "").Replace("$DM", e.Danmaku.CommentText)
-                End If
-            Case MsgTypeEnum.GiftSend 'Gift options has already been proceed in CheckEligibility() function.
-                If Consts.CurrentSettings.TTSDanmakuSender Then
-                    PlayStr = Consts.CurrentSettings.GiftsText.Replace("$USER", e.Danmaku.UserName).Replace("$COUNT", e.Danmaku.GiftCount).Replace("$GIFT", e.Danmaku.GiftName)
-                Else
-                    PlayStr = Consts.CurrentSettings.GiftsText.Replace("$USER", "").Replace("$COUNT", e.Danmaku.GiftCount).Replace("$GIFT", e.Danmaku.GiftName)
-                End If
-            Case MsgTypeEnum.GiftTop
-            Case MsgTypeEnum.GuardBuy
-            Case MsgTypeEnum.LiveEnd
-                PlayStr = "直播结束，当前房间号: " & e.Danmaku.roomID
-            Case MsgTypeEnum.LiveStart
-                PlayStr = "直播开始，当前房间号: " & e.Danmaku.roomID
-            Case MsgTypeEnum.Welcome
-            Case MsgTypeEnum.WelcomeGuard
-        End Select
-        L("播放内容: " & PlayStr, True)
+        Try
+            Stats.EVENT_DanmakuReceived += 1
+            'Get string.
+            Dim PlayStr As String = ""
+            L("PlayType: " & e.Danmaku.MsgType.ToString(), True)
+            Select Case e.Danmaku.MsgType
+                Case MsgTypeEnum.Comment
+                    'Check user eligibility.
+                    Select Case Consts.CurrentSettings.BlockType
+                        Case 0
+                            L("UID 屏蔽模式", True)
+                            If Not Re_TTSPlay.CheckEligibility(e.Danmaku.UserID, e.Danmaku.GiftName, MsgTypeEnum.Comment) Then
+                                L("用户 " & e.Danmaku.UserName & " (" & e.Danmaku.UserID & ")不符合条件，退出。", True)
+                                Exit Sub
+                            End If
+                        Case 1
+                            If Not Re_TTSPlay.CheckEligibility(e.Danmaku.UserName, e.Danmaku.GiftName, MsgTypeEnum.Comment) Then
+                                L("用户 " & e.Danmaku.UserName & " (" & e.Danmaku.UserID & ")不符合条件，退出。", True)
+                                Exit Sub
+                            End If
+                    End Select
+                    'Check length eligibility.
+                    If e.Danmaku.CommentText.Length >= 128 Then
+                        L("弹幕长度 >= 128 (" & e.Danmaku.CommentText.Length & ")，放弃。", True)
+                        Exit Sub
+                    End If
+                    If e.Danmaku.CommentText.Length < Consts.CurrentSettings.MiniumDMLength Then
+                        L("弹幕长度 < " & Consts.CurrentSettings.MiniumDMLength & " (" & e.Danmaku.CommentText.Length & ")，放弃。", True)
+                        Exit Sub
+                    End If
 
-        Re_TTSPlay.DownloadTTS(PlayStr, Consts.CurrentSettings.ReadInArray, Consts.CurrentSettings.Engine, Consts.CurrentSettings.DLFailRetry) 'Start playing!
+                    If Consts.CurrentSettings.TTSDanmakuSender Then
+                        PlayStr = Consts.CurrentSettings.DanmakuText.Replace("$USER", e.Danmaku.UserName).Replace("$DM", e.Danmaku.CommentText)
+                    Else
+                        PlayStr = Consts.CurrentSettings.DanmakuText.Replace("$USER", "").Replace("$DM", e.Danmaku.CommentText)
+                    End If
+                Case MsgTypeEnum.GiftSend 'Gift options has already been proceed in CheckEligibility() function.
+                    'Proceed gift white/blacklist.
+                    If Not Re_TTSPlay.CheckEligibility(e.Danmaku.UserName, e.Danmaku.GiftName, MsgTypeEnum.Comment) Then
+                        L("用户/礼物 " & e.Danmaku.UserName & " (" & e.Danmaku.UserID & ")不符合条件，退出。", True)
+                        Exit Sub
+                    End If
+
+                    If Consts.CurrentSettings.TTSDanmakuSender Then
+                        PlayStr = Consts.CurrentSettings.GiftsText.Replace("$USER", e.Danmaku.UserName).Replace("$COUNT", e.Danmaku.GiftCount).Replace("$GIFT", e.Danmaku.GiftName)
+                    Else
+                        PlayStr = Consts.CurrentSettings.GiftsText.Replace("$USER", "").Replace("$COUNT", e.Danmaku.GiftCount).Replace("$GIFT", e.Danmaku.GiftName)
+                    End If
+                Case MsgTypeEnum.GiftTop
+                Case MsgTypeEnum.GuardBuy
+                Case MsgTypeEnum.LiveEnd
+                    PlayStr = "直播结束，当前房间号: " & e.Danmaku.roomID
+                Case MsgTypeEnum.LiveStart
+                    PlayStr = "直播开始，当前房间号: " & e.Danmaku.roomID
+                Case MsgTypeEnum.Welcome
+                Case MsgTypeEnum.WelcomeGuard
+                Case MsgTypeEnum.Unknown
+                    L("不支持的消息类型，已放弃。", True)
+                    Exit Sub
+            End Select
+            L("播放内容: " & PlayStr, True)
+
+            Re_TTSPlay.DownloadTTS(PlayStr, Consts.CurrentSettings.ReadInArray, Consts.CurrentSettings.Engine, Consts.CurrentSettings.DLFailRetry) 'Start playing!
+        Catch ex As Exception
+            L("发生内部错误: " & ex.ToString())
+        End Try
     End Sub
 
     Private Sub Main_ReceivedRoomCount(sender As Object, e As ReceivedRoomCountArgs) Handles Me.ReceivedRoomCount

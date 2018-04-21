@@ -312,7 +312,7 @@ Public Class Consts
     Public Shared ReadOnly Property CacheDir As String = Path.Combine(ConfDir, "Cache")
     Public Shared ReadOnly Property ConfFile As String = Path.Combine(ConfDir, "TTSCat.xml")
     Public Shared ReadOnly Property AudioLibFile As String = Path.Combine(DLLPath, "NAudio.dll")
-    Public Shared ReadOnly Property CurrentVersion As New Version("2.0.0.2")
+    Public Shared ReadOnly Property CurrentVersion As New Version("2.0.0.3")
     Public Shared Property StartedOnce As Boolean = False
     Public Shared Property UpdateFound As Boolean = False
     Public Shared Property CurrentSettings As Settings.Conf
