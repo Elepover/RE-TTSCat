@@ -34,7 +34,6 @@ Public Class Window_Mgmt
 
         'Tab 2
         ComboBox_Engine.SelectedIndex = CurrentSettings.Engine
-        NumericUpDown_Volume.Value = CurrentSettings.TTSVolume
         NumericUpDown_RetryCount.Value = CurrentSettings.DLFailRetry
         NumericUpDown_SpeechSpeed.Value = CurrentSettings.NETFramework_VoiceSpeed
         'Col 2
@@ -112,7 +111,6 @@ Public Class Window_Mgmt
 
         'Tab 2
         CurrentSettings.Engine = ComboBox_Engine.SelectedIndex
-        CurrentSettings.TTSVolume = Math.Round(NumericUpDown_Volume.Value)
         CurrentSettings.DLFailRetry = Math.Round(NumericUpDown_RetryCount.Value)
         CurrentSettings.NETFramework_VoiceSpeed = Math.Round(NumericUpDown_SpeechSpeed.Value)
         'Col 2
@@ -189,12 +187,11 @@ Public Class Window_Mgmt
         Process.Start("https://daily.elepover.com/comments/")
     End Sub
 
-    Private Sub SliderHandler(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles NumericUpDown_Volume.ValueChanged, NumericUpDown_RetryCount.ValueChanged, NumericUpDown_SpeechSpeed.ValueChanged, Slider_DMLengthLimit.ValueChanged
+    Private Sub SliderHandler(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles NumericUpDown_RetryCount.ValueChanged, NumericUpDown_SpeechSpeed.ValueChanged, Slider_DMLengthLimit.ValueChanged
         Try
             TextBlock_DMLengthLimit.Text = Math.Round(Slider_DMLengthLimit.Value)
             TextBlock_RetryCount.Text = Math.Round(NumericUpDown_RetryCount.Value)
             TextBlock_SpeechSpeed.Text = Math.Round(NumericUpDown_SpeechSpeed.Value)
-            TextBlock_Volume.Text = Math.Round(NumericUpDown_Volume.Value)
         Catch ex As Exception
         End Try
     End Sub

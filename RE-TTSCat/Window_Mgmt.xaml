@@ -31,15 +31,12 @@
                         <ComboBoxItem Content=".NET 框架自带引擎"/>
                         <ComboBoxItem Content="Google 娘"/>
                     </ComboBox>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,56,0,0" TextWrapping="Wrap" Text="TTS 音量" VerticalAlignment="Top"/>
-                    <Slider IsEnabled="False" x:Name="NumericUpDown_Volume" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" Maximum="100" Value="100" ToolTip="调节 TTS 的相对音量大小。范围为 0（完全静音）~ 100（与系统音量一致）。"/>
-                    <TextBlock x:Name="TextBlock_Volume" HorizontalAlignment="Left" Margin="135,76,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="18"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,99,0,0" TextWrapping="Wrap" Text="下载失败重试次数（0 ~ 10）" VerticalAlignment="Top"/>
-                    <Slider x:Name="NumericUpDown_RetryCount" HorizontalAlignment="Left" Margin="10,119,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" Value="5" ToolTip="指定在下载 TTS 文件时出现网络错误的重试次数。&#xA;默认值: 5&#xA;范围为 0 ~ 10, 指定为 0 将阻止插件重新下载。"/>
-                    <TextBlock x:Name="TextBlock_RetryCount" HorizontalAlignment="Left" Margin="135,119,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Height="18"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,142,0,0" TextWrapping="Wrap" Text="TTS 语速" VerticalAlignment="Top"/>
-                    <Slider x:Name="NumericUpDown_SpeechSpeed" HorizontalAlignment="Left" Margin="10,162,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" ToolTip="（仅适用于框架自带引擎）&#xA;设置 TTS 语速，范围从 -10 到 10。" Minimum="-10"/>
-                    <TextBlock x:Name="TextBlock_SpeechSpeed" HorizontalAlignment="Left" Margin="135,162,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="18"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,56,0,0" TextWrapping="Wrap" Text="下载失败重试次数（0 ~ 10）" VerticalAlignment="Top"/>
+                    <Slider x:Name="NumericUpDown_RetryCount" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" Value="5" ToolTip="指定在下载 TTS 文件时出现网络错误的重试次数。&#xA;默认值: 5&#xA;范围为 0 ~ 10, 指定为 0 将阻止插件重新下载。"/>
+                    <TextBlock x:Name="TextBlock_RetryCount" HorizontalAlignment="Left" Margin="135,76,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Height="18"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,99,0,0" TextWrapping="Wrap" Text="TTS 语速" VerticalAlignment="Top"/>
+                    <Slider x:Name="NumericUpDown_SpeechSpeed" HorizontalAlignment="Left" Margin="10,119,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" ToolTip="（仅适用于框架自带引擎）&#xA;设置 TTS 语速，范围从 -10 到 10。" Minimum="-10"/>
+                    <TextBlock x:Name="TextBlock_SpeechSpeed" HorizontalAlignment="Left" Margin="135,119,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="18"/>
                     <TextBlock HorizontalAlignment="Left" Margin="170,10,0,0" TextWrapping="Wrap" Text="最低弹幕字数限制" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_DMLengthLimit" HorizontalAlignment="Left" Margin="170,30,0,0" VerticalAlignment="Top" Width="120" Height="21" Minimum="1" Maximum="100" Value="1"/>
                     <TextBlock x:Name="TextBlock_DMLengthLimit" HorizontalAlignment="Left" Margin="295,30,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="21"/>

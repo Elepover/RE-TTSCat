@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RE_TTSCat"
         mc:Ignorable="d"
-        Title="TTSDanmaku - 网络设置" Height="336" Width="600"
+        Title="Re: TTSCat - 网络设置" Height="336" Width="600"
         WindowStartupLocation="CenterScreen" MaxHeight="336"
         MaxWidth="600"
         MinHeight="336"

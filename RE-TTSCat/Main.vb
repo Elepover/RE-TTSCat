@@ -9,7 +9,7 @@ Public Class Main
         PluginAuth = "Elepover"
         PluginName = "Re: TTSCat"
         PluginCont = "elepover@outlook.com"
-        PluginVer = "2.0.0.3" '改版本的时候注意 Consts.CurrentVersion
+        PluginVer = "2.0.0.4" '改版本的时候注意 Consts.CurrentVersion
         PluginDesc = "TTSDanmaku 重写版（读弹幕姬）"
     End Sub
 #Region "MainBridge"
@@ -74,6 +74,7 @@ DLoop:
             Exit Sub
         End Try
 
+        If Consts.CurrentSettings.AutoUpdEnabled Then GoTo NoAU
         Dim AUThr As New Thread(CType(Sub()
                                           Dim TmpWindow As New Window_Loading()
                                           TmpWindow.Show()
@@ -110,12 +111,13 @@ DLoop:
                                               TmpWindow.Close()
                                           Else
                                               TmpWindow.TextBox_Status.Text = "已为最新版本。"
-                                              Delay(1000)
+                                              Delay(100)
                                               TmpWindow.Close()
                                           End If
                                       End Sub, ThreadStart))
         AUThr.SetApartmentState(ApartmentState.STA)
         AUThr.Start()
+NoAU:
 
         MyBase.Start()
         Consts.PluginEnabled = True
