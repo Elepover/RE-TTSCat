@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B4D36327-410A-4192-B0A0-EC4FF5784817}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Re_TTSCat</RootNamespace>
+    <AssemblyName>Re_TTSCat</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BilibiliDM_PluginFramework">
+      <HintPath>..\BilibiliDM_PluginFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\Conf.CheckKeywordEligibility.cs" />
+    <Compile Include="Data\Conf.CheckGiftEligibility.cs" />
+    <Compile Include="Data\Conf.GetRandomBool.cs" />
+    <Compile Include="Data\Conf.GetRandomFileName.cs" />
+    <Compile Include="Data\Conf.CheckUserEligibility.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\WelcomeGuardRoute.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\WelcomeRoute.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\LiveEndRoute.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\LiveStartRoute.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\GuardBuyRoute.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\GiftRoute.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\CommentRoute.cs" />
+    <Compile Include="EventsHandler\Main.OnReceivedDanmaku.cs" />
+    <Compile Include="EventsHandler\Main.OnReceivedRoomCount.cs" />
+    <Compile Include="EventsHandler\Main.OnDisconnected.cs" />
+    <Compile Include="EventsHandler\Main.OnConnected.cs" />
+    <Compile Include="KruinUpdates\Update.GetLatestUpd.cs" />
+    <Compile Include="KruinUpdates\Update.cs" />
+    <Compile Include="KruinUpdates\CheckIfLatest.cs" />
+    <Compile Include="KruinUpdates\Update.HttpGet.cs" />
+    <Compile Include="Main.RunBridge.cs" />
+    <Compile Include="Data\Bridge.cs" />
+    <Compile Include="Data\Bridge.Log.cs" />
+    <Compile Include="Data\Conf.cs" />
+    <Compile Include="Data\Conf.InitiateAsync.cs" />
+    <Compile Include="Data\Conf.New.cs" />
+    <Compile Include="Data\Conf.ReadAsync.cs" />
+    <Compile Include="Data\Conf.SaveAsync.cs" />
+    <Compile Include="Data\Vars.cs" />
+    <Compile Include="Main.BridgeSyncer.cs" />
+    <Compile Include="Main.New.cs" />
+    <Compile Include="Main.DeInit.cs" />
+    <Compile Include="Main.Admin.cs" />
+    <Compile Include="Main.Stop.cs" />
+    <Compile Include="Main.Start.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="TTSHelper\BaiduTTS\BaiduTTS.Download.cs" />
+    <Compile Include="TTSHelper\FrameworkTTS\FrameworkTTS.Download.cs" />
+    <Compile Include="TTSHelper\GoogleTTS\GoogleTTS.cs" />
+    <Compile Include="TTSHelper\TTSPlayer.Init.cs" />
+    <Compile Include="TTSHelper\TTSPlayer.UnifiedPlay.cs" />
+    <Compile Include="TTSHelper\TTSPlayer.PlayerThread.cs" />
+    <Compile Include="TTSHelper\TTSPlayer.Play.cs" />
+    <Compile Include="TTSHelper\TTSPlayer.cs" />
+    <Compile Include="Windows\AsyncDialog.cs" />
+    <Compile Include="Windows\OptionsWindow.xaml.cs">
+      <DependentUpon>OptionsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UpdateWindow.xaml.cs">
+      <DependentUpon>UpdateWindow.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Windows\OptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\UpdateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\avatar.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
