@@ -10,6 +10,7 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using NAudio.Wave;
+using System.Runtime.Versioning;
 
 namespace Re_TTSCat.Windows
 {
@@ -97,6 +98,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.ReadPossibility = (int)Math.Round(Slider_ReadPossibility.Value);
             Vars.CurrentConf.DownloadFailRetryCount = (byte)Math.Round(Slider_RetryCount.Value);
             Vars.CurrentConf.TTSVolume = (int)Math.Round(Slider_TTSVolume.Value);
+            Vars.CurrentConf.ReadSpeed = (int)Math.Round(Slider_TTSSpeed.Value);
             Vars.CurrentConf.Engine = (byte)ComboBox_Engine.SelectedIndex;
             Vars.CurrentConf.BlockMode = (byte)ComboBox_Blockmode.SelectedIndex;
             Vars.CurrentConf.GiftBlockMode = (byte)ComboBox_GiftBlockMode.SelectedIndex;
@@ -130,6 +132,7 @@ namespace Re_TTSCat.Windows
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;
             Slider_RetryCount.Value = Vars.CurrentConf.DownloadFailRetryCount;
             Slider_TTSVolume.Value = Vars.CurrentConf.TTSVolume;
+            Slider_TTSSpeed.Value = Vars.CurrentConf.ReadSpeed;
             ComboBox_Engine.SelectedIndex = Vars.CurrentConf.Engine;
             ComboBox_Blockmode.SelectedIndex = Vars.CurrentConf.BlockMode;
             ComboBox_GiftBlockMode.SelectedIndex = Vars.CurrentConf.GiftBlockMode;
@@ -151,14 +154,17 @@ namespace Re_TTSCat.Windows
 
             TextBox_Debug.Clear();
             TextBox_Debug.AppendText("---------- OS Environment ----------\n");
-            TextBox_Debug.AppendText("Operating System: " + Environment.OSVersion.ToString() + "\n");
+            TextBox_Debug.AppendText("Operating system: " + Environment.OSVersion.ToString() + "\n");
+            TextBox_Debug.AppendText("CLR: " + Environment.Version.ToString() + "\n");
             TextBox_Debug.AppendText("---------- Plugin Environment ----------\n");
             TextBox_Debug.AppendText("Plugin version: " + Vars.currentVersion.ToString() + "\n");
             TextBox_Debug.AppendText("Plugin executable: " + Vars.dllFileName + "\n");
             TextBox_Debug.AppendText("Plugin configuration directory: " + Vars.confDir + "\n");
+            TextBox_Debug.AppendText("Audio library file: " + Vars.audioLibFileName + "\n");
             TextBox_Debug.AppendText("Plugins directory: " + Vars.dllPath + "\n");
 
             if (Vars.CurrentConf.DebugMode) { TabItem_DebugOptions.Visibility = Visibility.Visible; } else { TabItem_DebugOptions.Visibility = Visibility.Hidden; }
+            if (!File.Exists(Vars.audioLibFileName)) { Title = "Re: TTSCat - 插件管理 *⚠音频库丢失⚠*"; } else { Title = "Re: TTSCat - 插件管理"; }
         }
 
         private async void Button_Apply_Click(object sender, RoutedEventArgs e)
@@ -185,6 +191,7 @@ namespace Re_TTSCat.Windows
             TextBlock_ReadPossibility.Text = Math.Round(Slider_ReadPossibility.Value).ToString();
             TextBlock_RetryCount.Text = Math.Round(Slider_RetryCount.Value).ToString();
             TextBlock_TTSVolume.Text = Math.Round(Slider_TTSVolume.Value).ToString();
+            TextBlock_TTSSpeed.Text = Math.Round(Slider_TTSSpeed.Value).ToString();
             Slider_DMLengthLimit.Maximum = Slider_DMLengthLimitMax.Value;
             Slider_DMLengthLimitMax.Minimum = Slider_DMLengthLimit.Value;
         }
@@ -285,6 +292,11 @@ namespace Re_TTSCat.Windows
             {
                 System.Windows.MessageBox.Show("配置重置失败: " + ex.Message, "Re: TSCat", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private void Button_PermissionInfo_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("系统权限信息\n\nRe: TTSCat 使用了以下系统权限:\n\n• 读取/写入您的文件系统\n插件需要该权限以进行配置读取和保存及 TTS 文件生成与读取\n\n• 访问互联网\n用于下载 TTS 文件及检查更新", "Re: TTSCat", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

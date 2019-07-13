@@ -84,6 +84,10 @@
         /// </summary>
         public int ReadPossibility { get; set; }
         /// <summary>
+        /// 读出速度（仅适用于 .NET 框架引擎，范围 -10 ~ 10）
+        /// </summary>
+        public int ReadSpeed { get; set; }
+        /// <summary>
         /// TTS 音量 (0~100, 调用时转换为 /100 后的 float)
         /// </summary>
         public int TTSVolume { get; set; }

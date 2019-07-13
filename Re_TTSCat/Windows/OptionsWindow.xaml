@@ -58,6 +58,9 @@
                     <TextBlock HorizontalAlignment="Left" Margin="10,212,0,0" TextWrapping="Wrap" Text="TTS 音量" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_TTSVolume" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSVolume" HorizontalAlignment="Left" Margin="135,227,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="21"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,253,0,0" TextWrapping="Wrap" Text=".NET 框架引擎朗读速度" VerticalAlignment="Top"/>
+                    <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
+                    <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="21"/>
                     <Button x:Name="Button_Reset" Content="重置配置" Margin="0,10,10,0" Height="19" VerticalAlignment="Top" ToolTip="将所有配置还原为默认值" HorizontalAlignment="Right" Width="75" Click="Button_Reset_Click"/>
                 </Grid>
             </TabItem>
@@ -103,12 +106,13 @@
             <TabItem Header="关于">
                 <Grid>
                     <TextBlock x:Name="Label_AboutTitle" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Re: TTSCat (v3)" VerticalAlignment="Top" FontSize="16" ToolTip="插件版本"/>
+                    <Button x:Name="Button_PermissionInfo" Content="系统权限信息" HorizontalAlignment="Right" Margin="0,10,235,0" VerticalAlignment="Top" Width="89" Height="20" ToolTip="了解插件使用了哪些系统权限" Click="Button_PermissionInfo_Click"/>
                     <Button x:Name="Button_About" Content="关于 Re: TTSCat" HorizontalAlignment="Right" Margin="0,10,100,0" VerticalAlignment="Top" Width="130" Height="20" ToolTip="在弹幕姬网站上查看插件信息" Click="Button_About_Click"/>
                     <Button x:Name="Button_Suggestions" Content="给我一点建议" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="85" Height="20" ToolTip="前往作者的留言板&#xA;我会尽快回复相关建议，但不一定准时准点，感谢理解" Click="Button_Suggestions_Click"/>
                     <TextBox x:Name="TextBox_Debug" Margin="10,35,10,10" TextWrapping="Wrap" Text="" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" IsReadOnly="True" ToolTip="这里是我们收集到的一些有助于调试的信息"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="TabItem_DebugOptions" Header="调试选项">
+            <TabItem x:Name="TabItem_DebugOptions" Header="调试选项（仅调试模式启用时可见）">
                 <Grid>
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="播放测试音频" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_TTSTest" Height="23" Margin="10,30,90,0" TextWrapping="Wrap" Text="行行好，给点钱" VerticalAlignment="Top"/>
