@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Diagnostics;
 using System.Net;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Threading;
 using Re_TTSCat.Data;
@@ -129,37 +119,8 @@ namespace Re_TTSCat.Windows
             await OnLoad(null, null);
         }
 
-        private async void Button_Apply_Click(object sender, RoutedEventArgs e)
+        private void Load()
         {
-            await Apply();
-        }
-
-        private void Button_Donate_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start("https://daily.elepover.com/donate/");
-        }
-
-        private void Button_CheckUpd_Click(object sender, RoutedEventArgs e)
-        {
-            var updateWindow = new UpdateWindow();
-            updateWindow.ShowDialog();
-        }
-
-        private void UpdateSliders(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (!_updateSliderAllowed) { return; }
-            TextBlock_DMLengthLimit.Text = Math.Round(Slider_DMLengthLimit.Value).ToString();
-            TextBlock_DMLengthLimitMax.Text = Math.Round(Slider_DMLengthLimitMax.Value).ToString();
-            TextBlock_ReadPossibility.Text = Math.Round(Slider_ReadPossibility.Value).ToString();
-            TextBlock_RetryCount.Text = Math.Round(Slider_RetryCount.Value).ToString();
-            TextBlock_TTSVolume.Text = Math.Round(Slider_TTSVolume.Value).ToString();
-            Slider_DMLengthLimit.Maximum = Slider_DMLengthLimitMax.Value;
-            Slider_DMLengthLimitMax.Minimum = Slider_DMLengthLimit.Value;
-        }
-        
-        private async Task OnLoad(object sender, RoutedEventArgs e)
-        {
-            await Conf.InitiateAsync();
             CheckBox_AutoUpdates.IsChecked = Vars.CurrentConf.AutoUpdate;
             CheckBox_DebugMode.IsChecked = Vars.CurrentConf.DebugMode;
             CheckBox_DoNotKeepCache.IsChecked = Vars.CurrentConf.DoNotKeepCache;
@@ -198,6 +159,40 @@ namespace Re_TTSCat.Windows
             TextBox_Debug.AppendText("Plugins directory: " + Vars.dllPath + "\n");
 
             if (Vars.CurrentConf.DebugMode) { TabItem_DebugOptions.Visibility = Visibility.Visible; } else { TabItem_DebugOptions.Visibility = Visibility.Hidden; }
+        }
+
+        private async void Button_Apply_Click(object sender, RoutedEventArgs e)
+        {
+            await Apply();
+        }
+
+        private void Button_Donate_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://daily.elepover.com/donate/");
+        }
+
+        private void Button_CheckUpd_Click(object sender, RoutedEventArgs e)
+        {
+            var updateWindow = new UpdateWindow();
+            updateWindow.ShowDialog();
+        }
+
+        private void UpdateSliders(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (!_updateSliderAllowed) { return; }
+            TextBlock_DMLengthLimit.Text = Math.Round(Slider_DMLengthLimit.Value).ToString();
+            TextBlock_DMLengthLimitMax.Text = Math.Round(Slider_DMLengthLimitMax.Value).ToString();
+            TextBlock_ReadPossibility.Text = Math.Round(Slider_ReadPossibility.Value).ToString();
+            TextBlock_RetryCount.Text = Math.Round(Slider_RetryCount.Value).ToString();
+            TextBlock_TTSVolume.Text = Math.Round(Slider_TTSVolume.Value).ToString();
+            Slider_DMLengthLimit.Maximum = Slider_DMLengthLimitMax.Value;
+            Slider_DMLengthLimitMax.Minimum = Slider_DMLengthLimit.Value;
+        }
+        
+        private async Task OnLoad(object sender, RoutedEventArgs e)
+        {
+            await Conf.InitiateAsync();
+            Load();
         }
 
         private void Button_About_Click(object sender, RoutedEventArgs e)
@@ -272,6 +267,23 @@ namespace Re_TTSCat.Windows
             catch (Exception ex)
             {
                 AsyncDialog.Open("Error: " + ex.ToString(), "Re: TTSCat", MessageBoxIcon.Error);
+            }
+        }
+
+        private void Button_Reset_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (System.Windows.MessageBox.Show("您确定要重置所有设置到默认值吗？", "Re: TSCat", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    Vars.CurrentConf = new Conf();
+                    Load();
+                    System.Windows.MessageBox.Show("已恢复所有设置至默认值，点击保存或应用以保存到配置文件中。", "Re: TSCat", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("配置重置失败: " + ex.Message, "Re: TSCat", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }

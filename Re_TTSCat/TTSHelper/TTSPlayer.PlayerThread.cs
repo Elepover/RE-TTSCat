@@ -13,7 +13,10 @@ namespace Re_TTSCat
             {
                 if (readerList.Count != 0)
                 {
-                    Bridge.Log("启动播放，剩余数目:" + readerList.Count);
+                    if (Vars.CurrentConf.DebugMode)
+                    {
+                        Bridge.Log("启动播放，剩余数目:" + readerList.Count);
+                    }
                     var fileName = readerList[0].FileName;
                     Play(readerList[0]);
                     if (Vars.CurrentConf.DoNotKeepCache)

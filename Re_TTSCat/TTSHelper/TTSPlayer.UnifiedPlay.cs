@@ -46,6 +46,9 @@ namespace Re_TTSCat
                 case 2:
                     fileName = GoogleTTS.Download(content, "zh-CN");
                     break;
+                case 3:
+                    fileName = await BaiduTTS.DownloadCantonese(content);
+                    break;
             }
             if (fileName == null)
             {

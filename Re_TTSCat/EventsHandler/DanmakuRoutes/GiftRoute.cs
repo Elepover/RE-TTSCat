@@ -44,7 +44,7 @@ namespace Re_TTSCat
             {
                 Bridge.Log("规则检查通过，准备朗读");
             }
-            await TTSPlayer.UnifiedPlay(Vars.CurrentConf.OnDanmaku
+            await TTSPlayer.UnifiedPlay(Vars.CurrentConf.OnGift
                 .Replace("$GIFT", e.Danmaku.GiftName)
                 .Replace("$COUNT", e.Danmaku.GiftCount.ToString())
                 .Replace("$USER", e.Danmaku.UserName)

@@ -11,13 +11,20 @@ namespace Re_TTSCat
             Log("插件启动中");
             try
             {
+                var loadWindow = new Windows.LoadingWindowLight();
+                loadWindow.Left = Cursor.Position.X;
+                loadWindow.Top = Cursor.Position.Y;
+                loadWindow.Show();
                 Log("正在启用数据桥");
                 RunBridge();
+                loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(25);
                 Log("正在初始化配置");
                 await Data.Conf.InitiateAsync();
+                loadWindow.ProgressBar.Value = 50; Data.Conf.Delay(25);
                 Log("配置初始化成功");
                 Log("正在启用播放器");
                 TTSPlayer.Init();
+                loadWindow.ProgressBar.Value = 80; Data.Conf.Delay(25);
                 if (Data.Vars.CurrentConf.AutoUpdate)
                 {
                     Log("正在检查更新");
@@ -40,6 +47,8 @@ namespace Re_TTSCat
                     }
                     
                 }
+                loadWindow.ProgressBar.Value = 100; Data.Conf.Delay(25);
+                loadWindow.Close();
                 Log("启动成功");
                 base.Start();
             }

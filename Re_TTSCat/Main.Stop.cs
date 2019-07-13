@@ -1,5 +1,6 @@
 ﻿using BilibiliDM_PluginFramework;
 using System.Threading;
+using System.Windows.Forms;
 using System.Windows.Threading;
 
 namespace Re_TTSCat
@@ -9,6 +10,11 @@ namespace Re_TTSCat
         public override void Stop()
         {
             Log("正在尝试停用插件");
+            var loadWindow = new Windows.LoadingWindowLight();
+            loadWindow.Left = Cursor.Position.X;
+            loadWindow.Top = Cursor.Position.Y;
+            loadWindow.Show(); Data.Conf.Delay(25);
+            loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(25);
 
             var frame = new DispatcherFrame();
             var thread = new Thread(() => {
@@ -34,6 +40,9 @@ namespace Re_TTSCat
             });
             thread.Start();
             Dispatcher.PushFrame(frame);
+            loadWindow.ProgressBar.Value = 100; Data.Conf.Delay(25);
+            loadWindow.Close();
+
             Log("插件已停用");
             base.Stop();
         }

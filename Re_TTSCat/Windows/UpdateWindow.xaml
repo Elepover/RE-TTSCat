@@ -12,7 +12,7 @@
         <Button x:Name="Button_CheckUpd" Content="检查更新" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="75" ToolTip="通过弹幕姬 API 检查插件更新" Click="Button_CheckUpd_Click"/>
         <Button x:Name="Button_DLUpd" Content="下载更新" HorizontalAlignment="Right" Margin="0,34,10,0" VerticalAlignment="Top" Width="75" ToolTip="打开浏览器下载更新" Click="Button_DLUpd_Click"/>
         <TextBlock x:Name="TextBlock_Latest" HorizontalAlignment="Left" Margin="10,38,0,0" TextWrapping="Wrap" Text="最新版本: （" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextBox_UpdContents" Height="183" Margin="10,58,10,30" TextWrapping="Wrap" Text="Undefined（" Width="574" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="hidden" FontFamily="Consolas"/>
+        <TextBox x:Name="TextBox_UpdContents" Margin="10,58,10,30" TextWrapping="Wrap" Text="Undefined（" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="hidden" FontFamily="Consolas"/>
         <ProgressBar x:Name="ProgressBar_Indicator" Margin="0,0,10,10" IsIndeterminate="True" RenderTransformOrigin="0.5,0.5" Visibility="Hidden" Height="15" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="100"/>
     </Grid>
 </Window>

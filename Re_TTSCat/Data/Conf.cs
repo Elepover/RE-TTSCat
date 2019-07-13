@@ -48,7 +48,7 @@
         public bool DoNotKeepCache { get; set; }
         /// <summary>
         /// 要使用的弹幕引擎
-        /// (0 = 毒瘤, 1 = .NET, 2 = Does not exist)
+        /// (0 = 毒瘤, 1 = .NET, 2 = Does not exist, 3 = 毒瘤 广东话)
         /// </summary>
         public byte Engine { get; set; }
         /// <summary>
