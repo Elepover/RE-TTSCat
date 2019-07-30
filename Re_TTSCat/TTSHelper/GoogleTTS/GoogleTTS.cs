@@ -16,7 +16,7 @@ namespace Re_TTSCat
 
         private const ushort MaxTokenLength = 175;
 
-        private List<byte[]> byteList = new List<byte[]>();
+        private readonly List<byte[]> byteList = new List<byte[]>();
 
         private readonly string lang;
 
@@ -34,6 +34,7 @@ namespace Re_TTSCat
         {
             using (var webClient = new WebClient())
             {
+                webClient.Headers.Add(HttpRequestHeader.Referer, "https://translate.google.cn/");
                 webClient.Headers.Add("user-agent", UserAgent);
                 webClient.QueryString.Add("ie", "UTF-8");
                 webClient.QueryString.Add("client", "tw-ob");

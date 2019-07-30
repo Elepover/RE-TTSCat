@@ -8,7 +8,7 @@ namespace Re_TTSCat
 {
     public static partial class BaiduTTS
     {
-        public static async Task<string> Download(string content)
+        public static async Task<string> Download(string content, bool cantonese = false)
         {
             var errorCount = 0;
 Retry:
@@ -20,9 +20,19 @@ Retry:
                     Bridge.Log("(E0) 正在下载 TTS, 文件名: " + fileName);
                 }
                 var downloader = new WebClient();
+                downloader.Headers.Add(HttpRequestHeader.AcceptEncoding, "identity;q=1, *;q=0");
+                downloader.Headers.Add(HttpRequestHeader.Referer, "https://fanyi.baidu.com/");
                 downloader.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
-                await downloader.DownloadFileTaskAsync(Vars.apiBaidu.Replace("$TTSTEXT", content),
-                                                       fileName);
+                if (cantonese)
+                {
+                    await downloader.DownloadFileTaskAsync(Vars.apiBaiduCantonese.Replace("$TTSTEXT", content),
+                                                           fileName);
+                }
+                else
+                {
+                    await downloader.DownloadFileTaskAsync(Vars.apiBaidu.Replace("$TTSTEXT", content),
+                                                           fileName);
+                }
                 downloader.Dispose();
                 return fileName;
             }
@@ -39,7 +49,6 @@ Retry:
                 }
                 return null;
             }
-            
         }
     }
 }

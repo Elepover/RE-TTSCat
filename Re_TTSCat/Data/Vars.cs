@@ -9,13 +9,14 @@ namespace Re_TTSCat.Data
     {
         public static readonly string apiBaidu = "https://fanyi.baidu.com/gettts?lan=zh&text=$TTSTEXT&spd=5&source=web";
         public static readonly string apiBaiduCantonese = "https://fanyi.baidu.com/gettts?lan=cte&text=$TTSTEXT&spd=5&source=web";
+        public static readonly string apiYoudao = "http://tts.youdao.com/fanyivoice?word=$TTSTEXT&le=zh&keyfrom=speaker-target";
         public static readonly string dllFileName = Assembly.GetExecutingAssembly().Location;
         public static readonly string dllPath = (new FileInfo(dllFileName)).DirectoryName;
         public static readonly string confDir = Path.Combine(dllPath, "RE-TTSCat");
         public static readonly string cacheDir = Path.Combine(confDir, "Cache");
         public static readonly string confFileName = Path.Combine(confDir, "Config.json");
         public static readonly string audioLibFileName = Path.Combine(dllPath, "NAudio.dll");
-        public static readonly Version currentVersion = new Version("3.0.6.230");
+        public static readonly Version currentVersion = new Version("3.0.7.235");
 
         public static Conf CurrentConf { get; set; } = new Conf();
         public static Thread MainBridge { get; set; }

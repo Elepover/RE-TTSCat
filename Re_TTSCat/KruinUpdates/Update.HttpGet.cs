@@ -13,6 +13,7 @@ namespace Re_TTSCat
             private static async Task<string> HttpGet(Uri uri)
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+                request.Referer = "https://www.danmuji.org/";
                 request.UserAgent = "KruinUpdates/" + Vars.currentVersion.ToString() + " (Re-TTSCat;)";
                 using (HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync())
                 {

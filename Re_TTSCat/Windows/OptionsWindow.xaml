@@ -39,9 +39,10 @@
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="TTS 引擎" VerticalAlignment="Top"/>
                     <ComboBox x:Name="ComboBox_Engine" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="120" ToolTip="选择插件使用的 TTS 引擎&#xA;&#xA;将鼠标指针悬浮在对应的引擎上以获取相应说明">
                         <ComboBoxItem Content="百度" ToolTip="使用百度翻译的公共 TTS 框架"/>
-                        <ComboBoxItem Content=".NET 框架" ToolTip="使用 Windows 自带的语音合成引擎，效率最高，可离线合成&#xA;&#xA;请注意：部分修改版 Windows 系统可能删除了该模块，导致插件无法工作或弹幕姬崩溃"/>
+                        <ComboBoxItem Content=".NET 框架" ToolTip="使用 Windows 自带的语音合成引擎，效率最高，可离线合成&#xA;&#xA;请注意：部分修改版 Windows 系统可能删除了该模块，导致插件无法工作或弹幕姬崩溃，与插件本身无关"/>
                         <ComboBoxItem Content="Google" ToolTip="使用 Google 中国区 (translate.google.cn) 的 TTS 框架&#xA;&#xA;人称谷歌娘"/>
-                        <ComboBoxItem Content="百度（粤语）" ToolTip="全新的粤语 TTS 引擎！"/>
+                        <ComboBoxItem Content="百度（粤语）" ToolTip="粤语 TTS 引擎！"/>
+                        <ComboBoxItem Content="有道（未经加密）" ToolTip="使用网易有道 TTS 引擎&#xA;&#xA;该引擎使用时与服务器的连接未经加密，请酌情使用"/>
                     </ComboBox>
                     <TextBlock HorizontalAlignment="Left" Margin="10,51,0,0" TextWrapping="Wrap" Text="下载失败重试次数（0 ~ 10）" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_RetryCount" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" Value="5" ToolTip="指定在下载 TTS 文件时出现网络错误的重试次数&#xA;&#xA;默认值: 5&#xA;范围为 0 ~ 10, 指定为 0 将阻止插件重新下载" ValueChanged="UpdateSliders"/>

@@ -111,7 +111,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="TTSHelper\BaiduTTS\BaiduTTS.DownloadCantonese.cs" />
     <Compile Include="TTSHelper\BaiduTTS\BaiduTTS.Download.cs" />
     <Compile Include="TTSHelper\FrameworkTTS\FrameworkTTS.Download.cs" />
     <Compile Include="TTSHelper\GoogleTTS\GoogleTTS.cs" />
@@ -120,6 +119,7 @@
     <Compile Include="TTSHelper\TTSPlayer.PlayerThread.cs" />
     <Compile Include="TTSHelper\TTSPlayer.Play.cs" />
     <Compile Include="TTSHelper\TTSPlayer.cs" />
+    <Compile Include="TTSHelper\YoudaoTTS\YoudaoTTS.Download.cs" />
     <Compile Include="Windows\AsyncDialog.cs" />
     <Compile Include="Windows\LoadingWindowLight.xaml.cs">
       <DependentUpon>LoadingWindowLight.xaml</DependentUpon>
