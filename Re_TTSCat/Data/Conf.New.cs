@@ -24,8 +24,10 @@
             ReadInQueue = true;
             ReadPossibility = 100;
             TTSVolume = 100;
+            ReadSpeed = 0;
             UseGoogleGlobal = false;
 
+            CustomEngineURL = "https://tts.example.com/?text=$TTSTEXT";
             OnConnected = "已成功连接至房间: $ROOM";
             OnDisconnected = "已断开连接: $ERROR";
             OnDanmaku = "$USER 说: $DM";

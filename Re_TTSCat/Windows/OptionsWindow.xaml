@@ -43,6 +43,7 @@
                         <ComboBoxItem Content="Google" ToolTip="使用 Google 中国区 (translate.google.cn) 的 TTS 框架&#xA;&#xA;人称谷歌娘"/>
                         <ComboBoxItem Content="百度（粤语）" ToolTip="粤语 TTS 引擎！"/>
                         <ComboBoxItem Content="有道（未经加密）" ToolTip="使用网易有道 TTS 引擎&#xA;&#xA;该引擎使用时与服务器的连接未经加密，请酌情使用"/>
+                        <ComboBoxItem Content="用户自定义引擎" ToolTip="使用您在右侧自定义的 TTS 引擎&#xA;&#xA;使用 $TTSTEXT 来代替需要读出的文本"/>
                     </ComboBox>
                     <TextBlock HorizontalAlignment="Left" Margin="10,51,0,0" TextWrapping="Wrap" Text="下载失败重试次数（0 ~ 10）" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_RetryCount" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" Value="5" ToolTip="指定在下载 TTS 文件时出现网络错误的重试次数&#xA;&#xA;默认值: 5&#xA;范围为 0 ~ 10, 指定为 0 将阻止插件重新下载" ValueChanged="UpdateSliders"/>
@@ -62,6 +63,8 @@
                     <TextBlock HorizontalAlignment="Left" Margin="10,253,0,0" TextWrapping="Wrap" Text=".NET 框架引擎朗读速度" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="21"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="167,10,0,0" TextWrapping="Wrap" Text="自定义 TTS 引擎 URL" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_CustomEngineURL" TextWrapping="Wrap" Text="https://tts.example.com/?text=$TTSTEXT" Margin="167,25,261,0" ToolTip="使用 $TTSTEXT 来代替需要读出的文本" Height="59" VerticalAlignment="Top"/>
                     <Button x:Name="Button_Reset" Content="重置配置" Margin="0,10,10,0" Height="19" VerticalAlignment="Top" ToolTip="将所有配置还原为默认值" HorizontalAlignment="Right" Width="75" Click="Button_Reset_Click"/>
                 </Grid>
             </TabItem>

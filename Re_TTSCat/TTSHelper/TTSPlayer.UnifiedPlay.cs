@@ -52,6 +52,9 @@ namespace Re_TTSCat
                 case 4:
                     fileName = await YoudaoTTS.Download(content);
                     break;
+                case 5:
+                    fileName = await CustomTTS.Download(content);
+                    break;
             }
             if (fileName == null)
             {

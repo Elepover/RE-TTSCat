@@ -99,6 +99,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.DownloadFailRetryCount = (byte)Math.Round(Slider_RetryCount.Value);
             Vars.CurrentConf.TTSVolume = (int)Math.Round(Slider_TTSVolume.Value);
             Vars.CurrentConf.ReadSpeed = (int)Math.Round(Slider_TTSSpeed.Value);
+            Vars.CurrentConf.CustomEngineURL = TextBox_CustomEngineURL.Text;
             Vars.CurrentConf.Engine = (byte)ComboBox_Engine.SelectedIndex;
             Vars.CurrentConf.BlockMode = (byte)ComboBox_Blockmode.SelectedIndex;
             Vars.CurrentConf.GiftBlockMode = (byte)ComboBox_GiftBlockMode.SelectedIndex;
@@ -133,6 +134,7 @@ namespace Re_TTSCat.Windows
             Slider_RetryCount.Value = Vars.CurrentConf.DownloadFailRetryCount;
             Slider_TTSVolume.Value = Vars.CurrentConf.TTSVolume;
             Slider_TTSSpeed.Value = Vars.CurrentConf.ReadSpeed;
+            TextBox_CustomEngineURL.Text = Vars.CurrentConf.CustomEngineURL;
             ComboBox_Engine.SelectedIndex = Vars.CurrentConf.Engine;
             ComboBox_Blockmode.SelectedIndex = Vars.CurrentConf.BlockMode;
             ComboBox_GiftBlockMode.SelectedIndex = Vars.CurrentConf.GiftBlockMode;

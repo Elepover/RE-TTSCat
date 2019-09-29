@@ -48,7 +48,7 @@
         public bool DoNotKeepCache { get; set; }
         /// <summary>
         /// 要使用的弹幕引擎
-        /// (0 = 毒瘤, 1 = .NET, 2 = Does not exist, 3 = 毒瘤 广东话)
+        /// (0 = 毒瘤, 1 = .NET, 2 = Does not exist, 3 = 毒瘤 广东话, 4 = 有道, 5 = 用户自定义)
         /// </summary>
         public byte Engine { get; set; }
         /// <summary>
@@ -95,6 +95,10 @@
         /// 是否适用 Google 国际服务器
         /// </summary>
         public bool UseGoogleGlobal { get; set; }
+        /// <summary>
+        /// 用户自定义 TTS 引擎地址，用 $TTSTEXT 表示读出内容
+        /// </summary>
+        public string CustomEngineURL { get; set; }
 
         /// <summary>
         /// 在连接成功后读出的内容，留空以禁用
