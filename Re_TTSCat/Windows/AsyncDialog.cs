@@ -10,7 +10,8 @@ namespace Re_TTSCat.Windows
             var MsgBoxThread = new Thread(() =>
             {
                 MessageBox.Show(content, title, buttons, icon);
-            });
+            })
+            { IsBackground = true };
             MsgBoxThread.SetApartmentState(ApartmentState.STA);
             MsgBoxThread.Start();
         }

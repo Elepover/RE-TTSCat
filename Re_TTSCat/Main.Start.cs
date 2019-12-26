@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Threading;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Re_TTSCat
@@ -20,17 +21,21 @@ namespace Re_TTSCat
             {
                 loadWindow.Show();
                 loadWindow.ProgressBar.Value = 20; Data.Conf.Delay(25);
+                Log("正在初始化配置");
+                await Data.Conf.InitiateAsync();
+                loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(25);
                 Log("正在检查文件");
                 if (!File.Exists(Data.Vars.audioLibFileName))
                 {
-                    MessageBox.Show("未能找到 NAudio.dll 音频库文件。\n\n请您尝试将 NAudio.dll 与插件本体置于相同文件夹（即弹幕姬插件文件夹中）并重启弹幕姬。\n\n在您补回该文件前，插件将无法启动，但您仍可以打开管理窗口来修改配置。\n\n预期的音频库文件路径: " + Data.Vars.audioLibFileName, "Re: TTSCat", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    throw new FileNotFoundException("已侦测到音频库丢失");
+                    Log("尝试释放 NAudio.dll 支持库");
+                    var writer = new FileStream(Data.Vars.audioLibFileName, FileMode.OpenOrCreate);
+                    await writer.WriteAsync(Properties.Resources.NAudio, 0, Properties.Resources.NAudio.Length);
+                    writer.Close();
                 }
+                Log("正在载入支持库");
+                Assembly.LoadFrom(Data.Vars.audioLibFileName);
                 Log("正在启动数据桥");
                 RunBridge();
-                loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(25);
-                Log("正在初始化配置");
-                await Data.Conf.InitiateAsync();
                 loadWindow.ProgressBar.Value = 50; Data.Conf.Delay(25);
                 Log("配置初始化成功");
                 Log("正在启用播放器");
