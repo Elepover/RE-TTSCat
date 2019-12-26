@@ -55,7 +55,7 @@ namespace Re_TTSCat.Windows
             }
             catch (Exception ex)
             {
-                AsyncDialog.Open("延迟测试错误: " + ex.ToString(), "Re: TTSCat", System.Windows.Forms.MessageBoxIcon.Error);
+                AsyncDialog.Open("延迟测试错误: " + ex.ToString(), "Re: TTSCat", MessageBoxIcon.Error);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Re_TTSCat.Windows
             }
             catch (Exception ex)
             {
-                AsyncDialog.Open("错误: " + ex.ToString(), "Re: TTSCat", System.Windows.Forms.MessageBoxIcon.Error);
+                AsyncDialog.Open("错误: " + ex.ToString(), "Re: TTSCat", MessageBoxIcon.Error);
             }
         }
 
@@ -166,7 +166,6 @@ namespace Re_TTSCat.Windows
             TextBox_Debug.AppendText("Plugins directory: " + Vars.dllPath + "\n");
 
             if (Vars.CurrentConf.DebugMode) { TabItem_DebugOptions.Visibility = Visibility.Visible; } else { TabItem_DebugOptions.Visibility = Visibility.Hidden; }
-            if (!File.Exists(Vars.audioLibFileName)) { Title = "Re: TTSCat - 插件管理 *⚠音频库丢失⚠*"; } else { Title = "Re: TTSCat - 插件管理"; }
         }
 
         private async void Button_Apply_Click(object sender, RoutedEventArgs e)

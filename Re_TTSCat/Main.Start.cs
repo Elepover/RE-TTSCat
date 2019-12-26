@@ -21,21 +21,11 @@ namespace Re_TTSCat
             {
                 loadWindow.Show();
                 loadWindow.ProgressBar.Value = 20; Data.Conf.Delay(25);
-                Log("正在初始化配置");
-                await Data.Conf.InitiateAsync();
-                loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(25);
-                Log("正在检查文件");
-                if (!File.Exists(Data.Vars.audioLibFileName))
-                {
-                    Log("尝试释放 NAudio.dll 支持库");
-                    var writer = new FileStream(Data.Vars.audioLibFileName, FileMode.OpenOrCreate);
-                    await writer.WriteAsync(Properties.Resources.NAudio, 0, Properties.Resources.NAudio.Length);
-                    writer.Close();
-                }
-                Log("正在载入支持库");
-                Assembly.LoadFrom(Data.Vars.audioLibFileName);
                 Log("正在启动数据桥");
                 RunBridge();
+                loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(25);
+                Log("正在初始化配置");
+                await Data.Conf.InitiateAsync();
                 loadWindow.ProgressBar.Value = 50; Data.Conf.Delay(25);
                 Log("配置初始化成功");
                 Log("正在启用播放器");

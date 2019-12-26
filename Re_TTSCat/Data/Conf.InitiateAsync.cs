@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Re_TTSCat.Data
@@ -27,6 +28,16 @@ namespace Re_TTSCat.Data
                 Bridge.Log("创建成功");
             }
             await ReadAsync();
+            Bridge.Log("正在检查文件");
+            if (!File.Exists(Data.Vars.audioLibFileName))
+            {
+                Bridge.Log("尝试释放 NAudio.dll 支持库");
+                var writer = new FileStream(Data.Vars.audioLibFileName, FileMode.OpenOrCreate);
+                await writer.WriteAsync(Properties.Resources.NAudio, 0, Properties.Resources.NAudio.Length);
+                writer.Close();
+            }
+            Bridge.Log("正在载入支持库");
+            Assembly.LoadFrom(Data.Vars.audioLibFileName);
             Bridge.Log("载入完毕");
         }
     }
