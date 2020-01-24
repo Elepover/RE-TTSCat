@@ -11,13 +11,13 @@
                 case 1:
                     foreach (string keyword in Vars.CurrentConf.KeywordBlackList.Split('\n'))
                     {
-                        if (content.Contains(keyword)) { return false; }
+                        if (content.Contains(keyword)) return false;
                     }
                     return true;
                 case 2:
                     foreach (string keyword in Vars.CurrentConf.KeywordWhiteList.Split('\n'))
                     {
-                        if (content.Contains(keyword)) { return true; }
+                        if (content.Contains(keyword)) return true;
                     }
                     return false;
             }

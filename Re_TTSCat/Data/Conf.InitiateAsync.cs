@@ -29,15 +29,16 @@ namespace Re_TTSCat.Data
             }
             await ReadAsync();
             Bridge.Log("正在检查文件");
-            if (!File.Exists(Data.Vars.audioLibFileName))
+            if (!File.Exists(Vars.audioLibFileName))
             {
                 Bridge.Log("尝试释放 NAudio.dll 支持库");
-                var writer = new FileStream(Data.Vars.audioLibFileName, FileMode.OpenOrCreate);
+                var writer = new FileStream(Vars.audioLibFileName, FileMode.OpenOrCreate);
                 await writer.WriteAsync(Properties.Resources.NAudio, 0, Properties.Resources.NAudio.Length);
                 writer.Close();
             }
             Bridge.Log("正在载入支持库");
-            Assembly.LoadFrom(Data.Vars.audioLibFileName);
+            Assembly.LoadFrom(Vars.audioLibFileName);
+            Main.IsNAudioReady = true;
             Bridge.Log("载入完毕");
         }
     }

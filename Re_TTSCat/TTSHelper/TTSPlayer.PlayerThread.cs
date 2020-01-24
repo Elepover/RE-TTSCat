@@ -19,6 +19,7 @@ namespace Re_TTSCat
                     }
                     var fileName = readerList[0].FileName;
                     Play(readerList[0]);
+                    Vars.TotalPlayed++;
                     if (Vars.CurrentConf.DoNotKeepCache)
                     {
                         File.Delete(fileName);

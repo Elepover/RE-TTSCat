@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Re: TTSCat - 插件管理" Height="450" Width="800">
+        Title="Re: TTSCat - 插件管理" Height="450" Width="800" Closing="Window_Closing">
     <Grid>
         <TabControl Margin="0,0,0,60">
             <TabItem Header="一般选项">
@@ -14,6 +14,17 @@
                     <CheckBox x:Name="CheckBox_AutoUpdates" Content="自动检查更新" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" ToolTip="在插件启动时自动检查更新，可能拖慢启动速度&#xA;&#xA;Re: TTSCat v3 已对代码架构进行重构，插件将在后台启动，不影响弹幕姬运行"/>
                     <CheckBox x:Name="CheckBox_ReadInQueue" Content="逐条阅读语音" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" ToolTip="待正在朗读的语音结束后再继续朗读下一条语音&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
                     <CheckBox x:Name="CheckBox_DoNotKeepCache" Content="不保留缓存文件" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" ToolTip="在朗读完毕后立即删除缓存文件&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
+                    <GroupBox Header="统计数据" Height="150" Margin="10,0,10,9.8" VerticalAlignment="Bottom">
+                        <Grid>
+                            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="正在队列中的语音" VerticalAlignment="Top"/>
+                            <TextBlock x:Name="TextBlock_TTSInQueue" HorizontalAlignment="Left" Margin="10,25,0,0" FontSize="25" TextWrapping="Wrap" Text="正在计算" VerticalAlignment="Top"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="10,62,0,0" TextWrapping="Wrap" Text="缓存体积" VerticalAlignment="Top"/>
+                            <TextBlock x:Name="TextBlock_CacheSize" HorizontalAlignment="Left" Margin="10,77,0,0" FontSize="25" TextWrapping="Wrap" Text="正在计算" VerticalAlignment="Top"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="115,10,0,0" TextWrapping="Wrap" Text="已播放" VerticalAlignment="Top"/>
+                            <TextBlock x:Name="TextBlock_TotalPlayed" HorizontalAlignment="Left" Margin="115,25,0,0" FontSize="25" TextWrapping="Wrap" Text="正在计算" VerticalAlignment="Top"/>
+                            <CheckBox x:Name="CheckBox_AutoUpdate" Margin="0,10,10,0" Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Content="自动更新" Checked="CheckBox_AutoUpdate_Checked" Unchecked="CheckBox_AutoUpdate_Unchecked"/>
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem Header="自定义读出内容（留空以停用）">

@@ -24,6 +24,9 @@ namespace Re_TTSCat.Windows
             InitializeComponent();
         }
 
+        private Thread StatsUpdater;
+        private bool WindowClosed = true;
+
         private void Button_CheckConnectivity_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -85,6 +88,38 @@ namespace Re_TTSCat.Windows
         private async void Button_Reload_Click(object sender, RoutedEventArgs e)
         {
             await OnLoad(null, null);
+        }
+
+        private void UpdateStats()
+        {
+            TextBlock_TTSInQueue.Text = TTSPlayer.readerList.Count.ToString();
+            long totalSize = 0;
+            int count = 0;
+            var frame = new DispatcherFrame();
+            var thread = new Thread(() =>
+            {
+                foreach (FileInfo file in (new DirectoryInfo(Vars.cacheDir)).GetFiles())
+                {
+                    totalSize += file.Length;
+                    count++;
+                }
+                frame.Continue = false;
+            });
+            thread.Start();
+            Dispatcher.PushFrame(frame);
+            TextBlock_CacheSize.Text = (totalSize > 1048576L) ? $"{Math.Round((double)(totalSize / 1048576), 2)} MiB" : $"{Math.Round((double)(totalSize / 1024), 2)} KiB";
+            TextBlock_CacheSize.Text += $" / {count} 个文件";
+            TextBlock_TotalPlayed.Text = Vars.TotalPlayed.ToString();
+        }
+
+        private void UpdateStatsThread()
+        {
+            
+            while (!WindowClosed)
+            {
+                Dispatcher.Invoke(() => UpdateStats());
+                Thread.Sleep(1000);
+            }
         }
 
         private async Task Apply()
@@ -165,6 +200,8 @@ namespace Re_TTSCat.Windows
             TextBox_Debug.AppendText("Audio library file: " + Vars.audioLibFileName + "\n");
             TextBox_Debug.AppendText("Plugins directory: " + Vars.dllPath + "\n");
 
+            UpdateStats();
+
             if (Vars.CurrentConf.DebugMode) { TabItem_DebugOptions.Visibility = Visibility.Visible; } else { TabItem_DebugOptions.Visibility = Visibility.Hidden; }
         }
 
@@ -224,8 +261,8 @@ namespace Re_TTSCat.Windows
                 return;
 
             _shown = true;
+            WindowClosed = false;
 
-            // Your code here.
             await OnLoad(null, null);
             _updateSliderAllowed = true;
             UpdateSliders(null, null);
@@ -298,6 +335,25 @@ namespace Re_TTSCat.Windows
         private void Button_PermissionInfo_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.MessageBox.Show("系统权限信息\n\nRe: TTSCat 使用了以下系统权限:\n\n• 读取/写入您的文件系统\n插件需要该权限以进行配置读取和保存及 TTS 文件生成与读取\n\n• 访问互联网\n用于下载 TTS 文件及检查更新", "Re: TTSCat", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void CheckBox_AutoUpdate_Checked(object sender, RoutedEventArgs e)
+        {
+            if ((StatsUpdater == null) || !StatsUpdater.IsAlive)
+            {
+                StatsUpdater = new Thread(() => UpdateStatsThread());
+            }
+            StatsUpdater.Start();
+        }
+
+        private void CheckBox_AutoUpdate_Unchecked(object sender, RoutedEventArgs e)
+        {
+            StatsUpdater.Abort();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            WindowClosed = true;
         }
     }
 }

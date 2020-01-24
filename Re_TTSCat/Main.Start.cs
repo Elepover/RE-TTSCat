@@ -20,17 +20,17 @@ namespace Re_TTSCat
             try
             {
                 loadWindow.Show();
-                loadWindow.ProgressBar.Value = 20; Data.Conf.Delay(25);
+                loadWindow.ProgressBar.Value = 20; Data.Conf.Delay(10);
                 Log("正在启动数据桥");
                 RunBridge();
-                loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(25);
+                loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(10);
                 Log("正在初始化配置");
                 await Data.Conf.InitiateAsync();
-                loadWindow.ProgressBar.Value = 50; Data.Conf.Delay(25);
+                loadWindow.ProgressBar.Value = 50; Data.Conf.Delay(10);
                 Log("配置初始化成功");
                 Log("正在启用播放器");
                 TTSPlayer.Init();
-                loadWindow.ProgressBar.Value = 80; Data.Conf.Delay(25);
+                loadWindow.ProgressBar.Value = 80; Data.Conf.Delay(10);
                 if (Data.Vars.CurrentConf.AutoUpdate)
                 {
                     Log("正在启动更新检查");
@@ -57,7 +57,7 @@ namespace Re_TTSCat
                     });
                     updateChecker.Start();
                 }
-                loadWindow.ProgressBar.Value = 100; Data.Conf.Delay(25);
+                loadWindow.ProgressBar.Value = 100; Data.Conf.Delay(10);
                 loadWindow.Close();
                 Log("启动成功");
                 base.Start();
