@@ -10,6 +10,7 @@ namespace Re_TTSCat
         public async void OnConnected(object sender, ConnectedEvtArgs e)
         {
             if (!IsNAudioReady) return;
+            if (!Vars.CurrentConf.AllowConnectEvents) return;
             await TTSPlayer.UnifiedPlay(
                 Vars.CurrentConf.OnConnected.Replace(
                     "$ROOM", e.roomid.ToString()

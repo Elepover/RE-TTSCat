@@ -24,7 +24,7 @@ namespace Re_TTSCat
                     {
                         File.Delete(fileName);
                     }
-                    readerList.RemoveAt(0);
+                    if (readerList.Count > 0) readerList.RemoveAt(0);
                 }
                 Thread.Sleep(100);
             }

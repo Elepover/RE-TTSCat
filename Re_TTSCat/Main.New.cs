@@ -5,6 +5,7 @@ namespace Re_TTSCat
     public partial class Main : DMPlugin
     {
         public static bool IsNAudioReady = false;
+        public static bool IsEnabled = false;
         public Main()
         {
             PluginAuth = "Elepover";

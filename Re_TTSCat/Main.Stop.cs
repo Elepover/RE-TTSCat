@@ -44,6 +44,7 @@ namespace Re_TTSCat
             loadWindow.Close();
 
             Log("插件已停用");
+            IsEnabled = false;
             base.Stop();
         }
     }

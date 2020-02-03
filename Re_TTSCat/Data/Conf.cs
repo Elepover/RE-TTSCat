@@ -99,6 +99,18 @@
         /// 用户自定义 TTS 引擎地址，用 $TTSTEXT 表示读出内容
         /// </summary>
         public string CustomEngineURL { get; set; }
+        /// <summary>
+        /// 允许下载推送消息
+        /// </summary>
+        public bool AllowDownloadMessage { get; set; }
+        /// <summary>
+        /// 允许处理连接/断开事件
+        /// </summary>
+        public bool AllowConnectEvents { get; set; }
+        /// <summary>
+        /// 在断开连接时清空待朗读 TTS
+        /// </summary>
+        public bool ClearQueueAfterDisconnect { get; set; }
 
         /// <summary>
         /// 在连接成功后读出的内容，留空以禁用

@@ -26,6 +26,9 @@
             TTSVolume = 100;
             ReadSpeed = 0;
             UseGoogleGlobal = false;
+            AllowDownloadMessage = true;
+            AllowConnectEvents = true;
+            ClearQueueAfterDisconnect = true;
 
             CustomEngineURL = "https://tts.example.com/?text=$TTSTEXT";
             OnConnected = "已成功连接至房间: $ROOM";

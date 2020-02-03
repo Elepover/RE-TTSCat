@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Text;
 using System.Windows;
 using System.Diagnostics;
 using System.Net;
@@ -10,7 +11,6 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using NAudio.Wave;
-using System.Runtime.Versioning;
 
 namespace Re_TTSCat.Windows
 {
@@ -124,6 +124,9 @@ namespace Re_TTSCat.Windows
 
         private async Task Apply()
         {
+            Vars.CurrentConf.AllowConnectEvents = CheckBox_ProcessEvents.IsChecked ?? true;
+            Vars.CurrentConf.ClearQueueAfterDisconnect = CheckBox_ClearQueueOnDisconnect.IsChecked ?? true;
+            Vars.CurrentConf.AllowDownloadMessage = CheckBox_AllowDownloadMessage.IsChecked ?? true;
             Vars.CurrentConf.AutoUpdate = CheckBox_AutoUpdates.IsChecked ?? false;
             Vars.CurrentConf.DebugMode = CheckBox_DebugMode.IsChecked ?? false;
             Vars.CurrentConf.DoNotKeepCache = CheckBox_DoNotKeepCache.IsChecked ?? false;
@@ -163,6 +166,10 @@ namespace Re_TTSCat.Windows
             CheckBox_DebugMode.IsChecked = Vars.CurrentConf.DebugMode;
             CheckBox_DoNotKeepCache.IsChecked = Vars.CurrentConf.DoNotKeepCache;
             CheckBox_ReadInQueue.IsChecked = Vars.CurrentConf.ReadInQueue;
+            CheckBox_ProcessEvents.IsChecked = Vars.CurrentConf.AllowConnectEvents;
+            CheckBox_ClearQueueOnDisconnect.IsChecked = Vars.CurrentConf.ClearQueueAfterDisconnect;
+            CheckBox_AllowDownloadMessage.IsChecked = Vars.CurrentConf.AllowDownloadMessage;
+            CheckBox_IsPluginActive.IsChecked = Main.IsEnabled;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
             Slider_DMLengthLimitMax.Value = Vars.CurrentConf.MaximumDanmakuLength;
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;
@@ -242,7 +249,7 @@ namespace Re_TTSCat.Windows
 
         private void Button_About_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://www.danmuji.org/plugins/Re_TTSCat");
+            Process.Start("https://www.danmuji.org/plugins/Re-TTSCat");
         }
 
         private void Button_Suggestions_Click(object sender, RoutedEventArgs e)
@@ -266,6 +273,39 @@ namespace Re_TTSCat.Windows
             await OnLoad(null, null);
             _updateSliderAllowed = true;
             UpdateSliders(null, null);
+            // update information in the thanks field
+            // THIS IS NOT TELEMETRY, WE RESPECT OUR USERS' PRIVACY AND WILL NEVER DO SO
+            if (Vars.CurrentConf.AllowDownloadMessage)
+            {
+                var downloader = new Thread(() =>
+                {
+                    string str = "感谢使用本插件", comments = "Copyright (C) 2017 - 2020 Elepover.\nThis is an open-source(MIT) software.";
+                    using (var client = new WebClient())
+                    {
+                        try
+                        {
+                            client.Headers.Set(HttpRequestHeader.Referer, "https://www.danmuji.org/plugins/Re-TTSCat");
+                            client.Headers.Set(HttpRequestHeader.UserAgent, $"Re_TTSCat/{Vars.currentVersion.ToString()} (Windows NT {Environment.OSVersion.Version.ToString(2)}; {(Environment.Is64BitOperatingSystem ? "Win64; x64" : "Win32; x86")})");
+                            str = Encoding.UTF8.GetString(client.DownloadData("https://static-cn.itsmy.app:12306/files/today"));
+                            comments = Encoding.UTF8.GetString(client.DownloadData("https://static-cn.itsmy.app:12306/files/today_comments"));
+                        }
+                        catch { }
+                    }
+                    try
+                    {
+                        Dispatcher.Invoke(() =>
+                        {
+                            TextBlock_Thanks.Text = str;
+                            TextBlock_Thanks.ToolTip = comments;
+                        });
+                    }
+                    catch { }
+                })
+                {
+                    IsBackground = true
+                };
+                downloader.Start();
+            }
         }
 
         private void Button_DeleteCache_Click(object sender, RoutedEventArgs e)
@@ -319,22 +359,22 @@ namespace Re_TTSCat.Windows
         {
             try
             {
-                if (System.Windows.MessageBox.Show("您确定要重置所有设置到默认值吗？", "Re: TSCat", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (System.Windows.MessageBox.Show("您确定要重置所有设置到默认值吗？", "Re: TTSCat", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     Vars.CurrentConf = new Conf();
                     Load();
-                    System.Windows.MessageBox.Show("已恢复所有设置至默认值，点击保存或应用以保存到配置文件中。", "Re: TSCat", MessageBoxButton.OK, MessageBoxImage.Information);
+                    System.Windows.MessageBox.Show("已恢复所有设置至默认值，点击保存或应用以保存到配置文件中。", "Re: TTSCat", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("配置重置失败: " + ex.Message, "Re: TSCat", MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("配置重置失败: " + ex.Message, "Re: TTSCat", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
         private void Button_PermissionInfo_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("系统权限信息\n\nRe: TTSCat 使用了以下系统权限:\n\n• 读取/写入您的文件系统\n插件需要该权限以进行配置读取和保存及 TTS 文件生成与读取\n\n• 访问互联网\n用于下载 TTS 文件及检查更新", "Re: TTSCat", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            System.Windows.Forms.MessageBox.Show("系统权限信息\n\nRe: TTSCat 使用了以下系统权限:\n\n• 读取/写入您的文件系统\n插件需要该权限以进行配置读取和保存及 TTS 文件生成与读取\n\n• 访问互联网\n用于下载 TTS 文件及检查更新\n\n• 获取并控制音频设备\n用于播放语音", "Re: TTSCat", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void CheckBox_AutoUpdate_Checked(object sender, RoutedEventArgs e)
@@ -354,6 +394,57 @@ namespace Re_TTSCat.Windows
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             WindowClosed = true;
+        }
+
+        private void CheckBox_ProcessEvents_IsCheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if (!_updateSliderAllowed) return;
+            if (CheckBox_ProcessEvents.IsChecked ?? true)
+            {
+                CheckBox_ClearQueueOnDisconnect.IsEnabled = true;
+            }
+            else
+            {
+                CheckBox_ClearQueueOnDisconnect.IsEnabled = false;
+                CheckBox_ClearQueueOnDisconnect.IsChecked = false;
+            }
+        }
+
+        private void Button_ClearQueue_Click(object sender, RoutedEventArgs e)
+        {
+            TTSPlayer.readerList.Clear();
+        }
+
+        private void Button_ClearCache_Click(object sender, RoutedEventArgs e)
+        {
+            if (TTSPlayer.readerList.Count > 0)
+            {
+                AsyncDialog.Open($"还有 {TTSPlayer.readerList.Count} 个语音在队列中，删除可能导致插件工作异常\n\n请在播放完毕后再试一次", icon: MessageBoxIcon.Warning);
+                return;
+            }
+            try
+            {
+                long totalSize = 0;
+                int count = 0;
+                foreach (FileInfo fileInfo in (new DirectoryInfo(Vars.cacheDir)).GetFiles())
+                {
+                    totalSize += fileInfo.Length;
+                    fileInfo.Delete();
+                    count++;
+                }
+                if (count == 0)
+                {
+                    AsyncDialog.Open("无缓存文件，无需删除", icon: MessageBoxIcon.Information);
+                }
+                else
+                {
+                    AsyncDialog.Open($"成功！\n\n已删除 {count} 个文件，共计释放 {((totalSize > 1048576L) ? $"{Math.Round((double)(totalSize / 1048576), 2)} MiB" : $"{Math.Round((double)(totalSize / 1024), 2)} KiB")} 的存储空间", icon: MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                AsyncDialog.Open($"出错: {ex.ToString()}", icon: MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using BilibiliDM_PluginFramework;
+﻿using BilibiliDM_PluginFramework;
 using Re_TTSCat.Data;
 
 namespace Re_TTSCat
@@ -10,6 +8,11 @@ namespace Re_TTSCat
         public async void OnDisconnected(object sender, DisconnectEvtArgs e)
         {
             if (!IsNAudioReady) return;
+            if (!Vars.CurrentConf.AllowConnectEvents) return;
+            else if (Vars.CurrentConf.ClearQueueAfterDisconnect)
+            {
+                TTSPlayer.readerList.Clear();
+            }
             if (e == null)
             {
                 await TTSPlayer.UnifiedPlay(

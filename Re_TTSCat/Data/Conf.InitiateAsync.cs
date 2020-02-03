@@ -36,9 +36,12 @@ namespace Re_TTSCat.Data
                 await writer.WriteAsync(Properties.Resources.NAudio, 0, Properties.Resources.NAudio.Length);
                 writer.Close();
             }
-            Bridge.Log("正在载入支持库");
-            Assembly.LoadFrom(Vars.audioLibFileName);
-            Main.IsNAudioReady = true;
+            if (!Main.IsNAudioReady)
+            {
+                Bridge.Log("正在载入支持库");
+                Assembly.LoadFrom(Vars.audioLibFileName);
+                Main.IsNAudioReady = true;
+            }
             Bridge.Log("载入完毕");
         }
     }

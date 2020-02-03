@@ -60,6 +60,7 @@ namespace Re_TTSCat
                 loadWindow.ProgressBar.Value = 100; Data.Conf.Delay(10);
                 loadWindow.Close();
                 Log("启动成功");
+                IsEnabled = true;
                 base.Start();
             }
             catch (Exception ex)
