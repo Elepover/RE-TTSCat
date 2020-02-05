@@ -8,6 +8,7 @@ namespace Re_TTSCat
         public async void OnDisconnected(object sender, DisconnectEvtArgs e)
         {
             if (!IsNAudioReady) return;
+            if (!IsEnabled) return;
             if (!Vars.CurrentConf.AllowConnectEvents) return;
             else if (Vars.CurrentConf.ClearQueueAfterDisconnect)
             {

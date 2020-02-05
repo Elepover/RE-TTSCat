@@ -1,4 +1,5 @@
 ﻿using BilibiliDM_PluginFramework;
+using System;
 
 namespace Re_TTSCat
 {
@@ -17,6 +18,7 @@ namespace Re_TTSCat
             Disconnected += OnDisconnected;
             ReceivedRoomCount += OnReceivedRoomCount;
             ReceivedDanmaku += OnReceivedDanmaku;
+            AppDomain.CurrentDomain.UnhandledException += GlobalErrorHandler;
         }
     }
 }

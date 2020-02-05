@@ -114,17 +114,14 @@ Retry:
             try
             {
                 var fileName = Path.Combine(Vars.cacheDir, Conf.GetRandomFileName() + "GOOG.mp3");
-                Bridge.Log("(E2) 正在下载 TTS, 文件名: " + fileName);
+                if (Vars.CurrentConf.DebugMode) Bridge.Log("(E2) 正在下载 TTS, 文件名: " + fileName);
                 var instance = new GoogleTTS(content, language);
                 instance.WriteFile(fileName);
                 return fileName;
             }
             catch (Exception ex)
             {
-                if (Vars.CurrentConf.DebugMode)
-                {
-                    Bridge.Log("(E2) TTS 下载失败: " + ex.Message);
-                }
+                if (Vars.CurrentConf.DebugMode) Bridge.Log("(E2) TTS 下载失败: " + ex.Message);
                 errorCount += 1;
                 if (errorCount <= Vars.CurrentConf.DownloadFailRetryCount)
                 {

@@ -1,8 +1,6 @@
 ﻿using BilibiliDM_PluginFramework;
 using System;
-using System.IO;
 using System.Threading;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace Re_TTSCat
@@ -70,8 +68,8 @@ namespace Re_TTSCat
                     loadWindow.Close();
                 }
                 catch { }
-                Log("启动过程中出错: " + ex.ToString());
-                Windows.AsyncDialog.Open("启动失败，更多信息请查看日志。\n\n如您在后期继续使用时遇到问题，请尝试重新启动弹幕姬。", "Re: TTSCat", MessageBoxIcon.Error);
+                Log($"启动过程中出错: {ex.ToString()}");
+                Windows.AsyncDialog.Open("启动失败，更多信息请查看日志。\n请在反馈错误时附加日志信息。\n\n如您在后期继续使用时遇到问题，请尝试重新启动弹幕姬。", "Re: TTSCat", MessageBoxIcon.Error);
                 Log("启动失败");
             }
         }

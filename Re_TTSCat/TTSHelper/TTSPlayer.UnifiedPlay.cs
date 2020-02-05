@@ -86,6 +86,7 @@ namespace Re_TTSCat
                         Bridge.Log("音量设置为: " + waveOut.Volume);
                     }
                     waveOut.Play();
+                    Vars.TotalPlayed++;
                     while (waveOut.PlaybackState != PlaybackState.Stopped) { Thread.Sleep(50); }
                     reader.Dispose();
                     waveOut.Dispose();
