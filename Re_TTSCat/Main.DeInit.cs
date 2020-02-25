@@ -6,7 +6,6 @@ namespace Re_TTSCat
     {
         public override void DeInit()
         {
-            Stop();
             base.DeInit();
         }
     }

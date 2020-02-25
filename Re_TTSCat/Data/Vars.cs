@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Re_TTSCat.Data
 {
-    public class Vars
+    public sealed class Vars
     {
         public static readonly string apiBaidu = "https://fanyi.baidu.com/gettts?lan=zh&text=$TTSTEXT&spd=5&source=web";
         public static readonly string apiBaiduCantonese = "https://fanyi.baidu.com/gettts?lan=cte&text=$TTSTEXT&spd=5&source=web";
@@ -16,7 +16,7 @@ namespace Re_TTSCat.Data
         public static readonly string cacheDir = Path.Combine(confDir, "Cache");
         public static readonly string confFileName = Path.Combine(confDir, "Config.json");
         public static readonly string audioLibFileName = Path.Combine(confDir, "NAudio.dll");
-        public static readonly Version currentVersion = new Version("3.1.13.309");
+        public static readonly Version currentVersion = new Version("3.1.14.311");
 
         public static Conf CurrentConf = new Conf();
         public static Thread MainBridge;

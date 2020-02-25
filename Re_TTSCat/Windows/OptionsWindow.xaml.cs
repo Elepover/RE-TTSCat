@@ -46,7 +46,7 @@ namespace Re_TTSCat.Windows
                     req = WebRequest.CreateHttp("https://fanyi.baidu.com/");
                     req.Timeout = 5000;
                     sw.Start();
-                    req.GetResponse();
+                    using (var res = req.GetResponse()) { };
                     sw.Stop();
                     result += sw.ElapsedMilliseconds + "ms";
                     frame.Continue = false;
