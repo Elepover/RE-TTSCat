@@ -26,6 +26,7 @@ namespace Re_TTSCat.Windows
 
         private Thread StatsUpdater;
         private bool WindowClosed = true;
+        public bool WindowDisposed = false;
 
         private void Button_CheckConnectivity_Click(object sender, RoutedEventArgs e)
         {
@@ -394,6 +395,7 @@ namespace Re_TTSCat.Windows
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             WindowClosed = true;
+            WindowDisposed = true;
         }
 
         private void CheckBox_ProcessEvents_IsCheckedChanged(object sender, RoutedEventArgs e)

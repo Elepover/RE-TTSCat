@@ -1,4 +1,5 @@
 ﻿using BilibiliDM_PluginFramework;
+using Re_TTSCat.Data;
 
 namespace Re_TTSCat
 {
@@ -6,6 +7,7 @@ namespace Re_TTSCat
     {
         public override void DeInit()
         {
+            if ((Vars.ManagementWindow != null) && (!Vars.ManagementWindow.WindowDisposed)) Vars.ManagementWindow.Dispatcher.Invoke(() => { Vars.ManagementWindow.Close(); });
             base.DeInit();
         }
     }
