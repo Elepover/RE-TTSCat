@@ -8,10 +8,7 @@ namespace Re_TTSCat
         public void OnReceivedRoomCount(object sender, ReceivedRoomCountArgs e)
         {
             Vars.RoomCount = e.UserCount;
-            if (Vars.CurrentConf.DebugMode)
-            {
-                Bridge.Log("OnReceivedRoomCount: " + e.UserCount);
-            }
+            Bridge.ALog("OnReceivedRoomCount: " + e.UserCount);
         }
     }
 }

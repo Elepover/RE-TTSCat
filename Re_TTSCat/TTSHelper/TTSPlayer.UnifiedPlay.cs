@@ -16,23 +16,14 @@ namespace Re_TTSCat
         {
             if (content.Replace(" ", "") == "")
             {
-                if (Vars.CurrentConf.DebugMode)
-                {
-                    Bridge.Log("放弃: 内容为空");
-                }
+                Bridge.ALog("放弃: 内容为空");
                 return;
             }
-            if (Vars.CurrentConf.DebugMode)
-            {
-                Bridge.Log("尝试朗读: " + content);
-            }
+            Bridge.ALog("尝试朗读: " + content);
             if (!Conf.GetRandomBool(Vars.CurrentConf.ReadPossibility))
             {
-                if (Vars.CurrentConf.DebugMode)
-                {
-                    Bridge.Log("放弃: 已随机丢弃");
-                    return;
-                }
+                Bridge.ALog("放弃: 已随机丢弃");
+                return;
             }
             string fileName;
             switch (Vars.CurrentConf.Engine)
@@ -58,33 +49,24 @@ namespace Re_TTSCat
             }
             if (fileName == null)
             {
-                Bridge.Log("下载失败，丢弃");
+                Bridge.ALog("下载失败，丢弃");
                 return;
             }
             if (Vars.CurrentConf.ReadInQueue)
             {
-                if (Vars.CurrentConf.DebugMode)
-                {
-                    Bridge.Log("正在添加下列文件到播放列表: " + fileName);
-                }
+                Bridge.ALog("正在添加下列文件到播放列表: " + fileName);
                 readerList.Add(new AudioFileReader(fileName));
             }
             else
             {
-                if (Vars.CurrentConf.DebugMode)
-                {
-                    Bridge.Log("正在直接播放: " + fileName);
-                }
+                Bridge.ALog("正在直接播放: " + fileName);
                 var thread = new Thread(() =>
                 {
                     var waveOut = new WaveOutEvent();
                     var reader = new AudioFileReader(fileName);
                     waveOut.Init(reader);
                     waveOut.Volume = ((float)Vars.CurrentConf.TTSVolume) / 100;
-                    if (Vars.CurrentConf.DebugMode)
-                    {
-                        Bridge.Log("音量设置为: " + waveOut.Volume);
-                    }
+                    Bridge.ALog("音量设置为: " + waveOut.Volume);
                     waveOut.Play();
                     Vars.TotalPlayed++;
                     while (waveOut.PlaybackState != PlaybackState.Stopped) { Thread.Sleep(50); }

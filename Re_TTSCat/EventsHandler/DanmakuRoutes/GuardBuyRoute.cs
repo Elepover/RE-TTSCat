@@ -15,7 +15,7 @@ namespace Re_TTSCat
                 {
                     if (Vars.CurrentConf.DebugMode)
                     {
-                        Bridge.Log("忽略：用户已命中 UID 规则");
+                        Bridge.ALog("忽略：用户已命中 UID 规则");
                     }
                     return;
                 }
@@ -26,7 +26,7 @@ namespace Re_TTSCat
                 {
                     if (Vars.CurrentConf.DebugMode)
                     {
-                        Bridge.Log("忽略：用户已命中用户名规则");
+                        Bridge.ALog("忽略：用户已命中用户名规则");
                     }
                     return;
                 }
@@ -34,7 +34,7 @@ namespace Re_TTSCat
             
             if (Vars.CurrentConf.DebugMode)
             {
-                Bridge.Log("规则检查通过，准备朗读");
+                Bridge.ALog("规则检查通过，准备朗读");
             }
             await TTSPlayer.UnifiedPlay(Vars.CurrentConf.OnGuardBuy
                 .Replace("$COUNT", e.Danmaku.GiftCount.ToString())

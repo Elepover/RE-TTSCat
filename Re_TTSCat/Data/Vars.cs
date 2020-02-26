@@ -16,7 +16,7 @@ namespace Re_TTSCat.Data
         public static readonly string cacheDir = Path.Combine(confDir, "Cache");
         public static readonly string confFileName = Path.Combine(confDir, "Config.json");
         public static readonly string audioLibFileName = Path.Combine(confDir, "NAudio.dll");
-        public static readonly Version currentVersion = new Version("3.1.14.311");
+        public static readonly Version currentVersion = new Version("3.1.15.313");
 
         public static Conf CurrentConf = new Conf();
         public static Thread MainBridge;

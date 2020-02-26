@@ -18,7 +18,7 @@ namespace Re_TTSCat
 
             var frame = new DispatcherFrame();
             var thread = new Thread(() => {
-                Log("正在等待播放器停止");
+                ALog("正在等待播放器停止");
                 Data.Vars.CallPlayerStop = true;
                 try
                 {
@@ -27,7 +27,7 @@ namespace Re_TTSCat
                 catch
                 {
                 }
-                Log("正在等待数据桥停止");
+                ALog("正在等待数据桥停止");
                 Data.Vars.CallBridgeStop = true;
                 try
                 {

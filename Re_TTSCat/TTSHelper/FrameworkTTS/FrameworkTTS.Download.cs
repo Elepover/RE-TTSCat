@@ -14,7 +14,7 @@ namespace Re_TTSCat
             var thread = new Thread(() => {
                 var synth = new SpeechSynthesizer() { Rate = Data.Vars.CurrentConf.ReadSpeed } ;
                 synth.SetOutputToWaveFile(fileName);
-                if (Data.Vars.CurrentConf.DebugMode) Data.Bridge.Log("(E1) 正在生成 TTS, 文件名: " + fileName);
+                Data.Bridge.ALog("(E1) 正在生成 TTS, 文件名: " + fileName);
                 synth.Speak(content);
                 synth.Dispose();
                 frame.Continue = false;

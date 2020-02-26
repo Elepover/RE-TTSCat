@@ -62,6 +62,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Bridge.ALog.cs" />
     <Compile Include="Data\Conf.CheckKeywordEligibility.cs" />
     <Compile Include="Data\Conf.CheckGiftEligibility.cs" />
     <Compile Include="Data\Conf.GetRandomBool.cs" />
@@ -83,7 +84,9 @@
     <Compile Include="KruinUpdates\Update.cs" />
     <Compile Include="KruinUpdates\CheckIfLatest.cs" />
     <Compile Include="KruinUpdates\Update.HttpGet.cs" />
+    <Compile Include="Main.ALog.cs" />
     <Compile Include="Main.GlobalErrorHandler.cs" />
+    <Compile Include="Main.Inited.cs" />
     <Compile Include="Main.RunBridge.cs" />
     <Compile Include="Data\Bridge.cs" />
     <Compile Include="Data\Bridge.Log.cs" />

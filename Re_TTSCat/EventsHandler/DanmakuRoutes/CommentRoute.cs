@@ -15,7 +15,7 @@ namespace Re_TTSCat
                 {
                     if (Vars.CurrentConf.DebugMode)
                     {
-                        Bridge.Log("忽略：用户已命中 UID 规则");
+                        Bridge.ALog("忽略：用户已命中 UID 规则");
                     }
                     return;
                 }
@@ -26,7 +26,7 @@ namespace Re_TTSCat
                 {
                     if (Vars.CurrentConf.DebugMode)
                     {
-                        Bridge.Log("忽略：用户已命中用户名规则");
+                        Bridge.ALog("忽略：用户已命中用户名规则");
                     }
                     return;
                 }
@@ -36,7 +36,7 @@ namespace Re_TTSCat
             {
                 if (Vars.CurrentConf.DebugMode)
                 {
-                    Bridge.Log("忽略：弹幕已命中屏蔽规则");
+                    Bridge.ALog("忽略：弹幕已命中屏蔽规则");
                 }
                 return;
             }
@@ -45,13 +45,13 @@ namespace Re_TTSCat
             {
                 if (Vars.CurrentConf.DebugMode)
                 {
-                    Bridge.Log("忽略: 弹幕字数 (" + e.Danmaku.CommentText.Length + ") 不符合要求");
+                    Bridge.ALog("忽略: 弹幕字数 (" + e.Danmaku.CommentText.Length + ") 不符合要求");
                 }
                 return;
             }
             if (Vars.CurrentConf.DebugMode)
             {
-                Bridge.Log("规则检查通过，准备朗读");
+                Bridge.ALog("规则检查通过，准备朗读");
             }
             await TTSPlayer.UnifiedPlay(Vars.CurrentConf.OnDanmaku
                 .Replace("$USER", e.Danmaku.UserName)

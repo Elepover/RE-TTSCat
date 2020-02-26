@@ -8,15 +8,12 @@ namespace Re_TTSCat
     {
         public static void PlayerThread()
         {
-            Bridge.Log("播放器已启动");
+            Bridge.ALog("播放器已启动");
             while (!Vars.CallPlayerStop)
             {
                 if (readerList.Count != 0)
                 {
-                    if (Vars.CurrentConf.DebugMode)
-                    {
-                        Bridge.Log("启动播放，剩余数目:" + readerList.Count);
-                    }
+                    Bridge.ALog("启动播放，剩余数目:" + readerList.Count);
                     var fileName = readerList[0].FileName;
                     Play(readerList[0]);
                     Vars.TotalPlayed++;
@@ -28,7 +25,7 @@ namespace Re_TTSCat
                 }
                 Thread.Sleep(100);
             }
-            Bridge.Log("播放器已停止");
+            Bridge.ALog("播放器已停止");
             Vars.CallPlayerStop = false;
         }
     }

@@ -15,7 +15,7 @@ Retry:
             try
             {
                 var fileName = Path.Combine(Vars.cacheDir, Conf.GetRandomFileName() + "BIDU.mp3");
-                if (Vars.CurrentConf.DebugMode) Bridge.Log("(E0) 正在下载 TTS, 文件名: " + fileName);
+                Bridge.ALog("(E0) 正在下载 TTS, 文件名: " + fileName);
                 var downloader = new WebClient();
                 downloader.Headers.Add(HttpRequestHeader.AcceptEncoding, "identity;q=1, *;q=0");
                 downloader.Headers.Add(HttpRequestHeader.Referer, "https://fanyi.baidu.com/");
@@ -35,10 +35,7 @@ Retry:
             }
             catch (Exception ex)
             {
-                if (Vars.CurrentConf.DebugMode)
-                {
-                    Bridge.Log("(E0) TTS 下载失败: " + ex.Message);
-                }
+                Bridge.ALog("(E0) TTS 下载失败: " + ex.Message);
                 errorCount += 1;
                 if (errorCount <= Vars.CurrentConf.DownloadFailRetryCount)
                 {

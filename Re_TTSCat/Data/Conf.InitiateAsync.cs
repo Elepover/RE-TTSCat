@@ -8,7 +8,7 @@ namespace Re_TTSCat.Data
     {
         public static async Task InitiateAsync()
         {
-            Bridge.Log("正在载入配置");
+            Bridge.ALog("正在载入配置");
             // detect if file exists
             if (!Directory.Exists(Vars.confDir))
             {
@@ -28,21 +28,21 @@ namespace Re_TTSCat.Data
                 Bridge.Log("创建成功");
             }
             await ReadAsync();
-            Bridge.Log("正在检查文件");
+            Bridge.ALog("正在检查文件");
             if (!File.Exists(Vars.audioLibFileName))
             {
-                Bridge.Log("尝试释放 NAudio.dll 支持库");
+                Bridge.ALog("尝试释放音频支持库");
                 var writer = new FileStream(Vars.audioLibFileName, FileMode.OpenOrCreate);
                 await writer.WriteAsync(Properties.Resources.NAudio, 0, Properties.Resources.NAudio.Length);
                 writer.Close();
             }
             if (!Main.IsNAudioReady)
             {
-                Bridge.Log("正在载入支持库");
+                Bridge.ALog("正在载入支持库");
                 Assembly.LoadFrom(Vars.audioLibFileName);
                 Main.IsNAudioReady = true;
             }
-            Bridge.Log("载入完毕");
+            Bridge.ALog("载入完毕");
         }
     }
 }

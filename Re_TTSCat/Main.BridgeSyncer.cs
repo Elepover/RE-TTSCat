@@ -6,7 +6,7 @@ namespace Re_TTSCat
     {
         public void BridgeSyncer()
         {
-            Log("数据桥已启动");
+            ALog("数据桥已启动");
             while (true)
             {
                 while (Data.Bridge.PendingLogs.Count == 0)
@@ -22,7 +22,7 @@ namespace Re_TTSCat
             }
 Exit:
             Data.Vars.CallBridgeStop = false;
-            Log("数据桥已停止");
+            ALog("数据桥已停止");
         }
     }
 }

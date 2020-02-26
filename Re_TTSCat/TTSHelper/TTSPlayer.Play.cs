@@ -14,10 +14,7 @@ namespace Re_TTSCat
                 var waveOut = new WaveOutEvent();
                 waveOut.Init(reader);
                 waveOut.Volume = ((float)Vars.CurrentConf.TTSVolume) / 100;
-                if (Vars.CurrentConf.DebugMode)
-                {
-                    Bridge.Log("音量设置为: " + waveOut.Volume);
-                }
+                Bridge.ALog("音量设置为: " + waveOut.Volume);
                 waveOut.Play();
                 if (!wait)
                 {
