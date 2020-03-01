@@ -16,6 +16,7 @@ namespace Re_TTSCat.Windows
             InitializeComponent();
         }
 
+        public bool IsOpen = false;
         private string updateDownloadURL = "undefined";
 
         private async Task CheckUpdate()
@@ -81,6 +82,16 @@ namespace Re_TTSCat.Windows
             _shown = true;
 
             await CheckUpdate();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsOpen = true;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            IsOpen = false;
         }
     }
 }

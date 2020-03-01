@@ -27,6 +27,7 @@ namespace Re_TTSCat.Windows
         private Thread StatsUpdater;
         private bool WindowClosed = true;
         public bool WindowDisposed = false;
+        private UpdateWindow updateWindow;
 
         private void Button_CheckConnectivity_Click(object sender, RoutedEventArgs e)
         {
@@ -225,7 +226,7 @@ namespace Re_TTSCat.Windows
 
         private void Button_CheckUpd_Click(object sender, RoutedEventArgs e)
         {
-            var updateWindow = new UpdateWindow();
+            updateWindow = new UpdateWindow();
             updateWindow.ShowDialog();
         }
 
@@ -394,6 +395,8 @@ namespace Re_TTSCat.Windows
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            // close all subwindows
+            if ((updateWindow != null) && (updateWindow.IsOpen)) updateWindow.Close();
             WindowClosed = true;
             WindowDisposed = true;
         }

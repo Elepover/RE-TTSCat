@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d"
-        Title="插件更新" Height="300" Width="600" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="插件更新" Height="300" Width="600" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="插件更新" VerticalAlignment="Top" FontSize="17"/>
         <TextBlock x:Name="TextBlock_Status" HorizontalAlignment="Left" Margin="10,0,0,10" TextWrapping="Wrap" Text="就绪" VerticalAlignment="Bottom" Width="574" FontSize="11.5"/>
