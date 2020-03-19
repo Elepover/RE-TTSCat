@@ -7,7 +7,7 @@
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理" Height="450" Width="800" Closing="Window_Closing">
     <Grid>
-        <TabControl Margin="0,0,0,60">
+        <TabControl Margin="0,0,-0.4,60">
             <TabItem Header="一般选项">
                 <Grid>
                     <CheckBox x:Name="CheckBox_DebugMode" Content="启用调试模式" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃"/>
@@ -25,7 +25,7 @@
                             <TextBlock x:Name="TextBlock_CacheSize" HorizontalAlignment="Left" Margin="10,77,0,0" FontSize="25" TextWrapping="Wrap" Text="正在计算" VerticalAlignment="Top"/>
                             <TextBlock HorizontalAlignment="Left" Margin="115,10,0,0" TextWrapping="Wrap" Text="已播放" VerticalAlignment="Top"/>
                             <TextBlock x:Name="TextBlock_TotalPlayed" HorizontalAlignment="Left" Margin="115,25,0,0" FontSize="25" TextWrapping="Wrap" Text="正在计算" VerticalAlignment="Top"/>
-                            <CheckBox x:Name="CheckBox_AutoUpdate" Margin="0,10,10,0" Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Content="自动更新" Checked="CheckBox_AutoUpdate_Checked" Unchecked="CheckBox_AutoUpdate_Unchecked"/>
+                            <CheckBox x:Name="CheckBox_AutoUpdate" Margin="0,10,10,0" Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Content="自动更新" ToolTip="自动更新统计数据" Checked="CheckBox_AutoUpdate_Checked" Unchecked="CheckBox_AutoUpdate_Unchecked"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -79,7 +79,12 @@
                     <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="21"/>
                     <TextBlock HorizontalAlignment="Left" Margin="167,10,0,0" TextWrapping="Wrap" Text="自定义 TTS 引擎 URL" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_CustomEngineURL" TextWrapping="Wrap" Text="https://tts.example.com/?text=$TTSTEXT" Margin="167,25,261,0" ToolTip="使用 $TTSTEXT 来代替需要读出的文本" Height="59" VerticalAlignment="Top"/>
-                    <CheckBox x:Name="CheckBox_AllowDownloadMessage" IsChecked="True" Content="允许下载消息" HorizontalAlignment="Left" Margin="167,89,0,0" VerticalAlignment="Top" ToolTip="允许插件下载管理面板底部消息"/>
+                    <CheckBox x:Name="CheckBox_EnableHTTPAuth" IsChecked="False" Content="启用 HTTP 身份验证" HorizontalAlignment="Left" Margin="167,89,0,0" VerticalAlignment="Top" ToolTip="如您的自定义 TTS 引擎需要 HTTP 身份验证，请勾选" Checked="CheckBox_EnableHTTPAuth_Checked" Unchecked="CheckBox_EnableHTTPAuth_Unchecked"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="167,108,0,0" TextWrapping="Wrap" Text="用户名" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_HTTPAuthUsername" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="167,123,0,0" Width="360" />
+                    <TextBlock HorizontalAlignment="Left" Margin="167,145,0,0" TextWrapping="Wrap" Text="密码" VerticalAlignment="Top"/>
+                    <PasswordBox x:Name="TextBox_HTTPAuthPassword" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="167,160,0,0" Width="360" />
+                    <CheckBox x:Name="CheckBox_AllowDownloadMessage" IsChecked="True" Content="允许下载消息" HorizontalAlignment="Left" Margin="167,182,0,0" VerticalAlignment="Top" ToolTip="允许插件下载管理面板底部消息"/>
                     <Button x:Name="Button_ClearCache" Content="清理缓存" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" Click="Button_ClearCache_Click"/>
                     <Button x:Name="Button_Reset" Content="重置配置" Margin="0,32,10,0" Height="19" VerticalAlignment="Top" ToolTip="将所有配置还原为默认值" HorizontalAlignment="Right" Width="75" Click="Button_Reset_Click"/>
                 </Grid>
@@ -147,12 +152,12 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="Button_Donate" Content="捐赠" HorizontalAlignment="Left" Margin="10,0,0,34" Width="75" Height="19" VerticalAlignment="Bottom" ToolTip="支付一笔小小的费用，帮助我更好地开发插件" Click="Button_Donate_Click"/>
-        <Button x:Name="Button_CheckUpd" Content="检查更新" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="19" VerticalAlignment="Bottom" ToolTip="检查插件更新" Click="Button_CheckUpd_Click"/>
-        <Button x:Name="Button_Reload" Content="重载" Margin="0,0,90,34" HorizontalAlignment="Right" Width="75" Height="19" VerticalAlignment="Bottom" ToolTip="从文件中重新读取配置文件，已修改的配置将被覆盖" Click="Button_Reload_Click"/>
-        <Button x:Name="Button_Apply" Content="应用" Margin="0,0,10,34" HorizontalAlignment="Right" Width="75" Height="19" VerticalAlignment="Bottom" ToolTip="将修改的配置保存到文件中" Click="Button_Apply_Click"/>
-        <Button x:Name="Button_OK" Content="确定" IsDefault="True" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Height="19" VerticalAlignment="Bottom" ToolTip="保存配置到文件中，并关闭设置窗口" Click="Button_OK_Click"/>
-        <Button x:Name="Button_Cancel" Content="取消" IsCancel="True" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="19" VerticalAlignment="Bottom" ToolTip="放弃所有已修改的设置并关闭窗口" Click="Button_Cancel_Click"/>
-        <TextBlock x:Name="TextBlock_Thanks" Margin="90,0,169.6,10" TextWrapping="Wrap" Text="感谢使用本插件" Height="43" TextAlignment="Center" ToolTip="Copyright (C) 2017 - 2020 Elepover.&#xA;This is an open-source(MIT) software." VerticalAlignment="Bottom"/>
+        <Button x:Name="Button_Donate" Content="捐赠" HorizontalAlignment="Left" Margin="10,0,0,35" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="支付一笔小小的费用，帮助我更好地开发插件" Click="Button_Donate_Click"/>
+        <Button x:Name="Button_CheckUpd" Content="检查更新" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="检查插件更新" Click="Button_CheckUpd_Click"/>
+        <Button x:Name="Button_Reload" Content="重载" Margin="0,0,90,35" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="从文件中重新读取配置文件，已修改的配置将被覆盖" Click="Button_Reload_Click"/>
+        <Button x:Name="Button_Apply" Content="应用" Margin="0,0,10,35" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="将修改的配置保存到文件中" Click="Button_Apply_Click"/>
+        <Button x:Name="Button_OK" Content="确定" IsDefault="True" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="保存配置到文件中，并关闭设置窗口" Click="Button_OK_Click"/>
+        <Button x:Name="Button_Cancel" Content="取消" IsCancel="True" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="放弃所有已修改的设置并关闭窗口" Click="Button_Cancel_Click"/>
+        <TextBlock x:Name="TextBlock_Thanks" Margin="90,0,169.6,10" TextWrapping="Wrap" Text="感谢使用本插件" Height="45" TextAlignment="Center" ToolTip="Copyright (C) 2017 - 2020 Elepover.&#xA;This is an open-source(MIT) software." VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

@@ -4,7 +4,7 @@
     {
         public static void ALog(string content)
         {
-            if (Vars.CurrentConf.DebugMode) PendingLogs.Add(content);
+            MainInstance.ALog(content);
         }
     }
 }

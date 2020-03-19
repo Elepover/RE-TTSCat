@@ -46,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Speech" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -62,6 +63,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\AssemblyComparer.cs" />
     <Compile Include="Data\Bridge.ALog.cs" />
     <Compile Include="Data\Conf.CheckKeywordEligibility.cs" />
     <Compile Include="Data\Conf.CheckGiftEligibility.cs" />
@@ -87,7 +89,6 @@
     <Compile Include="Main.ALog.cs" />
     <Compile Include="Main.GlobalErrorHandler.cs" />
     <Compile Include="Main.Inited.cs" />
-    <Compile Include="Main.RunBridge.cs" />
     <Compile Include="Data\Bridge.cs" />
     <Compile Include="Data\Bridge.Log.cs" />
     <Compile Include="Data\Conf.cs" />
@@ -96,7 +97,6 @@
     <Compile Include="Data\Conf.ReadAsync.cs" />
     <Compile Include="Data\Conf.SaveAsync.cs" />
     <Compile Include="Data\Vars.cs" />
-    <Compile Include="Main.BridgeSyncer.cs" />
     <Compile Include="Main.New.cs" />
     <Compile Include="Main.DeInit.cs" />
     <Compile Include="Main.Admin.cs" />

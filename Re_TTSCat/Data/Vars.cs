@@ -17,14 +17,13 @@ namespace Re_TTSCat.Data
         public static readonly string cacheDir = Path.Combine(confDir, "Cache");
         public static readonly string confFileName = Path.Combine(confDir, "Config.json");
         public static readonly string audioLibFileName = Path.Combine(confDir, "NAudio.dll");
-        public static readonly Version currentVersion = new Version("3.1.16.320");
+        public static readonly Version currentVersion = new Version("3.1.20.370");
+        public static readonly string mgmtWindowTitle = "Re: TTSCat - 插件管理";
 
         public static Conf CurrentConf = new Conf();
-        public static Thread MainBridge;
         public static Thread Player;
         public static uint RoomCount;
         public static uint TotalPlayed = 0;
-        public static bool CallBridgeStop = false;
         public static bool CallPlayerStop = false;
         public static OptionsWindow ManagementWindow;
     }

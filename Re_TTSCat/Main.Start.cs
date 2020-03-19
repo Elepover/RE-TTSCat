@@ -18,11 +18,8 @@ namespace Re_TTSCat
             try
             {
                 loadWindow.Show();
-                loadWindow.ProgressBar.Value = 20; Data.Conf.Delay(10);
-                ALog("正在启动数据桥");
-                RunBridge();
                 loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(10);
-                ALog("正在初始化配置");
+                ALog("正在检查配置");
                 await Data.Conf.InitiateAsync();
                 loadWindow.ProgressBar.Value = 50; Data.Conf.Delay(10);
                 ALog("配置初始化成功");

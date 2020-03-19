@@ -111,6 +111,18 @@
         /// 在断开连接时清空待朗读 TTS
         /// </summary>
         public bool ClearQueueAfterDisconnect { get; set; }
+        /// <summary>
+        /// 是否启用 HTTP 身份验证
+        /// </summary>
+        public bool HttpAuth { get; set; }
+        /// <summary>
+        /// HTTP 身份验证用户名
+        /// </summary>
+        public string HttpAuthUsername { get; set; }
+        /// <summary>
+        /// HTTP 身份验证密码
+        /// </summary>
+        public string HttpAuthPassword { get; set; }
 
         /// <summary>
         /// 在连接成功后读出的内容，留空以禁用

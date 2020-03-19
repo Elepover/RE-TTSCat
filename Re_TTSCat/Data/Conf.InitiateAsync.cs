@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Re_TTSCat.Data
 {
@@ -29,18 +31,26 @@ namespace Re_TTSCat.Data
             }
             await ReadAsync();
             Bridge.ALog("正在检查文件");
-            if (!File.Exists(Vars.audioLibFileName))
+            try
             {
-                Bridge.ALog("尝试释放音频支持库");
-                var writer = new FileStream(Vars.audioLibFileName, FileMode.OpenOrCreate);
-                await writer.WriteAsync(Properties.Resources.NAudio, 0, Properties.Resources.NAudio.Length);
-                writer.Close();
+                if (!File.Exists(Vars.audioLibFileName))
+                {
+                    Bridge.ALog("尝试释放音频支持库");
+                    var writer = new FileStream(Vars.audioLibFileName, FileMode.OpenOrCreate);
+                    await writer.WriteAsync(Properties.Resources.NAudio, 0, Properties.Resources.NAudio.Length);
+                    writer.Close();
+                }
+                if (!Main.IsNAudioReady)
+                {
+                    Bridge.ALog("正在载入支持库");
+                    Assembly.LoadFrom(Vars.audioLibFileName);
+                    Main.IsNAudioReady = true;
+                }
             }
-            if (!Main.IsNAudioReady)
+            catch (Exception ex)
             {
-                Bridge.ALog("正在载入支持库");
-                Assembly.LoadFrom(Vars.audioLibFileName);
-                Main.IsNAudioReady = true;
+                MessageBox.Show($"关键错误！\n\n无法正常处理支持库: {ex.Message}\n\n请尝试重新启动弹幕姬，重置配置文件或检查文件读写权限", "关键错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw ex;
             }
             Bridge.ALog("载入完毕");
         }

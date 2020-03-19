@@ -18,6 +18,7 @@ Retry:
                 Bridge.ALog("(E5) 正在下载 TTS, 文件名: " + fileName);
                 var downloader = new WebClient();
                 downloader.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
+                if (Vars.CurrentConf.HttpAuth) downloader.Credentials = new NetworkCredential(Vars.CurrentConf.HttpAuthUsername, Vars.CurrentConf.HttpAuthPassword);
                 await downloader.DownloadFileTaskAsync(Vars.CurrentConf.CustomEngineURL.Replace("$TTSTEXT", content), fileName);
                 downloader.Dispose();
                 return fileName;

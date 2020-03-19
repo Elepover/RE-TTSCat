@@ -20,22 +20,7 @@ namespace Re_TTSCat
             var thread = new Thread(() => {
                 ALog("正在等待播放器停止");
                 Data.Vars.CallPlayerStop = true;
-                try
-                {
-                    while (Data.Vars.Player.IsAlive) { }
-                }
-                catch
-                {
-                }
-                ALog("正在等待数据桥停止");
-                Data.Vars.CallBridgeStop = true;
-                try
-                {
-                    while (Data.Vars.MainBridge.IsAlive) { }
-                }
-                catch
-                {
-                }
+                while (Data.Vars.Player.IsAlive) Thread.Sleep(100);
                 frame.Continue = false;
             });
             thread.Start();

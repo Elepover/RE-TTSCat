@@ -11,6 +11,9 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using NAudio.Wave;
+using System.Collections.Generic;
+using System.Linq;
+using System.Management;
 
 namespace Re_TTSCat.Windows
 {
@@ -33,30 +36,74 @@ namespace Re_TTSCat.Windows
         {
             try
             {
-                var frame = new DispatcherFrame();
                 var thread = new Thread(() =>
                 {
-                    var result = "到 Google CN: ";
+                    var window = new LoadingWindowLight()
+                    {
+                        Left = System.Windows.Forms.Cursor.Position.X,
+                        Top = System.Windows.Forms.Cursor.Position.Y
+                    };
+                    window.Show();
+                    var result = new StringBuilder();
+                    var listPing = new List<List<long>>();
+                    var listAddresses = new Dictionary<string, string>
+                    {
+                        { "Google", "https://translate.google.cn/" },
+                        { "百度", "https://fanyi.baidu.com/" },
+                        { "有道", "http://tts.youdao.com/" }
+                    };
                     var sw = new Stopwatch();
-                    var req = WebRequest.CreateHttp("https://translate.google.cn/");
-                    req.Timeout = 5000;
-                    sw.Start();
-                    req.GetResponse();
-                    sw.Stop();
-                    result += sw.ElapsedMilliseconds + "ms\n到百度: ";
-                    sw.Reset();
-                    req = WebRequest.CreateHttp("https://fanyi.baidu.com/");
-                    req.Timeout = 5000;
-                    sw.Start();
-                    using (var res = req.GetResponse()) { };
-                    sw.Stop();
-                    result += sw.ElapsedMilliseconds + "ms";
-                    frame.Continue = false;
-                    AsyncDialog.Open(result, "Re: TTSCat");
+                    int i = 0;
+                    foreach (var item in listAddresses)
+                    {
+                        window.ProgressBar.Value = (double)(i * 100) / listAddresses.Count;
+                        var list = new List<long>();
+                        for (int j = 0; j < 10; j++)
+                        {
+                            var req = WebRequest.CreateHttp(item.Value);
+                            req.Timeout = 5000;
+                            var frame = new DispatcherFrame();
+                            var getResWorker = new Thread(() =>
+                            {
+                                try
+                                {
+                                    using (var res = req.GetResponse()) { }
+                                }
+                                catch { }
+                                frame.Continue = false;
+                            });
+                            sw.Restart();
+                            getResWorker.Start();
+                            Dispatcher.PushFrame(frame);
+                            sw.Stop();
+                            list.Add(sw.ElapsedMilliseconds);
+                            window.ProgressBar.Value += (double)(100 / listAddresses.Count) / 10;
+                        }
+                        listPing.Add(list);
+                        i++;
+                    }
+                    window.ProgressBar.IsIndeterminate = true;
+                    // process data
+                    _ = result.Append($"服务器 / 延迟(ms) / 平均值 / 最小 / 最大 / 标准差{Environment.NewLine}");
+                    i = 0;
+                    foreach (var item in listAddresses)
+                    {
+                        _ = result.Append($"{item.Key}");
+                        for (int j = 0; j < listPing[i].Count; j++)
+                        {
+                            result.Append($" / {listPing[i][j]}");
+                        }
+                        _ = result.Append($" / avg {listPing[i].Average()}");
+                        _ = result.Append($" / ↓ {listPing[i].Min()}");
+                        _ = result.Append($" / ↑ {listPing[i].Max()}");
+                        _ = result.Append($" / stdev {Math.Round(Math.Sqrt(listPing[i].Average(x => x * x) - Math.Pow(listPing[i].Average(), 2)), 2)}{Environment.NewLine}");
+                        i++;
+                    }
+                    window.Close();
+                    AsyncDialog.Open(result.ToString(), "Re: TTSCat");
                 });
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.Start();
-                Dispatcher.PushFrame(frame);
             }
             catch (Exception ex)
             {
@@ -133,6 +180,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.DebugMode = CheckBox_DebugMode.IsChecked ?? false;
             Vars.CurrentConf.DoNotKeepCache = CheckBox_DoNotKeepCache.IsChecked ?? false;
             Vars.CurrentConf.ReadInQueue = CheckBox_ReadInQueue.IsChecked ?? false;
+            Vars.CurrentConf.HttpAuth = CheckBox_EnableHTTPAuth.IsChecked ?? false;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
             Vars.CurrentConf.ReadPossibility = (int)Math.Round(Slider_ReadPossibility.Value);
@@ -140,6 +188,8 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.TTSVolume = (int)Math.Round(Slider_TTSVolume.Value);
             Vars.CurrentConf.ReadSpeed = (int)Math.Round(Slider_TTSSpeed.Value);
             Vars.CurrentConf.CustomEngineURL = TextBox_CustomEngineURL.Text;
+            Vars.CurrentConf.HttpAuthUsername = TextBox_HTTPAuthUsername.Text;
+            Vars.CurrentConf.HttpAuthPassword = TextBox_HTTPAuthPassword.Password;
             Vars.CurrentConf.Engine = (byte)ComboBox_Engine.SelectedIndex;
             Vars.CurrentConf.BlockMode = (byte)ComboBox_Blockmode.SelectedIndex;
             Vars.CurrentConf.GiftBlockMode = (byte)ComboBox_GiftBlockMode.SelectedIndex;
@@ -170,6 +220,7 @@ namespace Re_TTSCat.Windows
             CheckBox_ReadInQueue.IsChecked = Vars.CurrentConf.ReadInQueue;
             CheckBox_ProcessEvents.IsChecked = Vars.CurrentConf.AllowConnectEvents;
             CheckBox_ClearQueueOnDisconnect.IsChecked = Vars.CurrentConf.ClearQueueAfterDisconnect;
+            CheckBox_EnableHTTPAuth.IsChecked = Vars.CurrentConf.HttpAuth;
             CheckBox_AllowDownloadMessage.IsChecked = Vars.CurrentConf.AllowDownloadMessage;
             CheckBox_IsPluginActive.IsChecked = Main.IsEnabled;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
@@ -179,6 +230,8 @@ namespace Re_TTSCat.Windows
             Slider_TTSVolume.Value = Vars.CurrentConf.TTSVolume;
             Slider_TTSSpeed.Value = Vars.CurrentConf.ReadSpeed;
             TextBox_CustomEngineURL.Text = Vars.CurrentConf.CustomEngineURL;
+            TextBox_HTTPAuthUsername.Text = Vars.CurrentConf.HttpAuthUsername;
+            TextBox_HTTPAuthPassword.Password = Vars.CurrentConf.HttpAuthPassword;
             ComboBox_Engine.SelectedIndex = Vars.CurrentConf.Engine;
             ComboBox_Blockmode.SelectedIndex = Vars.CurrentConf.BlockMode;
             ComboBox_GiftBlockMode.SelectedIndex = Vars.CurrentConf.GiftBlockMode;
@@ -200,18 +253,52 @@ namespace Re_TTSCat.Windows
 
             TextBox_Debug.Clear();
             TextBox_Debug.AppendText("---------- OS Environment ----------\n");
-            TextBox_Debug.AppendText("Operating system: " + Environment.OSVersion.ToString() + "\n");
-            TextBox_Debug.AppendText("CLR: " + Environment.Version.ToString() + "\n");
+            TextBox_Debug.AppendText($"Operating system: {Environment.OSVersion.ToString()}\n");
             TextBox_Debug.AppendText("---------- Plugin Environment ----------\n");
-            TextBox_Debug.AppendText("Plugin version: " + Vars.currentVersion.ToString() + "\n");
-            TextBox_Debug.AppendText("Plugin executable: " + Vars.dllFileName + "\n");
-            TextBox_Debug.AppendText("Plugin configuration directory: " + Vars.confDir + "\n");
-            TextBox_Debug.AppendText("Audio library file: " + Vars.audioLibFileName + "\n");
-            TextBox_Debug.AppendText("Plugins directory: " + Vars.dllPath + "\n");
+            TextBox_Debug.AppendText($"Plugin version: {Vars.currentVersion.ToString()}\n");
+            TextBox_Debug.AppendText($"Plugin executable: {Vars.dllFileName}\n");
+            TextBox_Debug.AppendText($"Plugin configuration directory: {Vars.confDir}\n");
+            TextBox_Debug.AppendText($"Audio library file: {Vars.audioLibFileName}\n");
+            TextBox_Debug.AppendText($"Plugins directory: {Vars.dllPath}\n");
+            if (Vars.CurrentConf.DebugMode)
+            {
+                try
+                {
+                    TextBox_Debug.AppendText("---------- [DEBUG MODE ACTIVE, ADVANCED INFO VISIBLE] ----------\n");
+                    TextBox_Debug.AppendText("---------- Advanced OS Environment ----------\n");
+                    var wmi = new ManagementObjectSearcher("select * from Win32_OperatingSystem").Get().Cast<ManagementObject>().First();
+                    TextBox_Debug.AppendText("(OS info retrieved via WMI)\n");
+                    TextBox_Debug.AppendText($"OS name: {((string)wmi["Caption"]).Trim()}\n");
+                    TextBox_Debug.AppendText($"OS version: {(string)wmi["Version"]}\n");
+                    TextBox_Debug.AppendText($"Max processes: {(uint)wmi["MaxNumberOfProcesses"]}\n");
+                    TextBox_Debug.AppendText($"Max process RAM usage: {(ulong)wmi["MaxProcessMemorySize"] / 1024 / 1024} MiB\n");
+                    TextBox_Debug.AppendText($"Architecture: {(string)wmi["OSArchitecture"]}\n");
+                    TextBox_Debug.AppendText($"Serial number: {(string)wmi["SerialNumber"]}\n");
+                    TextBox_Debug.AppendText($"Build number: {((string)wmi["BuildNumber"])}\n");
+                    TextBox_Debug.AppendText($"Security manager: {(SystemInformation.Secure ? "present" : "not present")}\n");
+                    TextBox_Debug.AppendText($"Network: {(SystemInformation.Network ? "yes" : "no")}\n");
+                    TextBox_Debug.AppendText($"Boot mode: {(SystemInformation.BootMode == BootMode.Normal ? "normal" : "safe")}\n");
 
+                    TextBox_Debug.AppendText("---------- .NET Environment ----------\n");
+                    TextBox_Debug.AppendText($"CLR: {Environment.Version.ToString()}\n");
+                    var assembliesArray = AppDomain.CurrentDomain.GetAssemblies();
+                    var assemblies = assembliesArray.ToList();
+                    assemblies.Sort(new AssemblyComparer());
+                    TextBox_Debug.AppendText($"Loaded assemblies ({assemblies.Count}): \n");
+                    foreach (var assembly in assemblies)
+                    {
+                        TextBox_Debug.AppendText($"{assembly.FullName}{(!assembly.IsDynamic ? $"@{assembly.Location}" : "")}\n");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TextBox_Debug.AppendText($"Error retrieving advanced log: {ex.ToString()}\n");
+                }
+            }
             UpdateStats();
 
-            if (Vars.CurrentConf.DebugMode) { TabItem_DebugOptions.Visibility = Visibility.Visible; } else { TabItem_DebugOptions.Visibility = Visibility.Hidden; }
+            TabItem_DebugOptions.Visibility = Vars.CurrentConf.DebugMode ? Visibility.Visible : Visibility.Hidden;
+            this.Title = $"{Vars.mgmtWindowTitle}{(Vars.CurrentConf.DebugMode ? " *用户调试模式*" : "")}{(Debugger.IsAttached ? " *弱智模式*" : "")}";
         }
 
         private async void Button_Apply_Click(object sender, RoutedEventArgs e)
@@ -450,6 +537,18 @@ namespace Re_TTSCat.Windows
             {
                 AsyncDialog.Open($"出错: {ex.ToString()}", icon: MessageBoxIcon.Error);
             }
+        }
+
+        private void CheckBox_EnableHTTPAuth_Checked(object sender, RoutedEventArgs e)
+        {
+            TextBox_HTTPAuthUsername.IsEnabled = true;
+            TextBox_HTTPAuthPassword.IsEnabled = true;
+        }
+
+        private void CheckBox_EnableHTTPAuth_Unchecked(object sender, RoutedEventArgs e)
+        {
+            TextBox_HTTPAuthUsername.IsEnabled = false;
+            TextBox_HTTPAuthPassword.IsEnabled = false;
         }
     }
 }

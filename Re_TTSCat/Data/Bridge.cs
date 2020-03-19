@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace Re_TTSCat.Data
+﻿namespace Re_TTSCat.Data
 {
     public partial class Bridge
     {
-        public static List<string> PendingLogs = new List<string>();
+        // Now the bridge is just for compatibility to older code
+        public static Main MainInstance;
     }
 }

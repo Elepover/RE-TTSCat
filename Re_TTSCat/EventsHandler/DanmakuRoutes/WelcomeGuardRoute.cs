@@ -13,10 +13,7 @@ namespace Re_TTSCat
             {
                 if (!Conf.CheckUserEligibility(e.Danmaku.UserID.ToString()))
                 {
-                    if (Vars.CurrentConf.DebugMode)
-                    {
-                        Bridge.ALog("忽略：用户已命中 UID 规则");
-                    }
+                    Bridge.ALog("忽略：用户已命中 UID 规则");
                     return;
                 }
             }
@@ -24,10 +21,7 @@ namespace Re_TTSCat
             {
                 if (!Conf.CheckUserEligibility(e.Danmaku.UserName))
                 {
-                    if (Vars.CurrentConf.DebugMode)
-                    {
-                        Bridge.ALog("忽略：用户已命中用户名规则");
-                    }
+                    Bridge.ALog("忽略：用户已命中用户名规则");
                     return;
                 }
             }
