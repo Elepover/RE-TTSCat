@@ -1,0 +1,21 @@
+﻿<Window x:Class="Re_TTSCat.Windows.CriticalErrorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Re_TTSCat.Windows"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="Re: TTSCat - 关键错误！" Height="150" Width="500">
+    <Grid>
+        <TextBlock x:Name="TextBlock_Header" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="捕捉到弹幕姬关键错误，弹幕姬即将退出" VerticalAlignment="Top"/>
+        <Expander x:Name="Xpander" Header="详细信息" Margin="0,0,0,-175" Height="200" VerticalAlignment="Bottom" Collapsed="Xpander_Collapsed" Expanded="Xpander_Expanded">
+            <Grid Background="#FFE5E5E5">
+                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="错误详细信息" VerticalAlignment="Top"/>
+                <TextBox x:Name="TextBox_ErrorDetails" ScrollViewer.VerticalScrollBarVisibility="Visible" IsReadOnly="True" Margin="10,30,10,10" TextWrapping="Wrap" Text=""/>
+            </Grid>
+        </Expander>
+        <Button Content="复制详情" Margin="0,10,90,0" Click="Button_Copy_Click" HorizontalAlignment="Right" Width="75" Height="18" VerticalAlignment="Top"/>
+        <Button IsDefault="True" Content="确定" Margin="0,10,10,0" Click="Button_Click" HorizontalAlignment="Right" Width="75" Height="18" VerticalAlignment="Top"/>
+        <TextBlock x:Name="TextBlock_Copied" Margin="0,11,170,0" TextWrapping="Wrap" Text="已复制！" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="Hidden"/>
+    </Grid>
+</Window>

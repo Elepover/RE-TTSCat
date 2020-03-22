@@ -14,6 +14,7 @@ using NAudio.Wave;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
+using Newtonsoft.Json;
 
 namespace Re_TTSCat.Windows
 {
@@ -174,6 +175,7 @@ namespace Re_TTSCat.Windows
         private async Task Apply()
         {
             Vars.CurrentConf.AllowConnectEvents = CheckBox_ProcessEvents.IsChecked ?? true;
+            Vars.CurrentConf.CatchGlobalError = CheckBox_CatchGlobalError.IsChecked ?? true;
             Vars.CurrentConf.ClearQueueAfterDisconnect = CheckBox_ClearQueueOnDisconnect.IsChecked ?? true;
             Vars.CurrentConf.AllowDownloadMessage = CheckBox_AllowDownloadMessage.IsChecked ?? true;
             Vars.CurrentConf.AutoUpdate = CheckBox_AutoUpdates.IsChecked ?? false;
@@ -191,9 +193,19 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.HttpAuthUsername = TextBox_HTTPAuthUsername.Text;
             Vars.CurrentConf.HttpAuthPassword = TextBox_HTTPAuthPassword.Password;
             Vars.CurrentConf.Engine = (byte)ComboBox_Engine.SelectedIndex;
+            Vars.CurrentConf.ReqType = (RequestType)ComboBox_PostMethod.SelectedIndex;
             Vars.CurrentConf.BlockMode = (byte)ComboBox_Blockmode.SelectedIndex;
             Vars.CurrentConf.GiftBlockMode = (byte)ComboBox_GiftBlockMode.SelectedIndex;
             Vars.CurrentConf.KeywordBlockMode = (byte)ComboBox_KeywordBlockMode.SelectedIndex;
+            Vars.CurrentConf.PostData = TextBox_PostData.Text;
+            try
+            {
+                Vars.CurrentConf.Headers = JsonConvert.DeserializeObject<List<Header>>(TextBox_Headers.Text);
+            }
+            catch (Exception ex)
+            {
+                AsyncDialog.Open($"未保存请求头数据: 无法解析 JSON: {ex.Message}\n其他数据均将继续尝试正常保存", icon: MessageBoxIcon.Error);
+            }
             Vars.CurrentConf.BlackList = TextBox_Blacklist.Text;
             Vars.CurrentConf.WhiteList = TextBox_Whitelist.Text;
             Vars.CurrentConf.GiftBlackList = TextBox_GiftBlacklist.Text;
@@ -215,6 +227,7 @@ namespace Re_TTSCat.Windows
         private void Load()
         {
             CheckBox_AutoUpdates.IsChecked = Vars.CurrentConf.AutoUpdate;
+            CheckBox_CatchGlobalError.IsChecked = Vars.CurrentConf.CatchGlobalError;
             CheckBox_DebugMode.IsChecked = Vars.CurrentConf.DebugMode;
             CheckBox_DoNotKeepCache.IsChecked = Vars.CurrentConf.DoNotKeepCache;
             CheckBox_ReadInQueue.IsChecked = Vars.CurrentConf.ReadInQueue;
@@ -233,9 +246,12 @@ namespace Re_TTSCat.Windows
             TextBox_HTTPAuthUsername.Text = Vars.CurrentConf.HttpAuthUsername;
             TextBox_HTTPAuthPassword.Password = Vars.CurrentConf.HttpAuthPassword;
             ComboBox_Engine.SelectedIndex = Vars.CurrentConf.Engine;
+            ComboBox_PostMethod.SelectedIndex = (int)Vars.CurrentConf.ReqType;
             ComboBox_Blockmode.SelectedIndex = Vars.CurrentConf.BlockMode;
             ComboBox_GiftBlockMode.SelectedIndex = Vars.CurrentConf.GiftBlockMode;
             ComboBox_KeywordBlockMode.SelectedIndex = Vars.CurrentConf.KeywordBlockMode;
+            TextBox_PostData.Text = Vars.CurrentConf.PostData;
+            TextBox_Headers.Text = JsonConvert.SerializeObject(Vars.CurrentConf.Headers, Formatting.Indented);
             TextBox_Blacklist.Text = Vars.CurrentConf.BlackList;
             TextBox_Whitelist.Text = Vars.CurrentConf.WhiteList;
             TextBox_GiftBlacklist.Text = Vars.CurrentConf.GiftBlackList;
@@ -549,6 +565,24 @@ namespace Re_TTSCat.Windows
         {
             TextBox_HTTPAuthUsername.IsEnabled = false;
             TextBox_HTTPAuthPassword.IsEnabled = false;
+        }
+
+        private void ComboBox_PostMethod_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (ComboBox_PostMethod.SelectedIndex == 0)
+            {
+                TextBlock_PostData.Visibility = Visibility.Hidden;
+                TextBox_PostData.Visibility = Visibility.Hidden;
+                TextBlock_Headers.Visibility = Visibility.Hidden;
+                TextBox_Headers.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                TextBlock_PostData.Visibility = Visibility.Visible;
+                TextBox_PostData.Visibility = Visibility.Visible;
+                TextBlock_Headers.Visibility = Visibility.Visible;
+                TextBox_Headers.Visibility = Visibility.Visible;
+            }
         }
     }
 }

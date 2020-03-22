@@ -33,7 +33,7 @@ namespace Re_TTSCat.Data
             Bridge.ALog("正在检查文件");
             try
             {
-                if (!File.Exists(Vars.audioLibFileName))
+                if (!File.Exists(Vars.audioLibFileName) || !VerifyLibraryIntegrity())
                 {
                     Bridge.ALog("尝试释放音频支持库");
                     var writer = new FileStream(Vars.audioLibFileName, FileMode.OpenOrCreate);

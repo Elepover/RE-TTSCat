@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Re_TTSCat.Data;
+using System;
+using System.Linq;
+using System.Management;
+using System.Media;
+using System.Text;
 
 namespace Re_TTSCat
 {
@@ -6,8 +11,41 @@ namespace Re_TTSCat
     {
         public void GlobalErrorHandler(object sender, UnhandledExceptionEventArgs e)
         {
+            if (!Vars.CurrentConf.CatchGlobalError) return;
             var obj = (Exception) e.ExceptionObject;
-            System.Windows.MessageBox.Show($"未知错误发生{(e.IsTerminating ? "，弹幕姬即将退出" : "，如您后续遇到问题，请尝试重启弹幕姬")}，反馈详细信息: {obj.ToString()}", "Re: TTSCat - 意外错误", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            var window = new Windows.CriticalErrorWindow();
+            SystemSounds.Hand.Play();
+            window.TextBlock_Header.Text = $"捕捉到关键错误，弹幕姬即将退出:\n{obj.Message}\n此错误可能并非本插件引起，请在反馈前确定您反馈到了正确的作者处。\n如您确定是 Re: TTSCat 所致，请反馈至 plugin-crash@itsmy.app";
+            var sb = new StringBuilder($"**CRITICAL ERROR REPORT**\nTime: {DateTime.Now.ToString("o")}\n\n");
+            try
+            {
+                var wmi = new ManagementObjectSearcher("select * from Win32_OperatingSystem").Get().Cast<ManagementObject>().First();
+                sb.Append($"OS name: {((string)wmi["Caption"]).Trim()}\n");
+                sb.Append($"OS version: {(string)wmi["Version"]}\n\n");
+            }
+            catch (Exception ex)
+            {
+                sb.Append($"(Unable to retrieve OS info: {ex.Message})\n\n");
+            }
+            sb.Append($"Error details:\n{obj.ToString()}\n\n");
+            try
+            {
+                sb.Append($"CLR: {Environment.Version.ToString()}\n");
+                var assembliesArray = AppDomain.CurrentDomain.GetAssemblies();
+                var assemblies = assembliesArray.ToList();
+                assemblies.Sort(new AssemblyComparer());
+                sb.Append($"Loaded assemblies ({assemblies.Count}): \n");
+                foreach (var assembly in assemblies)
+                {
+                    sb.Append($"{assembly.FullName}{(!assembly.IsDynamic ? $"@{assembly.Location}" : "")}\n");
+                }
+            }
+            catch (Exception ex)
+            {
+                sb.Append($"(Unable to retrieve assembly info: {ex.Message})\n");
+            }
+            window.TextBox_ErrorDetails.Text = sb.ToString();
+            window.ShowDialog();
         }
     }
 }

@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BilibiliDM_PluginFramework">
       <HintPath>..\BilibiliDM_PluginFramework.dll</HintPath>
@@ -71,6 +74,9 @@
     <Compile Include="Data\Conf.Delay.cs" />
     <Compile Include="Data\Conf.GetRandomFileName.cs" />
     <Compile Include="Data\Conf.CheckUserEligibility.cs" />
+    <Compile Include="Data\Conf.VerifyLibraryIntegrity.cs" />
+    <Compile Include="Data\Header.cs" />
+    <Compile Include="Data\RequestType.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\WelcomeGuardRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\WelcomeRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\LiveEndRoute.cs" />
@@ -126,6 +132,9 @@
     <Compile Include="TTSHelper\TTSPlayer.cs" />
     <Compile Include="TTSHelper\YoudaoTTS\YoudaoTTS.Download.cs" />
     <Compile Include="Windows\AsyncDialog.cs" />
+    <Compile Include="Windows\CriticalErrorWindow.xaml.cs">
+      <DependentUpon>CriticalErrorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\LoadingWindowLight.xaml.cs">
       <DependentUpon>LoadingWindowLight.xaml</DependentUpon>
     </Compile>
@@ -146,6 +155,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Windows\CriticalErrorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\LoadingWindowLight.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

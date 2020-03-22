@@ -1,4 +1,6 @@
-﻿namespace Re_TTSCat.Data
+﻿using System.Collections.Generic;
+
+namespace Re_TTSCat.Data
 {
     public partial class Conf
     {
@@ -112,6 +114,10 @@
         /// </summary>
         public bool ClearQueueAfterDisconnect { get; set; }
         /// <summary>
+        /// 捕捉全局错误
+        /// </summary>
+        public bool CatchGlobalError { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }
@@ -123,6 +129,18 @@
         /// HTTP 身份验证密码
         /// </summary>
         public string HttpAuthPassword { get; set; }
+        /// <summary>
+        /// 自定义请求头集合
+        /// </summary>
+        public List<Header> Headers { get; set; }
+        /// <summary>
+        /// POST 请求方法
+        /// </summary>
+        public RequestType ReqType { get; set; }
+        /// <summary>
+        /// POST 数据内容，若为 multipart formdata 则使用 base64 编码
+        /// </summary>
+        public string PostData { get; set; }
 
         /// <summary>
         /// 在连接成功后读出的内容，留空以禁用

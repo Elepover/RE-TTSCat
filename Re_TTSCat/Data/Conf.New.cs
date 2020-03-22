@@ -1,10 +1,12 @@
-﻿namespace Re_TTSCat.Data
+﻿using System.Collections.Generic;
+
+namespace Re_TTSCat.Data
 {
     public partial class Conf
     {
         public Conf()
         {
-            AutoUpdate = false;
+            AutoUpdate = true;
             BlackList = "";
             WhiteList = "";
             BlockMode = 0;
@@ -29,6 +31,13 @@
             AllowDownloadMessage = true;
             AllowConnectEvents = true;
             ClearQueueAfterDisconnect = true;
+            CatchGlobalError = true;
+            HttpAuth = false;
+            HttpAuthPassword = "";
+            HttpAuthUsername = "";
+            Headers = new List<Header>();
+            ReqType = RequestType.JustGet;
+            PostData = "";
 
             CustomEngineURL = "https://tts.example.com/?text=$TTSTEXT";
             OnConnected = "已成功连接至房间: $ROOM";
