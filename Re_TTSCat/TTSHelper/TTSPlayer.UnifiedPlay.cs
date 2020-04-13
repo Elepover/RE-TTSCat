@@ -11,8 +11,9 @@ namespace Re_TTSCat
         /// <summary>
         /// Play something, other options are defined by current configurations
         /// </summary>
-        /// <param name="content"></param>
-        public static async Task UnifiedPlay(string content)
+        /// <param name="content">Final TTS Content</param>
+        /// <param name="ignoreRandomDitch">Specify true to ignore random ditching</param>
+        public static async Task UnifiedPlay(string content, bool ignoreRandomDitch = false)
         {
             if (content.Replace(" ", "") == "")
             {
@@ -20,7 +21,7 @@ namespace Re_TTSCat
                 return;
             }
             Bridge.ALog("尝试朗读: " + content);
-            if (!Conf.GetRandomBool(Vars.CurrentConf.ReadPossibility))
+            if (!Conf.GetRandomBool(Vars.CurrentConf.ReadPossibility) && !ignoreRandomDitch)
             {
                 Bridge.ALog("放弃: 已随机丢弃");
                 return;

@@ -118,6 +118,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool CatchGlobalError { get; set; }
         /// <summary>
+        /// 醒目留言是否无视随机朗读设定
+        /// </summary>
+        public bool SuperChatIgnoreRandomDitch { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }
@@ -155,6 +159,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public string OnDanmaku { get; set; }
         /// <summary>
+        /// 自定义醒目留言读出内容，留空以禁用
+        /// </summary>
+        public string OnSuperChat { get; set; }
+        /// <summary>
         /// 自定义礼物读出内容，留空以禁用
         /// </summary>
         public string OnGift { get; set; }
@@ -178,5 +186,25 @@ namespace Re_TTSCat.Data
         /// 欢迎船员文本，留空以禁用
         /// </summary>
         public string OnWelcomeGuard { get; set; }
+        /// <summary>
+        /// 自定义非船员头衔
+        /// </summary>
+        public string CustomGuardLevel0 { get; set; }
+        /// <summary>
+        /// 自定义总督头衔
+        /// </summary>
+        public string CustomGuardLevel1 { get; set; }
+        /// <summary>
+        /// 自定义提督头衔
+        /// </summary>
+        public string CustomGuardLevel2 { get; set; }
+        /// <summary>
+        /// 自定义舰长头衔
+        /// </summary>
+        public string CustomGuardLevel3 { get; set; }
+        /// <summary>
+        /// 自定义老爷头衔
+        /// </summary>
+        public string CustomVIP { get; set; }
     }
 }

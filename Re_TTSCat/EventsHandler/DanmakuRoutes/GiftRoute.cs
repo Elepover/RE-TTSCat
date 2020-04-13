@@ -9,40 +9,11 @@ namespace Re_TTSCat
         public async Task GiftRoute(object sender, ReceivedDanmakuArgs e)
         {
             // check user eligibility
-            if (Vars.CurrentConf.BlockUID)
-            {
-                if (!Conf.CheckUserEligibility(e.Danmaku.UserID.ToString()))
-                {
-                    Bridge.ALog("忽略：用户已命中 UID 规则");
-                    return;
-                }
-            }
-            else
-            {
-                if (!Conf.CheckUserEligibility(e.Danmaku.UserName))
-                {
-                    Bridge.ALog("忽略：用户已命中用户名规则");
-                    return;
-                }
-            }
+            if (!Conf.CheckUserEligibility(e)) return;
             // check gift eligibility
-            if (!Conf.CheckGiftEligibility(e.Danmaku.GiftName))
-            {
-                if (Vars.CurrentConf.DebugMode)
-                {
-                    Bridge.ALog("忽略：礼物已命中屏蔽规则");
-                }
-                return;
-            }
-            if (Vars.CurrentConf.DebugMode)
-            {
-                Bridge.ALog("规则检查通过，准备朗读");
-            }
-            await TTSPlayer.UnifiedPlay(Vars.CurrentConf.OnGift
-                .Replace("$GIFT", e.Danmaku.GiftName)
-                .Replace("$COUNT", e.Danmaku.GiftCount.ToString())
-                .Replace("$USER", e.Danmaku.UserName)
-            );
+            if (!Conf.CheckGiftEligibility(e)) return;
+            Bridge.ALog("规则检查通过，准备朗读");
+            await TTSPlayer.UnifiedPlay(ProcessGift(e));
         }
     }
 }

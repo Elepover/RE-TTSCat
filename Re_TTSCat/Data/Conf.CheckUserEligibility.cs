@@ -16,5 +16,26 @@ namespace Re_TTSCat.Data
                     return Vars.CurrentConf.WhiteList.Contains(content) ? true : false;
             }
         }
+
+        public static bool CheckUserEligibility(ReceivedDanmakuArgs e)
+        {
+            if (Vars.CurrentConf.BlockUID)
+            {
+                if (!CheckUserEligibility(e.Danmaku.UserID.ToString()))
+                {
+                    Bridge.ALog("忽略：用户已命中 UID 规则");
+                    return false;
+                }
+            }
+            else
+            {
+                if (!CheckUserEligibility(e.Danmaku.UserName))
+                {
+                    Bridge.ALog("忽略：用户已命中用户名规则");
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

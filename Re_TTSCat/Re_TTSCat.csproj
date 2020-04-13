@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Data\AssemblyComparer.cs" />
     <Compile Include="Data\Bridge.ALog.cs" />
+    <Compile Include="Data\Conf.CheckDanmakuLength.cs" />
     <Compile Include="Data\Conf.CheckKeywordEligibility.cs" />
     <Compile Include="Data\Conf.CheckGiftEligibility.cs" />
     <Compile Include="Data\Conf.GetRandomBool.cs" />
@@ -77,6 +78,11 @@
     <Compile Include="Data\Conf.VerifyLibraryIntegrity.cs" />
     <Compile Include="Data\Header.cs" />
     <Compile Include="Data\RequestType.cs" />
+    <Compile Include="Data\SecureRng\SecureRng.cs" />
+    <Compile Include="Data\SecureRng\SecureRng.GenerateRandomBytes.cs" />
+    <Compile Include="Data\SecureRng\SecureRng.GetRandomUInt.cs" />
+    <Compile Include="Data\SecureRng\SecureRng.Next.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\SuperChatRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\WelcomeGuardRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\WelcomeRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\LiveEndRoute.cs" />
@@ -88,6 +94,10 @@
     <Compile Include="EventsHandler\Main.OnReceivedRoomCount.cs" />
     <Compile Include="EventsHandler\Main.OnDisconnected.cs" />
     <Compile Include="EventsHandler\Main.OnConnected.cs" />
+    <Compile Include="EventsHandler\VariableHelper\Preprocess.cs" />
+    <Compile Include="EventsHandler\VariableHelper\ProcessSuperChat.cs" />
+    <Compile Include="EventsHandler\VariableHelper\ProcessGift.cs" />
+    <Compile Include="EventsHandler\VariableHelper\ProcessDanmaku.cs" />
     <Compile Include="KruinUpdates\Update.GetLatestUpd.cs" />
     <Compile Include="KruinUpdates\Update.cs" />
     <Compile Include="KruinUpdates\CheckIfLatest.cs" />

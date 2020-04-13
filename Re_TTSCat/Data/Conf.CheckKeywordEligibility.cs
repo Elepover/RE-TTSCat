@@ -1,4 +1,6 @@
-﻿namespace Re_TTSCat.Data
+﻿using BilibiliDM_PluginFramework;
+
+namespace Re_TTSCat.Data
 {
     public partial class Conf
     {
@@ -21,6 +23,16 @@
                     }
                     return false;
             }
+        }
+
+        public static bool CheckKeywordEligibility(ReceivedDanmakuArgs e)
+        {
+            if (!CheckKeywordEligibility(e.Danmaku.CommentText))
+            {
+                Bridge.ALog("忽略：弹幕已命中屏蔽规则");
+                return false;
+            }
+            return true;
         }
     }
 }

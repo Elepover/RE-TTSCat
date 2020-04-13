@@ -138,6 +138,11 @@
             购买船票（上船）
             </summary>
         </member>
+        <member name="F:BilibiliDM_PluginFramework.MsgTypeEnum.SuperChat">
+            <summary>
+            SC
+            </summary>
+        </member>
         <member name="P:BilibiliDM_PluginFramework.DanmakuModel.MsgType">
             <summary>
             消息類型
@@ -261,6 +266,16 @@
         <member name="P:BilibiliDM_PluginFramework.DanmakuModel.JSON_Version">
             <summary>
             内部用, JSON数据版本号 通常应该是2
+            </summary>
+        </member>
+        <member name="P:BilibiliDM_PluginFramework.DanmakuModel.Price">
+            <summary>
+            SC的金额, 如果以后有礼物金额也可以放进去
+            </summary>
+        </member>
+        <member name="P:BilibiliDM_PluginFramework.DanmakuModel.SCKeepTime">
+            <summary>
+            SC保留时间
             </summary>
         </member>
         <member name="P:BilibiliDM_PluginFramework.DanmakuModel.RawDataJToken">

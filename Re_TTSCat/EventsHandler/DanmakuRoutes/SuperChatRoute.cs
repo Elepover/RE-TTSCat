@@ -6,7 +6,7 @@ namespace Re_TTSCat
 {
     public partial class Main : DMPlugin
     {
-        public async Task CommentRoute(object sender, ReceivedDanmakuArgs e)
+        public async Task SuperChatRoute(object sender, ReceivedDanmakuArgs e)
         {
             // check user eligibility
             if (!Conf.CheckUserEligibility(e)) return;
@@ -15,7 +15,7 @@ namespace Re_TTSCat
             // check length rule
             if (!Conf.CheckDanmakuLength(e)) return;
             Bridge.ALog("规则检查通过，准备朗读");
-            await TTSPlayer.UnifiedPlay(ProcessDanmaku(e));
+            await TTSPlayer.UnifiedPlay(ProcessSuperChat(e), Vars.CurrentConf.SuperChatIgnoreRandomDitch);
         }
     }
 }

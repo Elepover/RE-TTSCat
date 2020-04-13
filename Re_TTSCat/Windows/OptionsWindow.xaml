@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Re: TTSCat - 插件管理" Height="450" Width="800" Closing="Window_Closing">
+        Title="Re: TTSCat - 插件管理" MinHeight="530" Height="530" MinWidth="800" Width="800" Closing="Window_Closing">
     <Grid>
         <TabControl Margin="0,0,-0.4,60">
             <TabItem Header="一般选项">
@@ -17,6 +17,7 @@
                     <CheckBox x:Name="CheckBox_DoNotKeepCache" Content="不保留缓存文件" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" ToolTip="在朗读完毕后立即删除缓存文件&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
                     <CheckBox x:Name="CheckBox_ProcessEvents" IsChecked="True" Content="处理连接/断开事件" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" ToolTip="允许插件在弹幕姬连接/断开时读出相应内容" Checked="CheckBox_ProcessEvents_IsCheckedChanged" Unchecked="CheckBox_ProcessEvents_IsCheckedChanged"/>
                     <CheckBox x:Name="CheckBox_ClearQueueOnDisconnect" IsChecked="True" Content="断开连接时清空朗读队列" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" ToolTip="在断开连接时取消所有待朗读语音（需要启用&quot;处理连接/断开&quot;事件）"/>
+                    <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
                     <CheckBox x:Name="CheckBox_IsPluginActive" IsEnabled="False" Content="插件已启用" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="插件的运行状态&#xA;&#xA;此处无法切换插件状态，请使用弹幕姬本体插件管理"/>
                     <GroupBox Header="统计数据" Height="150" Margin="10,0,10,9.8" VerticalAlignment="Bottom">
                         <Grid>
@@ -34,19 +35,23 @@
             <TabItem Header="自定义读出内容（留空以停用）">
                 <Grid ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="收到弹幕时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_OnDanmaku" Height="23" Margin="10,25,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到弹幕时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;$DM - 弹幕文本"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,53,0,0" TextWrapping="Wrap" Text="收到礼物时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_OnGift" Height="23" Margin="10,68,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到礼物时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;$GIFT - 礼物名称&#xA;$COUNT - 礼物数量"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,96,0,0" TextWrapping="Wrap" Text="直播开始时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_LiveStart" Height="23" Margin="10,111,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义直播开始时的读出内容&#xA;&#xA;此字段无变量可用"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,139,0,0" TextWrapping="Wrap" Text="直播结束时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_LiveEnd" Height="23" Margin="10,154,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义直播结束时的读出内容&#xA;&#xA;此字段无变量可用"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,182,0,0" TextWrapping="Wrap" Text="船员上船时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_GuardBuy" Height="23" Margin="10,197,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义船员上船时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 上船的船员名称&#xA;$COUNT - 上船月份数目"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,225,0,0" TextWrapping="Wrap" Text="老爷进入时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_Welcome" Height="23" Margin="10,240,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义老爷进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 老爷的用户名"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,268,0,0" TextWrapping="Wrap" Text="船员进入时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_WelcomeGuard" Height="23" Margin="10,283,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义船员进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 船员的用户名"/>
+                    <TextBox x:Name="TextBox_OnDanmaku" Height="23" Margin="10,25,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到弹幕时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请查看插件介绍页面（可在&quot;关于&quot;标签页右上角直达）&#xA;$DM - 弹幕文本"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,53,0,0" TextWrapping="Wrap" Text="收到醒目留言时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_OnSuperChat" Height="23" Margin="10,68,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到醒目留言时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请查看插件介绍页面（可在&quot;关于&quot;标签页右上角直达）&#xA;$DM - 弹幕文本"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,96,0,0" TextWrapping="Wrap" Text="收到礼物时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_OnGift" Height="23" Margin="10,111,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到礼物时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请查看插件介绍页面（可在&quot;关于&quot;标签页右上角直达）&#xA;$GIFT - 礼物名称&#xA;$COUNT - 礼物数量"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,139,0,0" TextWrapping="Wrap" Text="直播开始时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_LiveStart" Height="23" Margin="10,154,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义直播开始时的读出内容&#xA;&#xA;此字段无变量可用"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,182,0,0" TextWrapping="Wrap" Text="直播结束时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_LiveEnd" Height="23" Margin="10,197,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义直播结束时的读出内容&#xA;&#xA;此字段无变量可用"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,225,0,0" TextWrapping="Wrap" Text="船员上船时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_GuardBuy" Height="23" Margin="10,240,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义船员上船时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 上船的船员名称&#xA;$COUNT - 上船月份数目"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,268,0,0" TextWrapping="Wrap" Text="老爷进入时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_Welcome" Height="23" Margin="10,283,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义老爷进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 老爷的用户名"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,311,0,0" TextWrapping="Wrap" Text="船员进入时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_WelcomeGuard" Height="23" Margin="10,326,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义船员进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 船员的用户名"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,354,0,0" TextWrapping="Wrap" Text="自定义头衔：" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_CustomTitles" Height="23" Margin="10,370,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="顺序: 老爷/普通用户/总督/提督/舰长"/>
                 </Grid>
             </TabItem>
             <TabItem Header="高级选项">
@@ -161,6 +166,7 @@
                     <Button x:Name="Button_PlayAudio" Content="播放特定音频文件" Margin="10,154,10,0" VerticalAlignment="Top" Click="Button_PlayAudio_Click"/>
                     <TextBlock Margin="10,0,10,10" TextWrapping="Wrap" FontWeight="Bold" FontStyle="Italic" TextAlignment="Center" Text="警告！本页面的功能仅供开发或排错使用，由此所产生的一切后果由您自负。" FontSize="14" Height="20" VerticalAlignment="Bottom"/>
                     <Button x:Name="Button_ClearQueue" Content="取消所有待播放语音" Margin="10,177,10,0" VerticalAlignment="Top" Click="Button_ClearQueue_Click"/>
+                    <CheckBox Content="阻止弹幕姬崩溃（可能无效，仅本次运行）" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
                 </Grid>
             </TabItem>
         </TabControl>

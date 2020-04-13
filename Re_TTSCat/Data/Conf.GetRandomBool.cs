@@ -4,6 +4,9 @@ namespace Re_TTSCat.Data
 {
     public partial class Conf
     {
-        public static bool GetRandomBool(int truePercentage = 50) => (new Random()).NextDouble() < truePercentage / 100.0;
+        public static bool GetRandomBool(int truePercentage = 50)
+        {
+            return SecureRng.Next(0, 101) <= truePercentage;
+        }
     }
 }

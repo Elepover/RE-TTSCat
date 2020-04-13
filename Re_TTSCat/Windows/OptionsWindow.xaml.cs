@@ -182,6 +182,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.DebugMode = CheckBox_DebugMode.IsChecked ?? false;
             Vars.CurrentConf.DoNotKeepCache = CheckBox_DoNotKeepCache.IsChecked ?? false;
             Vars.CurrentConf.ReadInQueue = CheckBox_ReadInQueue.IsChecked ?? false;
+            Vars.CurrentConf.SuperChatIgnoreRandomDitch = CheckBox_SuperChatIgnoreRandomDitch.IsChecked ?? true;
             Vars.CurrentConf.HttpAuth = CheckBox_EnableHTTPAuth.IsChecked ?? false;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
@@ -204,7 +205,7 @@ namespace Re_TTSCat.Windows
             }
             catch (Exception ex)
             {
-                AsyncDialog.Open($"未保存请求头数据: 无法解析 JSON: {ex.Message}\n其他数据均将继续尝试正常保存", icon: MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show($"未保存请求头数据: 无法解析 JSON: {ex.Message}\n其他数据均将继续尝试正常保存", "Re: TTSCat", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Vars.CurrentConf.BlackList = TextBox_Blacklist.Text;
             Vars.CurrentConf.WhiteList = TextBox_Whitelist.Text;
@@ -217,9 +218,29 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.OnLiveEnd = TextBox_LiveEnd.Text;
             Vars.CurrentConf.OnLiveStart = TextBox_LiveStart.Text;
             Vars.CurrentConf.OnDanmaku = TextBox_OnDanmaku.Text;
+            Vars.CurrentConf.OnSuperChat = TextBox_OnSuperChat.Text;
             Vars.CurrentConf.OnGift = TextBox_OnGift.Text;
             Vars.CurrentConf.OnWelcome = TextBox_Welcome.Text;
             Vars.CurrentConf.OnWelcomeGuard = TextBox_WelcomeGuard.Text;
+            // try to resolve custom titles
+            try
+            {
+                var raw = TextBox_CustomTitles.Text;
+                if (raw.Count(x => x == '/') < 4)
+                {
+                    throw new ArgumentException("参数不足，是否已设定所有值？");
+                }
+                var array = raw.Split('/');
+                Vars.CurrentConf.CustomVIP = array[0];
+                Vars.CurrentConf.CustomGuardLevel0 = array[1];
+                Vars.CurrentConf.CustomGuardLevel1 = array[2];
+                Vars.CurrentConf.CustomGuardLevel2 = array[3];
+                Vars.CurrentConf.CustomGuardLevel3 = array[4];
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"未保存自定义头衔数据: 无法解析: {ex.Message}\n其他数据均将继续尝试正常保存", "Re: TTSCat", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             await Conf.SaveAsync();
             await OnLoad(null, null);
         }
@@ -233,6 +254,7 @@ namespace Re_TTSCat.Windows
             CheckBox_ReadInQueue.IsChecked = Vars.CurrentConf.ReadInQueue;
             CheckBox_ProcessEvents.IsChecked = Vars.CurrentConf.AllowConnectEvents;
             CheckBox_ClearQueueOnDisconnect.IsChecked = Vars.CurrentConf.ClearQueueAfterDisconnect;
+            CheckBox_SuperChatIgnoreRandomDitch.IsChecked = Vars.CurrentConf.SuperChatIgnoreRandomDitch;
             CheckBox_EnableHTTPAuth.IsChecked = Vars.CurrentConf.HttpAuth;
             CheckBox_AllowDownloadMessage.IsChecked = Vars.CurrentConf.AllowDownloadMessage;
             CheckBox_IsPluginActive.IsChecked = Main.IsEnabled;
@@ -263,15 +285,17 @@ namespace Re_TTSCat.Windows
             TextBox_LiveEnd.Text = Vars.CurrentConf.OnLiveEnd;
             TextBox_LiveStart.Text = Vars.CurrentConf.OnLiveStart;
             TextBox_OnDanmaku.Text = Vars.CurrentConf.OnDanmaku;
+            TextBox_OnSuperChat.Text = Vars.CurrentConf.OnSuperChat;
             TextBox_OnGift.Text = Vars.CurrentConf.OnGift;
             TextBox_Welcome.Text = Vars.CurrentConf.OnWelcome;
             TextBox_WelcomeGuard.Text = Vars.CurrentConf.OnWelcomeGuard;
+            TextBox_CustomTitles.Text = $"{Vars.CurrentConf.CustomVIP}/{Vars.CurrentConf.CustomGuardLevel0}/{Vars.CurrentConf.CustomGuardLevel1}/{Vars.CurrentConf.CustomGuardLevel2}/{Vars.CurrentConf.CustomGuardLevel3}";
 
             TextBox_Debug.Clear();
             TextBox_Debug.AppendText("---------- OS Environment ----------\n");
-            TextBox_Debug.AppendText($"Operating system: {Environment.OSVersion.ToString()}\n");
+            TextBox_Debug.AppendText($"Operating system: {Environment.OSVersion}\n");
             TextBox_Debug.AppendText("---------- Plugin Environment ----------\n");
-            TextBox_Debug.AppendText($"Plugin version: {Vars.currentVersion.ToString()}\n");
+            TextBox_Debug.AppendText($"Plugin version: {Vars.currentVersion}\n");
             TextBox_Debug.AppendText($"Plugin executable: {Vars.dllFileName}\n");
             TextBox_Debug.AppendText($"Plugin configuration directory: {Vars.confDir}\n");
             TextBox_Debug.AppendText($"Audio library file: {Vars.audioLibFileName}\n");
@@ -296,7 +320,7 @@ namespace Re_TTSCat.Windows
                     TextBox_Debug.AppendText($"Boot mode: {(SystemInformation.BootMode == BootMode.Normal ? "normal" : "safe")}\n");
 
                     TextBox_Debug.AppendText("---------- .NET Environment ----------\n");
-                    TextBox_Debug.AppendText($"CLR: {Environment.Version.ToString()}\n");
+                    TextBox_Debug.AppendText($"CLR: {Environment.Version}\n");
                     var assembliesArray = AppDomain.CurrentDomain.GetAssemblies();
                     var assemblies = assembliesArray.ToList();
                     assemblies.Sort(new AssemblyComparer());
@@ -308,7 +332,7 @@ namespace Re_TTSCat.Windows
                 }
                 catch (Exception ex)
                 {
-                    TextBox_Debug.AppendText($"Error retrieving advanced log: {ex.ToString()}\n");
+                    TextBox_Debug.AppendText($"Error retrieving advanced log: {ex}\n");
                 }
             }
             UpdateStats();
@@ -384,13 +408,13 @@ namespace Re_TTSCat.Windows
             {
                 var downloader = new Thread(() =>
                 {
-                    string str = "感谢使用本插件", comments = "Copyright (C) 2017 - 2020 Elepover.\nThis is an open-source(MIT) software.";
+                    string str = "感谢使用本插件", comments = $"Copyright (C) 2017 - {DateTime.Now.Year} Elepover.\nThis is an open-source(MIT) software.";
                     using (var client = new WebClient())
                     {
                         try
                         {
                             client.Headers.Set(HttpRequestHeader.Referer, "https://www.danmuji.org/plugins/Re-TTSCat");
-                            client.Headers.Set(HttpRequestHeader.UserAgent, $"Re_TTSCat/{Vars.currentVersion.ToString()} (Windows NT {Environment.OSVersion.Version.ToString(2)}; {(Environment.Is64BitOperatingSystem ? "Win64; x64" : "Win32; x86")})");
+                            client.Headers.Set(HttpRequestHeader.UserAgent, $"Re_TTSCat/{Vars.currentVersion} (Windows NT {Environment.OSVersion.Version.ToString(2)}; {(Environment.Is64BitOperatingSystem ? "Win64; x64" : "Win32; x86")})");
                             str = Encoding.UTF8.GetString(client.DownloadData("https://static-cn.itsmy.app:12306/files/today"));
                             comments = Encoding.UTF8.GetString(client.DownloadData("https://static-cn.itsmy.app:12306/files/today_comments"));
                         }
@@ -551,7 +575,7 @@ namespace Re_TTSCat.Windows
             }
             catch (Exception ex)
             {
-                AsyncDialog.Open($"出错: {ex.ToString()}", icon: MessageBoxIcon.Error);
+                AsyncDialog.Open($"出错: {ex}", icon: MessageBoxIcon.Error);
             }
         }
 
@@ -583,6 +607,16 @@ namespace Re_TTSCat.Windows
                 TextBlock_Headers.Visibility = Visibility.Visible;
                 TextBox_Headers.Visibility = Visibility.Visible;
             }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            Vars.HangWhenCrash = true;
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Vars.HangWhenCrash = false;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Re_TTSCat
     {
         public async Task LiveStartRoute(object sender, ReceivedDanmakuArgs e)
         {
-            await TTSPlayer.UnifiedPlay(Vars.CurrentConf.OnLiveStart);
+            await TTSPlayer.UnifiedPlay(Vars.CurrentConf.OnLiveStart, true);
         }
     }
 }

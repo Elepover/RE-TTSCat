@@ -22,7 +22,7 @@ Retry:
             try
             {
                 var fileName = Path.Combine(Vars.cacheDir, Conf.GetRandomFileName() + "USER.mp3");
-                Bridge.ALog($"(E5) 正在下载 TTS, 文件名: {fileName}, 方法: {Vars.CurrentConf.ReqType.ToString()}");
+                Bridge.ALog($"(E5) 正在下载 TTS, 文件名: {fileName}, 方法: {Vars.CurrentConf.ReqType}");
                 if (Vars.CurrentConf.ReqType == RequestType.ApplicationXWwwFormUrlencoded || Vars.CurrentConf.ReqType == RequestType.TextPlain)
                 {
                     Bridge.ALog("POST 模式: text/plain / application/x-www-form-urlencoded");

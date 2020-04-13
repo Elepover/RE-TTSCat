@@ -32,6 +32,7 @@ namespace Re_TTSCat.Data
             AllowConnectEvents = true;
             ClearQueueAfterDisconnect = true;
             CatchGlobalError = true;
+            SuperChatIgnoreRandomDitch = true;
             HttpAuth = false;
             HttpAuthPassword = "";
             HttpAuthUsername = "";
@@ -43,12 +44,18 @@ namespace Re_TTSCat.Data
             OnConnected = "已成功连接至房间: $ROOM";
             OnDisconnected = "已断开连接: $ERROR";
             OnDanmaku = "$USER 说: $DM";
+            OnSuperChat = "$USER 发送了醒目留言: $DM";
             OnGift = "收到来自 $USER 的 $COUNT 个 $GIFT";
             OnGuardBuy = "$USER 上船了 $COUNT 月";
             OnLiveStart = "直播已开始";
             OnLiveEnd = "直播已结束";
             OnWelcome = "欢迎老爷: $USER";
             OnWelcomeGuard = "欢迎船员: $USER";
+            CustomVIP = "老爷";
+            CustomGuardLevel0 = "用户";
+            CustomGuardLevel1 = "总督";
+            CustomGuardLevel2 = "提督";
+            CustomGuardLevel3 = "舰长";
         }
     }
 }

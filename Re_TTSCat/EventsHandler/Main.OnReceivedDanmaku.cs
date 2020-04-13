@@ -1,6 +1,4 @@
 ﻿using BilibiliDM_PluginFramework;
-using System;
-using System.IO;
 
 namespace Re_TTSCat
 {
@@ -13,6 +11,9 @@ namespace Re_TTSCat
             {
                 case MsgTypeEnum.Comment:
                     await CommentRoute(sender, e);
+                    break;
+                case MsgTypeEnum.SuperChat:
+                    await SuperChatRoute(sender, e);
                     break;
                 case MsgTypeEnum.GiftSend:
                     await GiftRoute(sender, e);

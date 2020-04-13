@@ -19,7 +19,7 @@ namespace Re_TTSCat
                 await TTSPlayer.UnifiedPlay(
                     Vars.CurrentConf.OnDisconnected.Replace(
                         "$ERROR", ""
-                    )
+                    ), true
                 );
             }
             else

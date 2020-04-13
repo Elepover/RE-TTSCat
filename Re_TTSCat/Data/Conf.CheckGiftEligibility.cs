@@ -30,5 +30,14 @@ namespace Re_TTSCat.Data
                     }
             }
         }
+        public static bool CheckGiftEligibility(ReceivedDanmakuArgs e)
+        {
+            if (!CheckGiftEligibility(e.Danmaku.GiftName))
+            {
+                Bridge.ALog("忽略：礼物已命中屏蔽规则");
+                return false;
+            }
+            return true;
+        }
     }
 }
