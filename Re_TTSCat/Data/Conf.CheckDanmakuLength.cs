@@ -6,9 +6,10 @@ namespace Re_TTSCat.Data
     {
         public static bool CheckDanmakuLength(string content)
         {
-            if (!((content.Length <= Vars.CurrentConf.MaximumDanmakuLength) && (content.Length >= Vars.CurrentConf.MinimumDanmakuLength)))
+            var len = new System.Globalization.StringInfo(content).LengthInTextElements;
+            if (!((len <= Vars.CurrentConf.MaximumDanmakuLength) && (len >= Vars.CurrentConf.MinimumDanmakuLength)))
             {
-                Bridge.ALog($"忽略: 弹幕字数 ({content.Length}) 不符合要求");
+                Bridge.ALog($"忽略: 弹幕字数 ({len}) 不符合要求");
                 return false;
             }
             return true;

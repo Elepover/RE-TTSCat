@@ -113,7 +113,7 @@ namespace Re_TTSCat
 Retry:
             try
             {
-                var fileName = Path.Combine(Vars.cacheDir, Conf.GetRandomFileName() + "GOOG.mp3");
+                var fileName = Path.Combine(Vars.CacheDir, Conf.GetRandomFileName() + "GOOG.mp3");
                 Bridge.ALog("(E2) 正在下载 TTS, 文件名: " + fileName);
                 var instance = new GoogleTTS(content, language);
                 instance.WriteFile(fileName);

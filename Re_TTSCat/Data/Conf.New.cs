@@ -33,6 +33,7 @@ namespace Re_TTSCat.Data
             ClearQueueAfterDisconnect = true;
             CatchGlobalError = true;
             SuperChatIgnoreRandomDitch = true;
+            SaveCacheInTempDir = true;
             HttpAuth = false;
             HttpAuthPassword = "";
             HttpAuthUsername = "";

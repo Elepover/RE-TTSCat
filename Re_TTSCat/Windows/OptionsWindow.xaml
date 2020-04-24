@@ -7,7 +7,7 @@
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理" MinHeight="530" Height="530" MinWidth="800" Width="800" Closing="Window_Closing">
     <Grid>
-        <TabControl Margin="0,0,-0.4,60">
+        <TabControl Margin="0,0,0,60">
             <TabItem Header="一般选项">
                 <Grid>
                     <CheckBox x:Name="CheckBox_DebugMode" Content="启用调试模式" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃"/>
@@ -15,9 +15,10 @@
                     <CheckBox x:Name="CheckBox_AutoUpdates" Content="自动检查更新" IsChecked="True" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" ToolTip="在插件启动时自动检查更新&#xA;&#xA;这并不会拖慢插件启动速度"/>
                     <CheckBox x:Name="CheckBox_ReadInQueue" Content="逐条阅读语音" IsChecked="True" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" ToolTip="待正在朗读的语音结束后再继续朗读下一条语音&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
                     <CheckBox x:Name="CheckBox_DoNotKeepCache" Content="不保留缓存文件" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" ToolTip="在朗读完毕后立即删除缓存文件&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
-                    <CheckBox x:Name="CheckBox_ProcessEvents" IsChecked="True" Content="处理连接/断开事件" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" ToolTip="允许插件在弹幕姬连接/断开时读出相应内容" Checked="CheckBox_ProcessEvents_IsCheckedChanged" Unchecked="CheckBox_ProcessEvents_IsCheckedChanged"/>
-                    <CheckBox x:Name="CheckBox_ClearQueueOnDisconnect" IsChecked="True" Content="断开连接时清空朗读队列" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" ToolTip="在断开连接时取消所有待朗读语音（需要启用&quot;处理连接/断开&quot;事件）"/>
-                    <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
+                    <CheckBox x:Name="CheckBox_SaveCacheInTemp" Content="在系统临时文件夹保存缓存" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" ToolTip="在系统缓存文件夹保存缓存文件&#xA;&#xA;由系统管理缓存文件，推荐使用"/>
+                    <CheckBox x:Name="CheckBox_ProcessEvents" IsChecked="True" Content="处理连接/断开事件" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" ToolTip="允许插件在弹幕姬连接/断开时读出相应内容" Checked="CheckBox_ProcessEvents_IsCheckedChanged" Unchecked="CheckBox_ProcessEvents_IsCheckedChanged"/>
+                    <CheckBox x:Name="CheckBox_ClearQueueOnDisconnect" IsChecked="True" Content="断开连接时清空朗读队列" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" ToolTip="在断开连接时取消所有待朗读语音（需要启用&quot;处理连接/断开&quot;事件）"/>
+                    <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" HorizontalAlignment="Left" Margin="10,162,0,0" VerticalAlignment="Top" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
                     <CheckBox x:Name="CheckBox_IsPluginActive" IsEnabled="False" Content="插件已启用" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="插件的运行状态&#xA;&#xA;此处无法切换插件状态，请使用弹幕姬本体插件管理"/>
                     <GroupBox Header="统计数据" Height="150" Margin="10,0,10,9.8" VerticalAlignment="Bottom">
                         <Grid>
@@ -34,12 +35,17 @@
             </TabItem>
             <TabItem Header="自定义读出内容（留空以停用）">
                 <Grid ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <TextBlock Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" TextAlignment="Right" Width="500">
+                        <Run>将鼠标悬浮于对应文本框上以查看帮助，如需更多信息，请查看</Run>
+                        <Hyperlink Click="Hyperlink_Click">自定义变量帮助</Hyperlink>
+                        <Run>。</Run>
+                    </TextBlock>
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="收到弹幕时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_OnDanmaku" Height="23" Margin="10,25,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到弹幕时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请查看插件介绍页面（可在&quot;关于&quot;标签页右上角直达）&#xA;$DM - 弹幕文本"/>
+                    <TextBox x:Name="TextBox_OnDanmaku" Height="23" Margin="10,25,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到弹幕时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,53,0,0" TextWrapping="Wrap" Text="收到醒目留言时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_OnSuperChat" Height="23" Margin="10,68,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到醒目留言时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请查看插件介绍页面（可在&quot;关于&quot;标签页右上角直达）&#xA;$DM - 弹幕文本"/>
+                    <TextBox x:Name="TextBox_OnSuperChat" Height="23" Margin="10,68,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到醒目留言时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,96,0,0" TextWrapping="Wrap" Text="收到礼物时，朗读以下内容：" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_OnGift" Height="23" Margin="10,111,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到礼物时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请查看插件介绍页面（可在&quot;关于&quot;标签页右上角直达）&#xA;$GIFT - 礼物名称&#xA;$COUNT - 礼物数量"/>
+                    <TextBox x:Name="TextBox_OnGift" Height="23" Margin="10,111,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到礼物时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$GIFT - 礼物名称&#xA;$COUNT - 礼物数量"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,139,0,0" TextWrapping="Wrap" Text="直播开始时，朗读以下内容：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_LiveStart" Height="23" Margin="10,154,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义直播开始时的读出内容&#xA;&#xA;此字段无变量可用"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,182,0,0" TextWrapping="Wrap" Text="直播结束时，朗读以下内容：" VerticalAlignment="Top"/>
@@ -84,7 +90,7 @@
                     <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="21"/>
                     <TextBlock HorizontalAlignment="Left" Margin="167,10,0,0" TextWrapping="Wrap" Text="自定义 TTS 引擎 URL" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_CustomEngineURL" TextWrapping="Wrap" Text="https://tts.example.com/?text=$TTSTEXT" Margin="167,25,301,0" ToolTip="使用 $TTSTEXT 来代替需要读出的文本" Height="59" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_CustomEngineURL" TextWrapping="Wrap" Text="https://tts.example.com/?text=$TTSTEXT" Margin="167,25,0,0" ToolTip="使用 $TTSTEXT 来代替需要读出的文本" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320"/>
                     <CheckBox x:Name="CheckBox_EnableHTTPAuth" IsChecked="False" Content="启用 HTTP 身份验证" HorizontalAlignment="Left" Margin="167,89,0,0" VerticalAlignment="Top" ToolTip="如您的自定义 TTS 引擎需要 HTTP 身份验证，请勾选" Checked="CheckBox_EnableHTTPAuth_Checked" Unchecked="CheckBox_EnableHTTPAuth_Unchecked"/>
                     <TextBlock HorizontalAlignment="Left" Margin="167,108,0,0" TextWrapping="Wrap" Text="用户名" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_HTTPAuthUsername" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="167,123,0,0" Width="320" ToolTip="HTTP 身份验证用户名" />
@@ -100,7 +106,7 @@
                     <TextBlock x:Name="TextBlock_PostData" HorizontalAlignment="Left" Margin="167,222,0,0" TextWrapping="Wrap" Text="POST 数据" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_PostData" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key1&quot;,&#xA;      &quot;Value&quot;: &quot;SGVsbG8gV29ybGQh&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key2&quot;,&#xA;      &quot;Value&quot;: &quot;WW91J3JlIEF3ZXNvbWUh&quot;&#xA;    }&#xA; ]&#xA;}" Margin="167,237,301,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="POST 数据" Height="59" VerticalAlignment="Top"/>
                     <TextBlock x:Name="TextBlock_Headers" HorizontalAlignment="Left" Margin="492,9,0,0" TextWrapping="Wrap" Text="自定义请求头" VerticalAlignment="Top"/>
-                    <TextBox x:Name="TextBox_Headers" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Accept-Encoding&quot;,&#xA;      &quot;Value&quot;: &quot;gzip&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Host&quot;,&#xA;      &quot;Value&quot;: &quot;tts.example.com&quot;&#xA;    }&#xA; ]&#xA;}" Margin="492,25,10,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="请求头数据，JSON 格式，与 POST 数据格式保持一致" Height="59" VerticalAlignment="Top"/>
+                    <TextBox x:Name="TextBox_Headers" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Accept-Encoding&quot;,&#xA;      &quot;Value&quot;: &quot;gzip&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Host&quot;,&#xA;      &quot;Value&quot;: &quot;tts.example.com&quot;&#xA;    }&#xA; ]&#xA;}" Margin="0,25,10,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="请求头数据，JSON 格式，与 POST 数据格式保持一致" Height="59" VerticalAlignment="Top" HorizontalAlignment="Right" Width="286"/>
                     <CheckBox x:Name="CheckBox_AllowDownloadMessage" IsChecked="True" Content="允许下载消息" HorizontalAlignment="Left" Margin="397,89,0,0" VerticalAlignment="Top" ToolTip="允许插件下载管理面板底部消息"/>
                     <Button x:Name="Button_ClearCache" Content="清理缓存" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Click="Button_ClearCache_Click" Height="19" VerticalAlignment="Bottom"/>
                     <Button x:Name="Button_Reset" Content="重置配置" Margin="0,0,10,10" ToolTip="将所有配置还原为默认值" HorizontalAlignment="Right" Width="75" Click="Button_Reset_Click" Height="19" VerticalAlignment="Bottom"/>

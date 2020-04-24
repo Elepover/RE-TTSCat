@@ -17,10 +17,15 @@ namespace Re_TTSCat.Data
                 Bridge.Log("未发现配置文件夹，尝试创建中");
                 Directory.CreateDirectory(Vars.confDir);
             }
-            if (!Directory.Exists(Vars.cacheDir))
+            if (!Directory.Exists(Vars.DefaultCacheDir))
             {
                 Bridge.Log("未发现缓存文件夹，尝试创建中");
-                Directory.CreateDirectory(Vars.cacheDir);
+                Directory.CreateDirectory(Vars.DefaultCacheDir);
+            }
+            if (!Directory.Exists(Vars.CacheDirTemp))
+            {
+                Bridge.Log("未发现缓存文件夹（Temp），尝试创建中");
+                Directory.CreateDirectory(Vars.CacheDirTemp);
             }
             if (!File.Exists(Vars.confFileName))
             {

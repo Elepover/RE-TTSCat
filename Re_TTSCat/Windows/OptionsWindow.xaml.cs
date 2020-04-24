@@ -1,20 +1,21 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Text;
-using System.Windows;
-using System.Diagnostics;
-using System.Net;
-using System.Windows.Threading;
-using System.Threading;
-using Re_TTSCat.Data;
-using System.IO;
-using System.Windows.Forms;
-using Microsoft.VisualBasic;
+﻿using Microsoft.VisualBasic;
 using NAudio.Wave;
+using Newtonsoft.Json;
+using Re_TTSCat.Data;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Management;
-using Newtonsoft.Json;
+using System.Net;
+using System.Security.Principal;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace Re_TTSCat.Windows
 {
@@ -148,7 +149,12 @@ namespace Re_TTSCat.Windows
             var frame = new DispatcherFrame();
             var thread = new Thread(() =>
             {
-                foreach (FileInfo file in (new DirectoryInfo(Vars.cacheDir)).GetFiles())
+                foreach (var file in (new DirectoryInfo(Vars.DefaultCacheDir)).GetFiles())
+                {
+                    totalSize += file.Length;
+                    count++;
+                }
+                foreach (var file in (new DirectoryInfo(Vars.CacheDirTemp)).GetFiles())
                 {
                     totalSize += file.Length;
                     count++;
@@ -181,6 +187,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.AutoUpdate = CheckBox_AutoUpdates.IsChecked ?? false;
             Vars.CurrentConf.DebugMode = CheckBox_DebugMode.IsChecked ?? false;
             Vars.CurrentConf.DoNotKeepCache = CheckBox_DoNotKeepCache.IsChecked ?? false;
+            Vars.CurrentConf.SaveCacheInTempDir = CheckBox_SaveCacheInTemp.IsChecked ?? true;
             Vars.CurrentConf.ReadInQueue = CheckBox_ReadInQueue.IsChecked ?? false;
             Vars.CurrentConf.SuperChatIgnoreRandomDitch = CheckBox_SuperChatIgnoreRandomDitch.IsChecked ?? true;
             Vars.CurrentConf.HttpAuth = CheckBox_EnableHTTPAuth.IsChecked ?? false;
@@ -251,6 +258,7 @@ namespace Re_TTSCat.Windows
             CheckBox_CatchGlobalError.IsChecked = Vars.CurrentConf.CatchGlobalError;
             CheckBox_DebugMode.IsChecked = Vars.CurrentConf.DebugMode;
             CheckBox_DoNotKeepCache.IsChecked = Vars.CurrentConf.DoNotKeepCache;
+            CheckBox_SaveCacheInTemp.IsChecked = Vars.CurrentConf.SaveCacheInTempDir;
             CheckBox_ReadInQueue.IsChecked = Vars.CurrentConf.ReadInQueue;
             CheckBox_ProcessEvents.IsChecked = Vars.CurrentConf.AllowConnectEvents;
             CheckBox_ClearQueueOnDisconnect.IsChecked = Vars.CurrentConf.ClearQueueAfterDisconnect;
@@ -305,6 +313,7 @@ namespace Re_TTSCat.Windows
                 try
                 {
                     TextBox_Debug.AppendText("---------- [DEBUG MODE ACTIVE, ADVANCED INFO VISIBLE] ----------\n");
+                    TextBox_Debug.AppendText($"Running in administrator privileges? {((new WindowsPrincipal(WindowsIdentity.GetCurrent())).IsInRole(WindowsBuiltInRole.Administrator) ? "yes" : "no")}\n");
                     TextBox_Debug.AppendText("---------- Advanced OS Environment ----------\n");
                     var wmi = new ManagementObjectSearcher("select * from Win32_OperatingSystem").Get().Cast<ManagementObject>().First();
                     TextBox_Debug.AppendText("(OS info retrieved via WMI)\n");
@@ -314,7 +323,7 @@ namespace Re_TTSCat.Windows
                     TextBox_Debug.AppendText($"Max process RAM usage: {(ulong)wmi["MaxProcessMemorySize"] / 1024 / 1024} MiB\n");
                     TextBox_Debug.AppendText($"Architecture: {(string)wmi["OSArchitecture"]}\n");
                     TextBox_Debug.AppendText($"Serial number: {(string)wmi["SerialNumber"]}\n");
-                    TextBox_Debug.AppendText($"Build number: {((string)wmi["BuildNumber"])}\n");
+                    TextBox_Debug.AppendText($"Build number: {(string)wmi["BuildNumber"]}\n");
                     TextBox_Debug.AppendText($"Security manager: {(SystemInformation.Secure ? "present" : "not present")}\n");
                     TextBox_Debug.AppendText($"Network: {(SystemInformation.Network ? "yes" : "no")}\n");
                     TextBox_Debug.AppendText($"Boot mode: {(SystemInformation.BootMode == BootMode.Normal ? "normal" : "safe")}\n");
@@ -441,7 +450,7 @@ namespace Re_TTSCat.Windows
         {
             try
             {
-                foreach (FileInfo fileInfo in (new DirectoryInfo(Vars.cacheDir)).GetFiles())
+                foreach (FileInfo fileInfo in (new DirectoryInfo(Vars.CacheDir)).GetFiles())
                 {
                     fileInfo.Delete();
                 }
@@ -558,7 +567,7 @@ namespace Re_TTSCat.Windows
             {
                 long totalSize = 0;
                 int count = 0;
-                foreach (FileInfo fileInfo in (new DirectoryInfo(Vars.cacheDir)).GetFiles())
+                foreach (FileInfo fileInfo in (new DirectoryInfo(Vars.CacheDir)).GetFiles())
                 {
                     totalSize += fileInfo.Length;
                     fileInfo.Delete();
@@ -617,6 +626,11 @@ namespace Re_TTSCat.Windows
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             Vars.HangWhenCrash = false;
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://www.danmuji.org/plugins/Re-TTSCat#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%B4%E8%A1%94");
         }
     }
 }

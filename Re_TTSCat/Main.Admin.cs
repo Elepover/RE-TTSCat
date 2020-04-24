@@ -34,7 +34,7 @@ namespace Re_TTSCat
                 worker.Start();
                 return;
             }
-            if ((Vars.ManagementWindow == null) || ((Vars.ManagementWindow.WindowDisposed)))
+            if ((Vars.ManagementWindow == null) || Vars.ManagementWindow.WindowDisposed)
             {
                 var windowThread = new Thread(() =>
                 {

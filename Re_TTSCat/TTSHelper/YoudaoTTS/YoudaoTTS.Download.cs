@@ -15,7 +15,7 @@ namespace Re_TTSCat
             Retry:
                 try
                 {
-                    var fileName = Path.Combine(Vars.cacheDir, Conf.GetRandomFileName() + "YODO.mp3");
+                    var fileName = Path.Combine(Vars.CacheDir, Conf.GetRandomFileName() + "YODO.mp3");
                     Bridge.ALog("(E4) 正在下载 TTS, 文件名: " + fileName);
                     var downloader = new WebClient();
                     downloader.Headers.Add(HttpRequestHeader.AcceptEncoding, "identity;q=1, *;q=0");

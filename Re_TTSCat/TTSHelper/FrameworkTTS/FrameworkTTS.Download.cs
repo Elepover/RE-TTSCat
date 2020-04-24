@@ -9,7 +9,7 @@ namespace Re_TTSCat
     {
         public static string Download(string content)
         {
-            var fileName = Path.Combine(Data.Vars.cacheDir, Data.Conf.GetRandomFileName() + "MSFT.wav");
+            var fileName = Path.Combine(Data.Vars.CacheDir, Data.Conf.GetRandomFileName() + "MSFT.wav");
             var frame = new DispatcherFrame();
             var thread = new Thread(() => {
                 var synth = new SpeechSynthesizer() { Rate = Data.Vars.CurrentConf.ReadSpeed } ;

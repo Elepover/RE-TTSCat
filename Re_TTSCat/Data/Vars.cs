@@ -1,5 +1,6 @@
 ﻿using Re_TTSCat.Windows;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -14,10 +15,11 @@ namespace Re_TTSCat.Data
         public static readonly string dllFileName = Assembly.GetExecutingAssembly().Location;
         public static readonly string dllPath = (new FileInfo(dllFileName)).DirectoryName;
         public static readonly string confDir = Path.Combine(dllPath, "RE-TTSCat");
-        public static readonly string cacheDir = Path.Combine(confDir, "Cache");
+        public static readonly string DefaultCacheDir = Path.Combine(confDir, "Cache");
+        public static readonly string CacheDirTemp = Path.Combine(Path.GetTempPath(), "Re-TTSCat TTS Cache");
         public static readonly string confFileName = Path.Combine(confDir, "Config.json");
         public static readonly string audioLibFileName = Path.Combine(confDir, "NAudio.dll");
-        public static readonly Version currentVersion = new Version("3.3.25.405");
+        public static readonly Version currentVersion = new Version("3.3.26.410");
         public static readonly string mgmtWindowTitle = "Re: TTSCat - 插件管理";
 
         public static Conf CurrentConf = new Conf();
@@ -27,5 +29,6 @@ namespace Re_TTSCat.Data
         public static bool CallPlayerStop = false;
         public static bool HangWhenCrash = false;
         public static OptionsWindow ManagementWindow;
+        public static string CacheDir => CurrentConf?.SaveCacheInTempDir == false ? DefaultCacheDir : CacheDirTemp;
     }
 }

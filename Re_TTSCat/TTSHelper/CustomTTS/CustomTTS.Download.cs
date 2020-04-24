@@ -21,7 +21,7 @@ namespace Re_TTSCat
 Retry:
             try
             {
-                var fileName = Path.Combine(Vars.cacheDir, Conf.GetRandomFileName() + "USER.mp3");
+                var fileName = Path.Combine(Vars.CacheDir, Conf.GetRandomFileName() + "USER.mp3");
                 Bridge.ALog($"(E5) 正在下载 TTS, 文件名: {fileName}, 方法: {Vars.CurrentConf.ReqType}");
                 if (Vars.CurrentConf.ReqType == RequestType.ApplicationXWwwFormUrlencoded || Vars.CurrentConf.ReqType == RequestType.TextPlain)
                 {

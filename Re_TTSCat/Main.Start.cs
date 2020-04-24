@@ -21,7 +21,7 @@ namespace Re_TTSCat
                 loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(10);
                 ALog("正在检查配置");
                 await Data.Conf.InitiateAsync();
-                loadWindow.ProgressBar.Value = 50; Data.Conf.Delay(10);
+                loadWindow.ProgressBar.Value = 60; Data.Conf.Delay(10);
                 ALog("配置初始化成功");
                 ALog("正在启用播放器");
                 TTSPlayer.Init();

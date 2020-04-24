@@ -122,6 +122,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool SuperChatIgnoreRandomDitch { get; set; }
         /// <summary>
+        /// 是否在临时文件夹保存缓存
+        /// </summary>
+        public bool SaveCacheInTempDir { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }
