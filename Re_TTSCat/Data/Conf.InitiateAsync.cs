@@ -12,10 +12,10 @@ namespace Re_TTSCat.Data
         {
             Bridge.ALog("正在载入配置");
             // detect if file exists
-            if (!Directory.Exists(Vars.confDir))
+            if (!Directory.Exists(Vars.ConfDir))
             {
                 Bridge.Log("未发现配置文件夹，尝试创建中");
-                Directory.CreateDirectory(Vars.confDir);
+                Directory.CreateDirectory(Vars.ConfDir);
             }
             if (!Directory.Exists(Vars.DefaultCacheDir))
             {
@@ -27,7 +27,7 @@ namespace Re_TTSCat.Data
                 Bridge.Log("未发现缓存文件夹（Temp），尝试创建中");
                 Directory.CreateDirectory(Vars.CacheDirTemp);
             }
-            if (!File.Exists(Vars.confFileName))
+            if (!File.Exists(Vars.ConfFileName))
             {
                 // file does not exist, creating
                 Bridge.Log("未发现配置文件，尝试创建中");
@@ -38,17 +38,17 @@ namespace Re_TTSCat.Data
             Bridge.ALog("正在检查文件");
             try
             {
-                if (!File.Exists(Vars.audioLibFileName) || !VerifyLibraryIntegrity())
+                if (!File.Exists(Vars.AudioLibraryFileName) || !VerifyLibraryIntegrity())
                 {
                     Bridge.ALog("尝试释放音频支持库");
-                    var writer = new FileStream(Vars.audioLibFileName, FileMode.OpenOrCreate);
+                    var writer = new FileStream(Vars.AudioLibraryFileName, FileMode.OpenOrCreate);
                     await writer.WriteAsync(Properties.Resources.NAudio, 0, Properties.Resources.NAudio.Length);
                     writer.Close();
                 }
                 if (!Main.IsNAudioReady)
                 {
                     Bridge.ALog("正在载入支持库");
-                    Assembly.LoadFrom(Vars.audioLibFileName);
+                    Assembly.LoadFrom(Vars.AudioLibraryFileName);
                     Main.IsNAudioReady = true;
                 }
             }

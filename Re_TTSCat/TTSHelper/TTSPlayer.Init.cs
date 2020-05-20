@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using Re_TTSCat.Data;
+using System.Threading;
 
 namespace Re_TTSCat
 {
@@ -6,11 +7,11 @@ namespace Re_TTSCat
     {
         public static void Init()
         {
-            Data.Vars.Player = new Thread(() => PlayerThread())
+            Vars.Player = new Thread(() => PlayerThread())
             {
                 IsBackground = true
             };
-            Data.Vars.Player.Start();
+            Vars.Player.Start();
         }
     }
 }

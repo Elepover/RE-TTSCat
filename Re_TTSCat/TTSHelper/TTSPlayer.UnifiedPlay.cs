@@ -56,27 +56,27 @@ namespace Re_TTSCat
             if (Vars.CurrentConf.ReadInQueue)
             {
                 Bridge.ALog("正在添加下列文件到播放列表: " + fileName);
-                readerList.Add(new AudioFileReader(fileName));
+                fileList.Add(fileName);
             }
             else
             {
                 Bridge.ALog("正在直接播放: " + fileName);
                 var thread = new Thread(() =>
                 {
-                    var waveOut = new WaveOutEvent();
-                    var reader = new AudioFileReader(fileName);
-                    waveOut.Init(reader);
-                    waveOut.Volume = ((float)Vars.CurrentConf.TTSVolume) / 100;
-                    Bridge.ALog("音量设置为: " + waveOut.Volume);
-                    waveOut.Play();
-                    Vars.TotalPlayed++;
-                    while (waveOut.PlaybackState != PlaybackState.Stopped) { Thread.Sleep(50); }
-                    reader.Dispose();
-                    waveOut.Dispose();
-                    if (Vars.CurrentConf.DoNotKeepCache)
+                    using (var waveOut = new WaveOutEvent())
                     {
-                        File.Delete(fileName);
+                        using (var reader = new AudioFileReader(fileName))
+                        {
+                            waveOut.Init(reader);
+                            waveOut.Volume = ((float)Vars.CurrentConf.TTSVolume) / 100;
+                            Bridge.ALog("音量设置为: " + waveOut.Volume);
+                            waveOut.Play();
+                            Vars.TotalPlayed++;
+                            while (waveOut.PlaybackState != PlaybackState.Stopped) { Thread.Sleep(50); }
+                        }
                     }
+                    if (Vars.CurrentConf.DoNotKeepCache)
+                        File.Delete(fileName);
                 });
                 thread.Start();
             }

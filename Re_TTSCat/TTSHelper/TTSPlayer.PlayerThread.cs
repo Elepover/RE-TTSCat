@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading;
+using System.Windows.Forms.VisualStyles;
+using NAudio.Wave;
 using Re_TTSCat.Data;
 
 namespace Re_TTSCat
@@ -11,17 +14,23 @@ namespace Re_TTSCat
             Bridge.ALog("播放器已启动");
             while (!Vars.CallPlayerStop)
             {
-                if (readerList.Count != 0)
+                if (fileList.Count != 0)
                 {
-                    Bridge.ALog("启动播放，剩余数目:" + readerList.Count);
-                    var fileName = readerList[0].FileName;
-                    Play(readerList[0]);
-                    Vars.TotalPlayed++;
-                    if (Vars.CurrentConf.DoNotKeepCache)
+                    Bridge.ALog("启动播放，剩余数目:" + fileList.Count);
+                    var fileName = fileList[0];
+                    try
                     {
-                        File.Delete(fileName);
+                        using (var reader = new AudioFileReader(fileList[0]))
+                            Play(reader);
+                        Vars.TotalPlayed++;
+                        if (Vars.CurrentConf.DoNotKeepCache)
+                            File.Delete(fileName);
                     }
-                    if (readerList.Count > 0) readerList.RemoveAt(0);
+                    catch (Exception ex)
+                    {
+                        Bridge.ALog($"无法读取文件 {Path.GetFileName(fileName)}, 放弃: {ex.Message}");
+                    }
+                    if (fileList.Count > 0) fileList.RemoveAt(0);
                 }
                 Thread.Sleep(100);
             }

@@ -7,8 +7,8 @@ namespace Re_TTSCat.Data
     {
         public static bool VerifyLibraryIntegrity()
         {
-            if (!File.Exists(Vars.audioLibFileName)) return false;
-            using (var stream = File.OpenRead(Vars.audioLibFileName))
+            if (!File.Exists(Vars.AudioLibraryFileName)) return false;
+            using (var stream = File.OpenRead(Vars.AudioLibraryFileName))
             {
                 var data = new byte[stream.Length];
                 stream.Read(data, 0, data.Length);

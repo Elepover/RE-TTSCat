@@ -34,6 +34,8 @@ namespace Re_TTSCat.Data
             CatchGlobalError = true;
             SuperChatIgnoreRandomDitch = true;
             SaveCacheInTempDir = true;
+            SuppressLogOutput = false;
+            ClearCacheOnStartup = true;
             HttpAuth = false;
             HttpAuthPassword = "";
             HttpAuthUsername = "";

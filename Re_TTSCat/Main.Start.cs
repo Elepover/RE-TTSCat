@@ -35,10 +35,10 @@ namespace Re_TTSCat
                         try
                         {
                             var latestVersion = await KruinUpdates.Update.GetLatestUpdAsync();
-                            var currentVersion = Data.Vars.currentVersion;
+                            var currentVersion = Data.Vars.CurrentVersion;
                             if (KruinUpdates.CheckIfLatest(latestVersion, currentVersion))
                             {
-                                ALog("插件已为最新 (" + Data.Vars.currentVersion.ToString() + ")");
+                                ALog("插件已为最新 (" + Data.Vars.CurrentVersion.ToString() + ")");
                             }
                             else
                             {

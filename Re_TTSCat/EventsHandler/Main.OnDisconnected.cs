@@ -12,7 +12,7 @@ namespace Re_TTSCat
             if (!Vars.CurrentConf.AllowConnectEvents) return;
             else if (Vars.CurrentConf.ClearQueueAfterDisconnect)
             {
-                TTSPlayer.readerList.Clear();
+                TTSPlayer.fileList.Clear();
             }
             if (e == null)
             {

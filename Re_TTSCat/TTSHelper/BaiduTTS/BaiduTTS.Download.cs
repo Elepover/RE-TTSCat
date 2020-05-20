@@ -22,12 +22,12 @@ Retry:
                 downloader.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
                 if (cantonese)
                 {
-                    await downloader.DownloadFileTaskAsync(Vars.apiBaiduCantonese.Replace("$TTSTEXT", content),
+                    await downloader.DownloadFileTaskAsync(Vars.ApiBaiduCantonese.Replace("$TTSTEXT", content),
                                                            fileName);
                 }
                 else
                 {
-                    await downloader.DownloadFileTaskAsync(Vars.apiBaidu.Replace("$TTSTEXT", content),
+                    await downloader.DownloadFileTaskAsync(Vars.ApiBaidu.Replace("$TTSTEXT", content),
                                                            fileName);
                 }
                 downloader.Dispose();

@@ -7,7 +7,8 @@ namespace Re_TTSCat
     {
         public void ALog(string log)
         {
-            if (Vars.CurrentConf.DebugMode) Log(log);
+            if (Vars.CurrentConf.DebugMode && !Vars.CurrentConf.SuppressLogOutput)
+                Log(log);
         }
     }
 }

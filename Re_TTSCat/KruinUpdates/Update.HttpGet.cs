@@ -14,7 +14,7 @@ namespace Re_TTSCat
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
                 request.Referer = "https://www.danmuji.org/";
-                request.UserAgent = "KruinUpdates/" + Vars.currentVersion.ToString() + " (Re-TTSCat;)";
+                request.UserAgent = "KruinUpdates/" + Vars.CurrentVersion.ToString() + " (Re-TTSCat;)";
                 using (HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync())
                 {
                     using (Stream stream = response.GetResponseStream())

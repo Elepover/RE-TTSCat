@@ -27,7 +27,7 @@ namespace Re_TTSCat.Windows
                 TextBlock_Status.Text = "正在检查更新...";
                 ProgressBar_Indicator.Visibility = Visibility.Visible;
                 var latestVersion = await KruinUpdates.Update.GetLatestUpdAsync();
-                var currentVersion = Vars.currentVersion;
+                var currentVersion = Vars.CurrentVersion;
                 TextBlock_Latest.Text = "最新版本 (Stable): " + latestVersion.LatestVersion.ToString() + " / 当前版本: " + currentVersion.ToString();
                 if (KruinUpdates.CheckIfLatest(latestVersion, currentVersion))
                 {

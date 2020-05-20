@@ -11,7 +11,7 @@ namespace Re_TTSCat.Data
         public static async Task SaveAsync()
         {
             var text = JsonConvert.SerializeObject(Vars.CurrentConf, Formatting.Indented);
-            var writer = new StreamWriter(Vars.confFileName, false, Encoding.UTF8)
+            var writer = new StreamWriter(Vars.ConfFileName, false, Encoding.UTF8)
             {
                 AutoFlush = true,
                 NewLine = Environment.NewLine

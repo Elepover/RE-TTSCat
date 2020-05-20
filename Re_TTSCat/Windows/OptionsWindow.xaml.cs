@@ -143,7 +143,7 @@ namespace Re_TTSCat.Windows
 
         private void UpdateStats()
         {
-            TextBlock_TTSInQueue.Text = TTSPlayer.readerList.Count.ToString();
+            TextBlock_TTSInQueue.Text = TTSPlayer.fileList.Count.ToString();
             long totalSize = 0;
             int count = 0;
             var frame = new DispatcherFrame();
@@ -191,6 +191,8 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.ReadInQueue = CheckBox_ReadInQueue.IsChecked ?? false;
             Vars.CurrentConf.SuperChatIgnoreRandomDitch = CheckBox_SuperChatIgnoreRandomDitch.IsChecked ?? true;
             Vars.CurrentConf.HttpAuth = CheckBox_EnableHTTPAuth.IsChecked ?? false;
+            Vars.CurrentConf.SuppressLogOutput = CheckBox_SuppressLogOutput.IsChecked ?? false;
+            Vars.CurrentConf.ClearCacheOnStartup = CheckBox_ClearCacheOnStartup.IsChecked ?? true;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
             Vars.CurrentConf.ReadPossibility = (int)Math.Round(Slider_ReadPossibility.Value);
@@ -266,6 +268,8 @@ namespace Re_TTSCat.Windows
             CheckBox_EnableHTTPAuth.IsChecked = Vars.CurrentConf.HttpAuth;
             CheckBox_AllowDownloadMessage.IsChecked = Vars.CurrentConf.AllowDownloadMessage;
             CheckBox_IsPluginActive.IsChecked = Main.IsEnabled;
+            CheckBox_ClearCacheOnStartup.IsChecked = Vars.CurrentConf.ClearCacheOnStartup;
+            CheckBox_SuppressLogOutput.IsChecked = Vars.CurrentConf.SuppressLogOutput;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
             Slider_DMLengthLimitMax.Value = Vars.CurrentConf.MaximumDanmakuLength;
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;
@@ -303,11 +307,11 @@ namespace Re_TTSCat.Windows
             TextBox_Debug.AppendText("---------- OS Environment ----------\n");
             TextBox_Debug.AppendText($"Operating system: {Environment.OSVersion}\n");
             TextBox_Debug.AppendText("---------- Plugin Environment ----------\n");
-            TextBox_Debug.AppendText($"Plugin version: {Vars.currentVersion}\n");
-            TextBox_Debug.AppendText($"Plugin executable: {Vars.dllFileName}\n");
-            TextBox_Debug.AppendText($"Plugin configuration directory: {Vars.confDir}\n");
-            TextBox_Debug.AppendText($"Audio library file: {Vars.audioLibFileName}\n");
-            TextBox_Debug.AppendText($"Plugins directory: {Vars.dllPath}\n");
+            TextBox_Debug.AppendText($"Plugin version: {Vars.CurrentVersion}\n");
+            TextBox_Debug.AppendText($"Plugin executable: {Vars.AppDllFileName}\n");
+            TextBox_Debug.AppendText($"Plugin configuration directory: {Vars.ConfDir}\n");
+            TextBox_Debug.AppendText($"Audio library file: {Vars.AudioLibraryFileName}\n");
+            TextBox_Debug.AppendText($"Plugins directory: {Vars.AppDllFilePath}\n");
             if (Vars.CurrentConf.DebugMode)
             {
                 try
@@ -347,7 +351,7 @@ namespace Re_TTSCat.Windows
             UpdateStats();
 
             TabItem_DebugOptions.Visibility = Vars.CurrentConf.DebugMode ? Visibility.Visible : Visibility.Hidden;
-            this.Title = $"{Vars.mgmtWindowTitle}{(Vars.CurrentConf.DebugMode ? " *用户调试模式*" : "")}{(Debugger.IsAttached ? " *弱智模式*" : "")}";
+            this.Title = $"{Vars.ManagementWindowDefaultTitle}{(Vars.CurrentConf.DebugMode ? " *用户调试模式*" : "")}{(Debugger.IsAttached ? " *弱智模式*" : "")}";
         }
 
         private async void Button_Apply_Click(object sender, RoutedEventArgs e)
@@ -423,7 +427,7 @@ namespace Re_TTSCat.Windows
                         try
                         {
                             client.Headers.Set(HttpRequestHeader.Referer, "https://www.danmuji.org/plugins/Re-TTSCat");
-                            client.Headers.Set(HttpRequestHeader.UserAgent, $"Re_TTSCat/{Vars.currentVersion} (Windows NT {Environment.OSVersion.Version.ToString(2)}; {(Environment.Is64BitOperatingSystem ? "Win64; x64" : "Win32; x86")})");
+                            client.Headers.Set(HttpRequestHeader.UserAgent, $"Re_TTSCat/{Vars.CurrentVersion} (Windows NT {Environment.OSVersion.Version.ToString(2)}; {(Environment.Is64BitOperatingSystem ? "Win64; x64" : "Win32; x86")})");
                             str = Encoding.UTF8.GetString(client.DownloadData("https://static-cn.itsmy.app:12306/files/today"));
                             comments = Encoding.UTF8.GetString(client.DownloadData("https://static-cn.itsmy.app:12306/files/today_comments"));
                         }
@@ -553,14 +557,14 @@ namespace Re_TTSCat.Windows
 
         private void Button_ClearQueue_Click(object sender, RoutedEventArgs e)
         {
-            TTSPlayer.readerList.Clear();
+            TTSPlayer.fileList.Clear();
         }
 
         private void Button_ClearCache_Click(object sender, RoutedEventArgs e)
         {
-            if (TTSPlayer.readerList.Count > 0)
+            if (TTSPlayer.fileList.Count > 0)
             {
-                AsyncDialog.Open($"还有 {TTSPlayer.readerList.Count} 个语音在队列中，删除可能导致插件工作异常\n\n请在播放完毕后再试一次", icon: MessageBoxIcon.Warning);
+                AsyncDialog.Open($"还有 {TTSPlayer.fileList.Count} 个语音在队列中，删除可能导致插件工作异常\n\n请在播放完毕后再试一次", icon: MessageBoxIcon.Warning);
                 return;
             }
             try

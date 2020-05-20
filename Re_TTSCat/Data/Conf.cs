@@ -126,6 +126,14 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool SaveCacheInTempDir { get; set; }
         /// <summary>
+        /// 压制日志输出
+        /// </summary>
+        public bool SuppressLogOutput { get; set; }
+        /// <summary>
+        /// 在启动时清理缓存
+        /// </summary>
+        public bool ClearCacheOnStartup { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }

@@ -9,7 +9,7 @@ namespace Re_TTSCat.Data
     {
         public static async Task<Conf> ReadAsync(bool apply = true)
         {
-            var reader = new StreamReader(Vars.confFileName, Encoding.UTF8);
+            var reader = new StreamReader(Vars.ConfFileName, Encoding.UTF8);
             var settingsText = await reader.ReadToEndAsync();
             reader.Close();
             var result = JsonConvert.DeserializeObject<Conf>(settingsText);
