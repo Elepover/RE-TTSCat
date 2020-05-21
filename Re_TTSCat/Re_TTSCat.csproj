@@ -145,6 +145,9 @@
     <Compile Include="Windows\CriticalErrorWindow.xaml.cs">
       <DependentUpon>CriticalErrorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\DonateWindow.xaml.cs">
+      <DependentUpon>DonateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\LoadingWindowLight.xaml.cs">
       <DependentUpon>LoadingWindowLight.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\DonateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\LoadingWindowLight.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -187,6 +194,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\NAudio.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\qrcode_pay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\qrcode_pay.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

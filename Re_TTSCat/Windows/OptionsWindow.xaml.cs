@@ -33,9 +33,11 @@ namespace Re_TTSCat.Windows
         private bool WindowClosed = true;
         public bool WindowDisposed = false;
         private UpdateWindow updateWindow;
+        private DonateWindow donateWindow = new DonateWindow();
 
         private void Button_CheckConnectivity_Click(object sender, RoutedEventArgs e)
         {
+            TextBox_ExecutionResult.Text = "延迟测试已启动...";
             try
             {
                 var thread = new Thread(() =>
@@ -103,13 +105,15 @@ namespace Re_TTSCat.Windows
                     }
                     window.Close();
                     AsyncDialog.Open(result.ToString(), "Re: TTSCat");
+                    Dispatcher.Invoke(() => { TextBox_ExecutionResult.Text = "延迟测试完成"; });
                 });
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.Start();
             }
             catch (Exception ex)
             {
-                AsyncDialog.Open("延迟测试错误: " + ex.ToString(), "Re: TTSCat", MessageBoxIcon.Error);
+                AsyncDialog.Open($"延迟测试错误: {ex}", "Re: TTSCat", MessageBoxIcon.Error);
+                TextBox_ExecutionResult.Text = $"延迟测试错误: {ex.Message}";
             }
         }
 
@@ -118,10 +122,12 @@ namespace Re_TTSCat.Windows
             try
             {
                 await TTSPlayer.UnifiedPlay(TextBox_TTSTest.Text);
+                TextBox_ExecutionResult.Text = "播放成功/已添加到队列";
             }
             catch (Exception ex)
             {
-                AsyncDialog.Open("错误: " + ex.ToString(), "Re: TTSCat", MessageBoxIcon.Error);
+                AsyncDialog.Open($"错误: {ex}", "Re: TTSCat", MessageBoxIcon.Error);
+                TextBox_ExecutionResult.Text = $"播放失败: {ex.Message}";
             }
         }
 
@@ -192,6 +198,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.SuperChatIgnoreRandomDitch = CheckBox_SuperChatIgnoreRandomDitch.IsChecked ?? true;
             Vars.CurrentConf.HttpAuth = CheckBox_EnableHTTPAuth.IsChecked ?? false;
             Vars.CurrentConf.SuppressLogOutput = CheckBox_SuppressLogOutput.IsChecked ?? false;
+            Vars.CurrentConf.OverrideToLogsTabOnStartup = CheckBox_OverrideToLogsTabOnStartup.IsChecked ?? false;
             Vars.CurrentConf.ClearCacheOnStartup = CheckBox_ClearCacheOnStartup.IsChecked ?? true;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
@@ -270,6 +277,7 @@ namespace Re_TTSCat.Windows
             CheckBox_IsPluginActive.IsChecked = Main.IsEnabled;
             CheckBox_ClearCacheOnStartup.IsChecked = Vars.CurrentConf.ClearCacheOnStartup;
             CheckBox_SuppressLogOutput.IsChecked = Vars.CurrentConf.SuppressLogOutput;
+            CheckBox_OverrideToLogsTabOnStartup.IsChecked = Vars.CurrentConf.OverrideToLogsTabOnStartup;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
             Slider_DMLengthLimitMax.Value = Vars.CurrentConf.MaximumDanmakuLength;
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;
@@ -310,10 +318,12 @@ namespace Re_TTSCat.Windows
             TextBox_Debug.AppendText($"Plugin version: {Vars.CurrentVersion}\n");
             TextBox_Debug.AppendText($"Plugin executable: {Vars.AppDllFileName}\n");
             TextBox_Debug.AppendText($"Plugin configuration directory: {Vars.ConfDir}\n");
+            TextBox_Debug.AppendText($"Cache directory: {Vars.CacheDir}\n");
             TextBox_Debug.AppendText($"Audio library file: {Vars.AudioLibraryFileName}\n");
             TextBox_Debug.AppendText($"Plugins directory: {Vars.AppDllFilePath}\n");
             if (Vars.CurrentConf.DebugMode)
             {
+                
                 try
                 {
                     TextBox_Debug.AppendText("---------- [DEBUG MODE ACTIVE, ADVANCED INFO VISIBLE] ----------\n");
@@ -361,7 +371,7 @@ namespace Re_TTSCat.Windows
 
         private void Button_Donate_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://daily.elepover.com/donate/");
+            donateWindow.IsOpen = true;
         }
 
         private void Button_CheckUpd_Click(object sender, RoutedEventArgs e)
@@ -459,42 +469,48 @@ namespace Re_TTSCat.Windows
                     fileInfo.Delete();
                 }
                 AsyncDialog.Open("OK");
+                TextBox_ExecutionResult.Text = "已清理缓存";
             }
             catch (Exception ex)
             {
                 AsyncDialog.Open("Error: " + ex.ToString(), "Re: TTSCat", MessageBoxIcon.Error);
+                TextBox_ExecutionResult.Text = $"缓存清理失败: {ex.Message}";
             }
         }
 
         private void Button_ManuallyCrash_Click(object sender, RoutedEventArgs e)
         {
+            TextBox_ExecutionResult.Text = "要崩溃啦... ヽ(*。>Д<)o゜";
             throw new NullReferenceException();
         }
 
         private void Button_StartDebugger_Click(object sender, RoutedEventArgs e)
         {
+            TextBox_ExecutionResult.Text = "要崩溃啦... ┑(￣Д ￣)┍";
             Debugger.Launch();
         }
 
         private void Button_PlayAudio_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var frame = new DispatcherFrame();
-                var thread = new Thread(() => {
+            var frame = new DispatcherFrame();
+            var thread = new Thread(() => {
+                try
+                {
                     var waveOut = new WaveOutEvent();
                     var reader = new AudioFileReader(Interaction.InputBox("输入文件名", "Re: TTSCat"));
                     waveOut.Init(reader);
                     waveOut.Play();
                     frame.Continue = false;
-                });
-                thread.Start();
-                Dispatcher.PushFrame(frame);
-            }
-            catch (Exception ex)
-            {
-                AsyncDialog.Open("Error: " + ex.ToString(), "Re: TTSCat", MessageBoxIcon.Error);
-            }
+                }
+                catch (Exception ex)
+                {
+                    AsyncDialog.Open($"Error: {ex}", "Re: TTSCat", MessageBoxIcon.Error);
+                    Dispatcher.Invoke(() => { TextBox_ExecutionResult.Text = $"播放错误: {ex.Message}"; });
+                }
+            });
+            thread.Start();
+            TextBox_ExecutionResult.Text = "已启动播放";
+            Dispatcher.PushFrame(frame);
         }
 
         private void Button_Reset_Click(object sender, RoutedEventArgs e)
@@ -557,7 +573,13 @@ namespace Re_TTSCat.Windows
 
         private void Button_ClearQueue_Click(object sender, RoutedEventArgs e)
         {
-            TTSPlayer.fileList.Clear();
+            int totalCleared = 0;
+            lock (TTSPlayer.fileList)
+            {
+                totalCleared = TTSPlayer.fileList.Count;
+                TTSPlayer.fileList.Clear();
+            }
+            TextBox_ExecutionResult.Text = $"已取消 {totalCleared} 个待播放语音";
         }
 
         private void Button_ClearCache_Click(object sender, RoutedEventArgs e)
@@ -635,6 +657,12 @@ namespace Re_TTSCat.Windows
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("https://www.danmuji.org/plugins/Re-TTSCat#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%B4%E8%A1%94");
+        }
+
+        private void Button_TriggerGc_Click(object sender, RoutedEventArgs e)
+        {
+            GC.Collect();
+            TextBox_ExecutionResult.Text = "垃圾回收成功";
         }
     }
 }

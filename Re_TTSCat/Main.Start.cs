@@ -1,4 +1,5 @@
 ﻿using BilibiliDM_PluginFramework;
+using Re_TTSCat.Data;
 using System;
 using System.Threading;
 using System.Windows.Forms;
@@ -20,7 +21,7 @@ namespace Re_TTSCat
                 loadWindow.Show();
                 loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(10);
                 ALog("正在检查配置");
-                await Data.Conf.InitiateAsync();
+                await Conf.InitiateAsync();
                 loadWindow.ProgressBar.Value = 60; Data.Conf.Delay(10);
                 ALog("配置初始化成功");
                 ALog("正在启用播放器");
@@ -56,6 +57,8 @@ namespace Re_TTSCat
                 loadWindow.Close();
                 Log("启动成功");
                 IsEnabled = true;
+                if ((Vars.ManagementWindow != null) && !Vars.ManagementWindow.WindowDisposed)
+                    Vars.ManagementWindow.Dispatcher.Invoke(() => { Vars.ManagementWindow.CheckBox_IsPluginActive.IsChecked = true; });
                 base.Start();
             }
             catch (Exception ex)

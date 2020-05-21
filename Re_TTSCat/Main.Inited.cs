@@ -1,8 +1,10 @@
 ﻿using BilibiliDM_PluginFramework;
 using Re_TTSCat.Data;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace Re_TTSCat
@@ -25,6 +27,8 @@ namespace Re_TTSCat
                 var frame = new DispatcherFrame();
                 var thread = new Thread(() =>
                 {
+                    var sw = new Stopwatch();
+                    sw.Start();
                     int totalDeleted = 0;
                     foreach (var file in Directory.GetFiles(Vars.CacheDir))
                     {
@@ -38,11 +42,25 @@ namespace Re_TTSCat
                             ALog($"无法删除日志文件 {Path.GetFileName(file)}, 跳过: {ex.Message}");
                         }
                     }
-                    Log(totalDeleted == 0 ? "无需清理缓存" : $"已清理 {totalDeleted} 个缓存文件");
+                    Log(totalDeleted == 0 ? "无需清理缓存" : $"已清理 {totalDeleted} 个缓存文件, 用时 {Math.Round(sw.Elapsed.TotalSeconds, 2)}s");
+                    sw.Stop();
                     frame.Continue = false;
                 });
                 thread.Start();
                 Dispatcher.PushFrame(frame);
+                try
+                {
+                    if (Vars.CurrentConf?.OverrideToLogsTabOnStartup == true)
+                    {
+                        var window = System.Windows.Application.Current.MainWindow;
+                        var tabControl = (TabControl)window.FindName("TabControl");
+                        tabControl.SelectedIndex = 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ALog($"无法切换到首页: {ex.Message}");
+                }
             }
         }
     }

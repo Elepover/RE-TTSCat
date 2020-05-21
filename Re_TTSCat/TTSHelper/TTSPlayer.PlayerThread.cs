@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms.VisualStyles;
 using NAudio.Wave;
 using Re_TTSCat.Data;
 

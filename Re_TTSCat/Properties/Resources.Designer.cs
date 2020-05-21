@@ -69,5 +69,15 @@ namespace Re_TTSCat.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap qrcode_pay {
+            get {
+                object obj = ResourceManager.GetObject("qrcode_pay", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

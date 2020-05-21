@@ -1,0 +1,42 @@
+﻿<Popup x:Class="Re_TTSCat.Windows.DonateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Re_TTSCat.Windows" AllowsTransparency="True" PopupAnimation="Fade"
+        mc:Ignorable="d" Height="350" Width="600" Placement="Mouse" StaysOpen="False">
+    <Grid Background="Transparent">
+        <Grid Background="Transparent">
+            <Border x:Name="Border_GlowBorder" BorderBrush="DarkGray" BorderThickness="5" Margin="5,5,5,5"/>
+            <Grid.BitmapEffect>
+                <BlurBitmapEffect Radius="10" KernelType="Gaussian"></BlurBitmapEffect>
+            </Grid.BitmapEffect>
+        </Grid>
+        <Grid Background="White" Margin="8,8,8,8">
+            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="捐赠" VerticalAlignment="Top" FontSize="17"/>
+            <TextBlock Margin="10,36,10,0" TextWrapping="Wrap" VerticalAlignment="Top">
+                首先，在此感谢您使用本插件。
+                <LineBreak/>
+                <LineBreak/>
+                我是 Re: TTSCat 的独立开发者，从 2017 年开始进行此插件的开发与维护工作。插件的开发需要投入大量的业余时间和精力，开发者难免也有感到疲惫的时候。
+                <LineBreak/>
+                <LineBreak/>
+                如果您的确觉得插件好用，可以通过捐赠的方式支持我的工作。
+                <LineBreak/>
+                <LineBreak/>
+                当然，如果您不想捐赠，<Underline>也请随意使用</Underline>！向我反馈（发送邮件至 <Hyperlink Click="Hyperlink_Click">re-ttscat@itsmy.app</Hyperlink>）也是向我提供支持的方法之一。我在长期内<Underline>并不打算</Underline>推出“付费功能”或类似设定。因为付费功能的存在一定会出现“破解/分享”与“反破解/付费验证机制”的博弈。此类功能的开发更加浪费时间。
+            </TextBlock>
+            <Border Margin="10,0,0,10" BorderThickness="2" BorderBrush="Black" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                <Image Source="/Re_TTSCat;component/Resources/qrcode_pay.png"/>
+            </Border>
+            <TextBlock HorizontalAlignment="Left" Margin="117,0,0,10" TextWrapping="Wrap" VerticalAlignment="Bottom">
+                <Run FontSize="14">金额任意 :)</Run>
+                <LineBreak/>
+                <Run FontSize="14">也许可以考虑请我喝一瓶可乐（￥3），或者请我一顿小餐（￥10）？</Run>
+                <LineBreak/>
+                <LineBreak/>
+                <Run FontSize="16">←</Run> <Run FontSize="16" Foreground="#027AFF">支付宝</Run><Run FontSize="16">扫码支付</Run>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</Popup>

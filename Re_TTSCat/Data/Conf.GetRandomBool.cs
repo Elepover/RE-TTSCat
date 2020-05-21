@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Re_TTSCat.Data
+﻿namespace Re_TTSCat.Data
 {
     public partial class Conf
     {

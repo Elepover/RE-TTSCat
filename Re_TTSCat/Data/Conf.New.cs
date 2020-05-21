@@ -36,6 +36,7 @@ namespace Re_TTSCat.Data
             SaveCacheInTempDir = true;
             SuppressLogOutput = false;
             ClearCacheOnStartup = true;
+            OverrideToLogsTabOnStartup = false;
             HttpAuth = false;
             HttpAuthPassword = "";
             HttpAuthUsername = "";

@@ -134,6 +134,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool ClearCacheOnStartup { get; set; }
         /// <summary>
+        /// 在启动时强行切换到首页
+        /// </summary>
+        public bool OverrideToLogsTabOnStartup { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }

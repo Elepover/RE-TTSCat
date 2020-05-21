@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStyle="None" Topmost="True" AllowsTransparency="True" ResizeMode="NoResize"
-        Title="LoadingWindowLight" Height="15" Width="300">
+        Title="LoadingWindowLight" Height="15" Width="300" ShowInTaskbar="False">
     <Grid>
         <ProgressBar x:Name="ProgressBar" IsIndeterminate="False" />
     </Grid>
