@@ -34,7 +34,7 @@ namespace Re_TTSCat
             Log("插件已停用");
             IsEnabled = false;
             if ((Vars.ManagementWindow != null) && !Vars.ManagementWindow.WindowDisposed)
-                Vars.ManagementWindow.Dispatcher.Invoke(() => { Vars.ManagementWindow.CheckBox_IsPluginActive.IsChecked = true; });
+                Vars.ManagementWindow.Dispatcher.Invoke(() => { Vars.ManagementWindow.CheckBox_IsPluginActive.IsChecked = false; });
             base.Stop();
         }
     }
