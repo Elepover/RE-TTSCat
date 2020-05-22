@@ -63,6 +63,16 @@ namespace Re_TTSCat.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
+        public static byte[] fa_solid_900 {
+            get {
+                object obj = ResourceManager.GetObject("fa_solid_900", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
         public static byte[] NAudio {
             get {
                 object obj = ResourceManager.GetObject("NAudio", resourceCulture);

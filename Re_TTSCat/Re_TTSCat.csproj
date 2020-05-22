@@ -193,6 +193,7 @@
     <None Include="Resources\avatar.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\fa-solid-900.ttf" />
     <None Include="Resources\NAudio.dll" />
   </ItemGroup>
   <ItemGroup>

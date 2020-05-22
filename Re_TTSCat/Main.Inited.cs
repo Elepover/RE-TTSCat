@@ -42,7 +42,7 @@ namespace Re_TTSCat
                             ALog($"无法删除日志文件 {Path.GetFileName(file)}, 跳过: {ex.Message}");
                         }
                     }
-                    Log(totalDeleted == 0 ? "无需清理缓存" : $"已清理 {totalDeleted} 个缓存文件, 用时 {Math.Round(sw.Elapsed.TotalSeconds, 2)}s");
+                    Log(totalDeleted == 0 ? "无需清理缓存" : $"已清理 {totalDeleted} 个缓存文件, 用时 {Math.Round(sw.Elapsed.TotalMilliseconds, 2)}ms");
                     sw.Stop();
                     frame.Continue = false;
                 });

@@ -5,6 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Re_TTSCat.Windows" AllowsTransparency="True" PopupAnimation="Fade"
         mc:Ignorable="d" Height="350" Width="600" Placement="Mouse" StaysOpen="False">
+    <Popup.Resources>
+        <FontFamily x:Key="FontAwesome">/Re_TTSCat;component/Resources/#Font Awesome 5 Free Solid</FontFamily>
+        <Style x:Name="tbFontIconSpacing" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="2.5,0,2.5,0"/>
+        </Style>
+    </Popup.Resources>
     <Grid Background="Transparent">
         <Grid Background="Transparent">
             <Border x:Name="Border_GlowBorder" BorderBrush="DarkGray" BorderThickness="5" Margin="5,5,5,5"/>
@@ -13,7 +19,10 @@
             </Grid.BitmapEffect>
         </Grid>
         <Grid Background="White" Margin="8,8,8,8">
-            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="捐赠" VerticalAlignment="Top" FontSize="17"/>
+            <StackPanel HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Orientation="Horizontal">
+                <TextBlock FontFamily="{StaticResource FontAwesome}" Foreground="HotPink" VerticalAlignment="Center" Text="&#xF004;" FontSize="17"/>
+                <TextBlock Text="支持开发" VerticalAlignment="Top" FontSize="17"/>
+            </StackPanel>
             <TextBlock Margin="10,36,10,0" TextWrapping="Wrap" VerticalAlignment="Top">
                 首先，在此感谢您使用本插件。
                 <LineBreak/>

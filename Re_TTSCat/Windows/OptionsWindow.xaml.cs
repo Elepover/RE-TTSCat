@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Threading;
 
@@ -32,8 +33,8 @@ namespace Re_TTSCat.Windows
         private Thread StatsUpdater;
         private bool WindowClosed = true;
         public bool WindowDisposed = false;
-        private UpdateWindow updateWindow;
         private DonateWindow donateWindow = new DonateWindow();
+        private UpdateWindow updateWindow = new UpdateWindow();
 
         private void Button_CheckConnectivity_Click(object sender, RoutedEventArgs e)
         {
@@ -376,8 +377,7 @@ namespace Re_TTSCat.Windows
 
         private void Button_CheckUpd_Click(object sender, RoutedEventArgs e)
         {
-            updateWindow = new UpdateWindow();
-            updateWindow.ShowDialog();
+            updateWindow.IsOpen = true;
         }
 
         private void UpdateSliders(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -551,8 +551,6 @@ namespace Re_TTSCat.Windows
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // close all subwindows
-            if ((updateWindow != null) && (updateWindow.IsOpen)) updateWindow.Close();
             WindowClosed = true;
             WindowDisposed = true;
         }
@@ -663,6 +661,13 @@ namespace Re_TTSCat.Windows
         {
             GC.Collect();
             TextBox_ExecutionResult.Text = "垃圾回收成功";
+        }
+
+        private void TreeView_GeneralSettings_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var item = (TreeViewItem)TreeView_GeneralSettings.SelectedItem;
+            if (item != null)
+                item.IsSelected = false;
         }
     }
 }

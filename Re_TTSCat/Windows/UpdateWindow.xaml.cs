@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using Re_TTSCat.Data;
 
 namespace Re_TTSCat.Windows
@@ -9,26 +10,25 @@ namespace Re_TTSCat.Windows
     /// <summary>
     /// UpdateWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class UpdateWindow : Window
+    public partial class UpdateWindow : Popup
     {
         public UpdateWindow()
         {
             InitializeComponent();
         }
 
-        public bool IsOpen = false;
         private string updateDownloadURL = "undefined";
 
         private async Task CheckUpdate()
         {
             try
             {
-                IsEnabled = false;
+                MasterGrid.IsEnabled = false;
                 TextBlock_Status.Text = "正在检查更新...";
                 ProgressBar_Indicator.Visibility = Visibility.Visible;
                 var latestVersion = await KruinUpdates.Update.GetLatestUpdAsync();
                 var currentVersion = Vars.CurrentVersion;
-                TextBlock_Latest.Text = "最新版本 (Stable): " + latestVersion.LatestVersion.ToString() + " / 当前版本: " + currentVersion.ToString();
+                TextBlock_Latest.Text = "最新版本: " + latestVersion.LatestVersion.ToString() + " / 当前版本: " + currentVersion.ToString();
                 if (KruinUpdates.CheckIfLatest(latestVersion, currentVersion))
                 {
                     TextBlock_Status.Text = "插件已为最新";
@@ -49,7 +49,7 @@ namespace Re_TTSCat.Windows
             finally
             {
                 ProgressBar_Indicator.Visibility = Visibility.Hidden;
-                IsEnabled = true;
+                MasterGrid.IsEnabled = true;
             }
         }
 
@@ -70,20 +70,6 @@ namespace Re_TTSCat.Windows
             }
         }
 
-        bool _shown = false;
-
-        protected override async void OnContentRendered(EventArgs e)
-        {
-            base.OnContentRendered(e);
-
-            if (_shown)
-                return;
-
-            _shown = true;
-
-            await CheckUpdate();
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             IsOpen = true;
@@ -92,6 +78,11 @@ namespace Re_TTSCat.Windows
         private void Window_Closed(object sender, EventArgs e)
         {
             IsOpen = false;
+        }
+
+        private async void Popup_Opened(object sender, EventArgs e)
+        {
+            await CheckUpdate();
         }
     }
 }

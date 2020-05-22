@@ -6,33 +6,110 @@
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理" MinHeight="530" Height="530" MinWidth="800" Width="800" Closing="Window_Closing">
+    <Window.Resources>
+        <FontFamily x:Key="FontAwesome">/Re_TTSCat;component/Resources/#Font Awesome 5 Free Solid</FontFamily>
+        <Thickness x:Key="spMarginStats">5,0,5,0</Thickness>
+        <Style x:Name="tbFontIconSpacing" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="2,0,2,0"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <TabControl Margin="0,0,0,60">
-            <TabItem Header="一般选项">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF013;"/>
+                        <TextBlock VerticalAlignment="Center" Text="常规选项"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid>
-                    <CheckBox x:Name="CheckBox_AutoUpdates" Content="自动检查更新" IsChecked="True" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" ToolTip="在插件启动时自动检查更新&#xA;&#xA;这并不会拖慢插件启动速度"/>
-                    <CheckBox x:Name="CheckBox_ReadInQueue" Content="逐条阅读语音" IsChecked="True" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" ToolTip="待正在朗读的语音结束后再继续朗读下一条语音&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
-                    <CheckBox x:Name="CheckBox_DoNotKeepCache" Content="不保留缓存文件" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" ToolTip="在朗读完毕后立即删除缓存文件&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
-                    <CheckBox x:Name="CheckBox_ClearCacheOnStartup" IsChecked="True" Content="在启动时清理残留缓存" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" ToolTip="在弹幕姬启动时自动清理上次运行剩余的缓存"/>
-                    <CheckBox x:Name="CheckBox_SaveCacheInTemp" Content="在系统临时文件夹保存缓存" IsChecked="True" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" ToolTip="在系统缓存文件夹保存缓存文件&#xA;&#xA;由系统管理缓存文件，推荐使用"/>
-                    <CheckBox x:Name="CheckBox_ProcessEvents" IsChecked="True" Content="处理连接/断开事件" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" ToolTip="允许插件在弹幕姬连接/断开时读出相应内容" Checked="CheckBox_ProcessEvents_IsCheckedChanged" Unchecked="CheckBox_ProcessEvents_IsCheckedChanged"/>
-                    <CheckBox x:Name="CheckBox_ClearQueueOnDisconnect" IsChecked="True" Content="断开连接时清空朗读队列" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" ToolTip="在断开连接时取消所有待朗读语音（需要启用&quot;处理连接/断开&quot;事件）"/>
-                    <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
-                    <CheckBox x:Name="CheckBox_IsPluginActive" IsEnabled="False" Content="插件已启用" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="插件的运行状态&#xA;&#xA;此处无法切换插件状态，请使用弹幕姬本体插件管理"/>
-                    <GroupBox Header="统计数据" Height="150" Margin="10,0,10,9.8" VerticalAlignment="Bottom">
+                    <TreeView x:Name="TreeView_GeneralSettings" Margin="0,0,0,160" BorderBrush="{x:Null}" SelectedItemChanged="TreeView_GeneralSettings_SelectedItemChanged">
+                        <TreeView.Resources>
+                            <Style TargetType="{x:Type CheckBox}">
+                                <Setter Property="Margin" Value="-19,2,0,2"/>
+                            </Style>
+                        </TreeView.Resources>
+                        <TreeViewItem IsExpanded="True">
+                            <TreeViewItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF1DE;"/>
+                                    <TextBlock VerticalAlignment="Center" Text="一般"/>
+                                </StackPanel>
+                            </TreeViewItem.Header>
+                            <CheckBox x:Name="CheckBox_AutoUpdates" Content="自动检查更新" IsChecked="True" ToolTip="在插件启动时自动检查更新&#xA;&#xA;这并不会拖慢插件启动速度"/>
+                            <CheckBox x:Name="CheckBox_ReadInQueue" Content="逐条阅读语音" IsChecked="True" ToolTip="待正在朗读的语音结束后再继续朗读下一条语音&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
+                            <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
+                        </TreeViewItem>
+                        <TreeViewItem IsExpanded="True">
+                            <TreeViewItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF019;"/>
+                                    <TextBlock VerticalAlignment="Center" Text="缓存"/>
+                                </StackPanel>
+                            </TreeViewItem.Header>
+                            <CheckBox x:Name="CheckBox_DoNotKeepCache" Content="不保留缓存文件" ToolTip="在朗读完毕后立即删除缓存文件&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
+                            <CheckBox x:Name="CheckBox_ClearCacheOnStartup" Content="在启动时清理残留缓存" IsChecked="True" ToolTip="在弹幕姬启动时自动清理上次运行剩余的缓存"/>
+                            <CheckBox x:Name="CheckBox_SaveCacheInTemp" Content="在系统临时文件夹保存缓存" IsChecked="True" ToolTip="在系统缓存文件夹保存缓存文件&#xA;&#xA;由系统管理缓存文件，推荐使用"/>
+                        </TreeViewItem>
+                        <TreeViewItem IsExpanded="True">
+                            <TreeViewItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF06A;"/>
+                                    <TextBlock VerticalAlignment="Center" Text="事件"/>
+                                </StackPanel>
+                            </TreeViewItem.Header>
+                            <CheckBox x:Name="CheckBox_ProcessEvents" IsChecked="True" Content="处理连接/断开事件" ToolTip="允许插件在弹幕姬连接/断开时读出相应内容" Checked="CheckBox_ProcessEvents_IsCheckedChanged" Unchecked="CheckBox_ProcessEvents_IsCheckedChanged"/>
+                            <CheckBox x:Name="CheckBox_ClearQueueOnDisconnect" IsChecked="True" Content="断开连接时清空朗读队列" ToolTip="在断开连接时取消所有待朗读语音（需要启用&quot;处理连接/断开&quot;事件）"/>
+                        </TreeViewItem>
+                    </TreeView>
+                    <CheckBox x:Name="CheckBox_IsPluginActive" IsEnabled="False" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="插件的运行状态&#xA;&#xA;此处无法切换插件状态，请使用弹幕姬本体插件管理">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF205;"/>
+                            <TextBlock VerticalAlignment="Center" Text="插件已启用"/>
+                        </StackPanel>
+                    </CheckBox>
+                    <GroupBox Header="统计数据" Height="150" Margin="10,0,10,10" VerticalAlignment="Bottom">
                         <Grid>
-                            <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="正在队列中的语音" VerticalAlignment="Top"/>
-                            <TextBlock x:Name="TextBlock_TTSInQueue" HorizontalAlignment="Left" Margin="10,25,0,0" FontSize="25" TextWrapping="Wrap" Text="正在计算" VerticalAlignment="Top"/>
-                            <TextBlock HorizontalAlignment="Left" Margin="10,62,0,0" TextWrapping="Wrap" Text="缓存体积" VerticalAlignment="Top"/>
-                            <TextBlock x:Name="TextBlock_CacheSize" HorizontalAlignment="Left" Margin="10,77,0,0" FontSize="25" TextWrapping="Wrap" Text="正在计算" VerticalAlignment="Top"/>
-                            <TextBlock HorizontalAlignment="Left" Margin="115,10,0,0" TextWrapping="Wrap" Text="已播放" VerticalAlignment="Top"/>
-                            <TextBlock x:Name="TextBlock_TotalPlayed" HorizontalAlignment="Left" Margin="115,25,0,0" FontSize="25" TextWrapping="Wrap" Text="正在计算" VerticalAlignment="Top"/>
-                            <CheckBox x:Name="CheckBox_AutoUpdate" Margin="0,10,10,0" Height="15" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Content="自动更新" ToolTip="自动更新统计数据" Checked="CheckBox_AutoUpdate_Checked" Unchecked="CheckBox_AutoUpdate_Unchecked"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top">
+                                <StackPanel Margin="{StaticResource spMarginStats}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF101;"/>
+                                        <TextBlock VerticalAlignment="Center" Text="正在队列中的语音"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="TextBlock_TTSInQueue" FontSize="25" TextWrapping="Wrap" Text="正在计算"/>
+                                </StackPanel>
+                                <StackPanel Margin="{StaticResource spMarginStats}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF00C;"/>
+                                        <TextBlock VerticalAlignment="Center" Text="已播放"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="TextBlock_TotalPlayed" FontSize="25" TextWrapping="Wrap" Text="正在计算"/>
+                                </StackPanel>
+                                <StackPanel Margin="{StaticResource spMarginStats}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF0A0;"/>
+                                        <TextBlock VerticalAlignment="Center" Text="缓存体积"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="TextBlock_CacheSize" FontSize="25" TextWrapping="Wrap" Text="正在计算"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <CheckBox x:Name="CheckBox_AutoUpdate" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="自动更新统计数据" Checked="CheckBox_AutoUpdate_Checked" Unchecked="CheckBox_AutoUpdate_Unchecked">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF2F1;"/>
+                                    <TextBlock VerticalAlignment="Center" Text="自动刷新"/>
+                                </StackPanel>
+                            </CheckBox>
                         </Grid>
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="自定义读出内容">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF5AA;"/>
+                        <TextBlock VerticalAlignment="Center" Text="自定义读出内容"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <TextBlock Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" TextAlignment="Right">
                         将鼠标悬浮于对应文本框上以查看帮助，<Underline>留空以停用朗读</Underline>；如需更多信息，请查看<Hyperlink Click="Hyperlink_Click">自定义变量帮助</Hyperlink>
@@ -57,7 +134,13 @@
                     <TextBox x:Name="TextBox_CustomTitles" Height="23" Margin="10,370,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="顺序: 老爷/普通用户/总督/提督/舰长"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="高级选项">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF7D9;"/>
+                        <TextBlock VerticalAlignment="Center" Text="高级选项"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid>
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="TTS 引擎" VerticalAlignment="Top"/>
                     <ComboBox x:Name="ComboBox_Engine" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="120" ToolTip="选择插件使用的 TTS 引擎&#xA;&#xA;将鼠标指针悬浮在对应的引擎上以获取相应说明">
@@ -85,8 +168,8 @@
                     <TextBlock x:Name="TextBlock_TTSVolume" HorizontalAlignment="Left" Margin="135,227,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="21"/>
                     <TextBlock HorizontalAlignment="Left" Margin="10,253,0,0" TextWrapping="Wrap" Text=".NET 框架引擎朗读速度" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
-                    <CheckBox x:Name="CheckBox_DebugMode" Content="启用调试模式" HorizontalAlignment="Left" Margin="10,299,0,0" VerticalAlignment="Top" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃"/>
                     <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="21"/>
+                    <CheckBox x:Name="CheckBox_DebugMode" Content="我是高级用户（请阅读悬停提示）" HorizontalAlignment="Left" Margin="10,0,0,10.8" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃" Height="14" VerticalAlignment="Bottom"/>
                     <TextBlock HorizontalAlignment="Left" Margin="167,10,0,0" TextWrapping="Wrap" Text="自定义 TTS 引擎 URL" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_CustomEngineURL" FontFamily="Consolas" TextWrapping="Wrap" Text="https://tts.example.com/?text=$TTSTEXT" Margin="167,25,0,0" ToolTip="使用 $TTSTEXT 来代替需要读出的文本" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320"/>
                     <CheckBox x:Name="CheckBox_EnableHTTPAuth" IsChecked="False" Content="启用 HTTP 身份验证" HorizontalAlignment="Left" Margin="167,89,0,0" VerticalAlignment="Top" ToolTip="如您的自定义 TTS 引擎需要 HTTP 身份验证，请勾选" Checked="CheckBox_EnableHTTPAuth_Checked" Unchecked="CheckBox_EnableHTTPAuth_Unchecked"/>
@@ -110,7 +193,13 @@
                     <Button x:Name="Button_Reset" Content="重置配置" Margin="0,0,10,10" ToolTip="将所有配置还原为默认值" HorizontalAlignment="Right" Width="75" Click="Button_Reset_Click" Height="19" VerticalAlignment="Bottom"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="屏蔽设置">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF05E;"/>
+                        <TextBlock VerticalAlignment="Center" Text="屏蔽选项"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid>
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="用户屏蔽模式" VerticalAlignment="Top"/>
                     <ComboBox x:Name="ComboBox_Blockmode" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="120" ToolTip="选择用户屏蔽设置&#xA;&#xA;关闭: 没有任何屏蔽&#xA;黑名单: 屏蔽黑名单中的用户&#xA;白名单: 屏蔽白名单以外所有用户">
@@ -142,28 +231,43 @@
                     <TextBox x:Name="TextBox_KeywordBlacklist" HorizontalAlignment="Left" Height="70" Margin="420,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ToolTip="关键字黑名单，回车分隔&#xA;&#xA;关键字屏蔽会无视用户屏蔽设置" SpellCheck.IsEnabled="True" AcceptsReturn="True" AcceptsTab="True"/>
                     <TextBlock x:Name="Label_KeywordWhitelist" HorizontalAlignment="Left" Margin="420,142,0,0" TextWrapping="Wrap" Text="白名单" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_KeywordWhitelist" HorizontalAlignment="Left" Height="70" Margin="420,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ToolTip="关键字白名单，回车分隔&#xA;&#xA;关键字屏蔽会无视用户屏蔽设置" SpellCheck.IsEnabled="True" AcceptsReturn="True" AcceptsTab="True"/>
-
                     <TextBlock HorizontalAlignment="Right" Margin="0,10,10,0" TextWrapping="Wrap" Text="屏蔽类型" VerticalAlignment="Top"/>
                     <TextBlock x:Name="Label_UID" HorizontalAlignment="Right" Margin="0,47,108,0" TextWrapping="Wrap" Text="UID" VerticalAlignment="Top"/>
                     <TextBlock x:Name="Label_Username" HorizontalAlignment="Right" Margin="0,47,10,0" TextWrapping="Wrap" Text="用户名" VerticalAlignment="Top"/>
                     <Slider x:Name="TrackBar_BlockType" HorizontalAlignment="Right" Margin="0,26,10,0" VerticalAlignment="Top" Width="120" Height="21" ToolTip="&lt;&lt;&lt; 滑动来改变 &gt;&gt;&gt;" Maximum="1" SmallChange="1"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="关于">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF129;"/>
+                        <TextBlock VerticalAlignment="Center" Text="关于插件"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid>
                     <TextBlock x:Name="Label_AboutTitle" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Re: TTSCat v3 - Amber" VerticalAlignment="Top" FontSize="16" ToolTip="插件版本"/>
                     <Button x:Name="Button_PermissionInfo" Content="系统权限信息" HorizontalAlignment="Right" Margin="0,10,205,0" VerticalAlignment="Top" Width="89" Height="20" ToolTip="了解插件使用了哪些系统权限" Click="Button_PermissionInfo_Click"/>
                     <Button x:Name="Button_About" Content="关于 Re: TTSCat" HorizontalAlignment="Right" Margin="0,10,100,0" VerticalAlignment="Top" Width="100" Height="20" ToolTip="在弹幕姬网站上查看插件信息" Click="Button_About_Click"/>
-                    <Button x:Name="Button_Suggestions" Content="给我一点建议" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="85" Height="20" ToolTip="前往作者的留言板&#xA;我会尽快回复相关建议，但不一定准时准点，感谢理解" Click="Button_Suggestions_Click"/>
+                    <Button x:Name="Button_Suggestions" Content="留言板" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="85" Height="20" ToolTip="前往作者的留言板&#xA;我会尽快回复相关建议，但不一定准时准点，感谢理解" Click="Button_Suggestions_Click"/>
                     <TextBox x:Name="TextBox_Debug" FontFamily="Consolas" Margin="10,35,10,10" TextWrapping="NoWrap" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" AcceptsReturn="True" IsReadOnly="True" ToolTip="这里是我们收集到的一些有助于调试的信息"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="TabItem_DebugOptions" Header="调试选项">
+            <TabItem x:Name="TabItem_DebugOptions">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF188;"/>
+                        <TextBlock VerticalAlignment="Center" Text="调试选项"/>
+                    </StackPanel>
+                </TabItem.Header>
                 <Grid>
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="播放测试音频" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_TTSTest" Margin="10,30,90,0" TextWrapping="Wrap" Text="行行好，给点钱" VerticalAlignment="Top"/>
                     <Button x:Name="Button_CheckConnectivity" Content="检查服务器连通性" Margin="10,52,10,0" VerticalAlignment="Top" Click="Button_CheckConnectivity_Click"/>
-                    <Button x:Name="Button_TestGo" Content="测试" Margin="0,30,10,0" VerticalAlignment="Top" Height="17" HorizontalAlignment="Right" Width="75" Click="Button_TestGo_Click"/>
+                    <Button x:Name="Button_TestGo" Margin="0,30,10,0" VerticalAlignment="Top" Height="17" HorizontalAlignment="Right" Width="75" Click="Button_TestGo_Click">
+                        <Grid>
+                            <TextBlock Text="测试" VerticalAlignment="Center" />
+                        </Grid>
+                    </Button>
                     <Button x:Name="Button_DeleteCache" Content="尝试删除所有缓存文件" Margin="10,75,10,0" VerticalAlignment="Top" Click="Button_DeleteCache_Click"/>
                     <Button x:Name="Button_ManuallyCrash" Content="崩溃当前线程（NULL）" Margin="10,98,10,0" VerticalAlignment="Top" Click="Button_ManuallyCrash_Click"/>
                     <Button x:Name="Button_StartDebugger" Content="崩溃弹幕姬（DEBUG | 启动/附加调试器）" Margin="10,121,10,0" VerticalAlignment="Top" Click="Button_StartDebugger_Click"/>
@@ -184,12 +288,42 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="Button_Donate" Content="捐赠" HorizontalAlignment="Left" Margin="10,0,0,35" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="支付一笔小小的费用，帮助我更好地开发插件" Click="Button_Donate_Click"/>
-        <Button x:Name="Button_CheckUpd" Content="检查更新" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="检查插件更新" Click="Button_CheckUpd_Click"/>
-        <Button x:Name="Button_Reload" Content="重载" Margin="0,0,90,35" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="从文件中重新读取配置文件，已修改的配置将被覆盖" Click="Button_Reload_Click"/>
-        <Button x:Name="Button_Apply" Content="应用" Margin="0,0,10,35" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="将修改的配置保存到文件中" Click="Button_Apply_Click"/>
-        <Button x:Name="Button_OK" Content="确定" IsDefault="True" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="保存配置到文件中，并关闭设置窗口" Click="Button_OK_Click"/>
-        <Button x:Name="Button_Cancel" Content="取消" IsCancel="True" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="放弃所有已修改的设置并关闭窗口" Click="Button_Cancel_Click"/>
+        <Button x:Name="Button_Donate" HorizontalAlignment="Left" Margin="10,0,0,35" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="支付一笔小小的费用，帮助我更好地开发插件" Click="Button_Donate_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="{StaticResource FontAwesome}" Foreground="HotPink" VerticalAlignment="Center" Text="&#xF004;"/>
+                <TextBlock VerticalAlignment="Center" Text="支持开发"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="Button_CheckUpd" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="检查插件更新" Click="Button_CheckUpd_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="{StaticResource FontAwesome}" Foreground="DarkGreen" VerticalAlignment="Center" Text="&#xF0AB;"/>
+                <TextBlock VerticalAlignment="Center" Text="检查更新"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="Button_Reload" Margin="0,0,90,35" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="从文件中重新读取配置文件，已修改的配置将被覆盖" Click="Button_Reload_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF2F1;"/>
+                <TextBlock VerticalAlignment="Center" Text="重载"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="Button_Apply" Margin="0,0,10,35" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="将修改的配置保存到文件中" Click="Button_Apply_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF0C7;"/>
+                <TextBlock VerticalAlignment="Center" Text="应用"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="Button_OK" IsDefault="True" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="保存配置到文件中，并关闭设置窗口" Click="Button_OK_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="{StaticResource FontAwesome}" Foreground="DarkGreen" VerticalAlignment="Center" Text="&#xF00C;"/>
+                <TextBlock VerticalAlignment="Center" Text="确定"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="Button_Cancel" IsCancel="True" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="放弃所有已修改的设置并关闭窗口" Click="Button_Cancel_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="{StaticResource FontAwesome}" Foreground="DarkRed" VerticalAlignment="Center" Text="&#xF00D;"/>
+                <TextBlock VerticalAlignment="Center" Text="取消"/>
+            </StackPanel>
+        </Button>
         <TextBlock x:Name="TextBlock_Thanks" Margin="90,0,169.6,10" TextWrapping="Wrap" Text="感谢使用本插件" Height="45" TextAlignment="Center" ToolTip="Copyright (C) 2017 - 2020 Elepover.&#xA;This is an open-source(MIT) software." VerticalAlignment="Bottom"/>
     </Grid>
 </Window>
