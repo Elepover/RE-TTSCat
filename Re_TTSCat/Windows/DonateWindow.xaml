@@ -44,7 +44,7 @@
                 <Run FontSize="14">也许可以考虑请我喝一瓶可乐（￥3），或者请我一顿小餐（￥10）？</Run>
                 <LineBreak/>
                 <LineBreak/>
-                <Run FontSize="16">←</Run> <Run FontSize="16" Foreground="#027AFF">支付宝</Run><Run FontSize="16">扫码支付</Run>
+                <Run FontSize="16">←</Run> <Run FontSize="16" FontWeight="SemiBold" Foreground="#027AFF">支付宝</Run><Run FontSize="16">扫码支付</Run>
             </TextBlock>
         </Grid>
     </Grid>

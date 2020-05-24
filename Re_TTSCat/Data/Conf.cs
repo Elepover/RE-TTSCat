@@ -138,6 +138,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool OverrideToLogsTabOnStartup { get; set; }
         /// <summary>
+        /// 在弹幕姬启动时自动启动插件
+        /// </summary>
+        public bool AutoStartOnLoad { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }

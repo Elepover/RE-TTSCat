@@ -24,7 +24,6 @@ namespace Re_TTSCat
             // finish cache cleanup
             if (Vars.CurrentConf.ClearCacheOnStartup)
             {
-                var frame = new DispatcherFrame();
                 var thread = new Thread(() =>
                 {
                     var sw = new Stopwatch();
@@ -44,24 +43,23 @@ namespace Re_TTSCat
                     }
                     Log(totalDeleted == 0 ? "无需清理缓存" : $"已清理 {totalDeleted} 个缓存文件, 用时 {Math.Round(sw.Elapsed.TotalMilliseconds, 2)}ms");
                     sw.Stop();
-                    frame.Continue = false;
                 });
                 thread.Start();
-                Dispatcher.PushFrame(frame);
-                try
+            }
+            try
+            {
+                if (Vars.CurrentConf?.OverrideToLogsTabOnStartup == true)
                 {
-                    if (Vars.CurrentConf?.OverrideToLogsTabOnStartup == true)
-                    {
-                        var window = System.Windows.Application.Current.MainWindow;
-                        var tabControl = (TabControl)window.FindName("TabControl");
-                        tabControl.SelectedIndex = 0;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ALog($"无法切换到首页: {ex.Message}");
+                    var window = System.Windows.Application.Current.MainWindow;
+                    var tabControl = (TabControl)window.FindName("TabControl");
+                    tabControl.SelectedIndex = 0;
                 }
             }
+            catch (Exception ex)
+            {
+                ALog($"无法切换到首页: {ex.Message}");
+            }
+            if (Vars.CurrentConf?.AutoStartOnLoad == true) Start();
         }
     }
 }

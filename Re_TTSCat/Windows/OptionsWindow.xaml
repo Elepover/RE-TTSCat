@@ -17,10 +17,7 @@
         <TabControl Margin="0,0,0,60">
             <TabItem>
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF013;"/>
-                        <TextBlock VerticalAlignment="Center" Text="常规选项"/>
-                    </StackPanel>
+                    <local:IconTextBlock IconGlyph="&#xF013;" Text="常规选项"/>
                 </TabItem.Header>
                 <Grid>
                     <TreeView x:Name="TreeView_GeneralSettings" Margin="0,0,0,160" BorderBrush="{x:Null}" SelectedItemChanged="TreeView_GeneralSettings_SelectedItemChanged">
@@ -31,10 +28,7 @@
                         </TreeView.Resources>
                         <TreeViewItem IsExpanded="True">
                             <TreeViewItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF1DE;"/>
-                                    <TextBlock VerticalAlignment="Center" Text="一般"/>
-                                </StackPanel>
+                                <local:IconTextBlock IconGlyph="&#xF1DE;" Text="一般"/>
                             </TreeViewItem.Header>
                             <CheckBox x:Name="CheckBox_AutoUpdates" Content="自动检查更新" IsChecked="True" ToolTip="在插件启动时自动检查更新&#xA;&#xA;这并不会拖慢插件启动速度"/>
                             <CheckBox x:Name="CheckBox_ReadInQueue" Content="逐条阅读语音" IsChecked="True" ToolTip="待正在朗读的语音结束后再继续朗读下一条语音&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
@@ -42,10 +36,7 @@
                         </TreeViewItem>
                         <TreeViewItem IsExpanded="True">
                             <TreeViewItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF019;"/>
-                                    <TextBlock VerticalAlignment="Center" Text="缓存"/>
-                                </StackPanel>
+                                <local:IconTextBlock IconGlyph="&#xF019;" Text="缓存"/>
                             </TreeViewItem.Header>
                             <CheckBox x:Name="CheckBox_DoNotKeepCache" Content="不保留缓存文件" ToolTip="在朗读完毕后立即删除缓存文件&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
                             <CheckBox x:Name="CheckBox_ClearCacheOnStartup" Content="在启动时清理残留缓存" IsChecked="True" ToolTip="在弹幕姬启动时自动清理上次运行剩余的缓存"/>
@@ -53,51 +44,34 @@
                         </TreeViewItem>
                         <TreeViewItem IsExpanded="True">
                             <TreeViewItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF06A;"/>
-                                    <TextBlock VerticalAlignment="Center" Text="事件"/>
-                                </StackPanel>
+                                <local:IconTextBlock IconGlyph="&#xF06A;" Text="事件"/>
                             </TreeViewItem.Header>
                             <CheckBox x:Name="CheckBox_ProcessEvents" IsChecked="True" Content="处理连接/断开事件" ToolTip="允许插件在弹幕姬连接/断开时读出相应内容" Checked="CheckBox_ProcessEvents_IsCheckedChanged" Unchecked="CheckBox_ProcessEvents_IsCheckedChanged"/>
                             <CheckBox x:Name="CheckBox_ClearQueueOnDisconnect" IsChecked="True" Content="断开连接时清空朗读队列" ToolTip="在断开连接时取消所有待朗读语音（需要启用&quot;处理连接/断开&quot;事件）"/>
+                            <CheckBox x:Name="CheckBox_AutoStartOnLoad" IsChecked="False" Content="在弹幕姬启动时自动启动插件" ToolTip="启用此选项后，插件将在弹幕姬启动时自动启用&#xA;&#xA;这会拖慢弹幕姬启动速度"/>
                         </TreeViewItem>
                     </TreeView>
                     <CheckBox x:Name="CheckBox_IsPluginActive" IsEnabled="False" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="插件的运行状态&#xA;&#xA;此处无法切换插件状态，请使用弹幕姬本体插件管理">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF205;"/>
-                            <TextBlock VerticalAlignment="Center" Text="插件已启用"/>
-                        </StackPanel>
+                        <local:IconTextBlock IconGlyph="&#xF205;" Text="插件已启用"/>
                     </CheckBox>
                     <GroupBox Header="统计数据" Height="150" Margin="10,0,10,10" VerticalAlignment="Bottom">
                         <Grid>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top">
                                 <StackPanel Margin="{StaticResource spMarginStats}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF101;"/>
-                                        <TextBlock VerticalAlignment="Center" Text="正在队列中的语音"/>
-                                    </StackPanel>
+                                    <local:IconTextBlock IconGlyph="&#xF101;" Text="正在队列中的语音"/>
                                     <TextBlock x:Name="TextBlock_TTSInQueue" FontSize="25" TextWrapping="Wrap" Text="正在计算"/>
                                 </StackPanel>
                                 <StackPanel Margin="{StaticResource spMarginStats}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF00C;"/>
-                                        <TextBlock VerticalAlignment="Center" Text="已播放"/>
-                                    </StackPanel>
+                                    <local:IconTextBlock IconGlyph="&#xF00C;" Text="已播放的语音"/>
                                     <TextBlock x:Name="TextBlock_TotalPlayed" FontSize="25" TextWrapping="Wrap" Text="正在计算"/>
                                 </StackPanel>
                                 <StackPanel Margin="{StaticResource spMarginStats}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF0A0;"/>
-                                        <TextBlock VerticalAlignment="Center" Text="缓存体积"/>
-                                    </StackPanel>
+                                    <local:IconTextBlock IconGlyph="&#xF0A0;" Text="缓存体积"/>
                                     <TextBlock x:Name="TextBlock_CacheSize" FontSize="25" TextWrapping="Wrap" Text="正在计算"/>
                                 </StackPanel>
                             </StackPanel>
                             <CheckBox x:Name="CheckBox_AutoUpdate" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="自动更新统计数据" Checked="CheckBox_AutoUpdate_Checked" Unchecked="CheckBox_AutoUpdate_Unchecked">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF2F1;"/>
-                                    <TextBlock VerticalAlignment="Center" Text="自动刷新"/>
-                                </StackPanel>
+                                <local:IconTextBlock IconGlyph="&#xF2F1;" Text="自动刷新统计数据"/>
                             </CheckBox>
                         </Grid>
                     </GroupBox>
@@ -105,44 +79,38 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF5AA;"/>
-                        <TextBlock VerticalAlignment="Center" Text="自定义读出内容"/>
-                    </StackPanel>
+                    <local:IconTextBlock IconGlyph="&#xF5AA;" Text="自定义读出内容"/>
                 </TabItem.Header>
                 <Grid ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <TextBlock Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" TextAlignment="Right">
                         将鼠标悬浮于对应文本框上以查看帮助，<Underline>留空以停用朗读</Underline>；如需更多信息，请查看<Hyperlink Click="Hyperlink_Click">自定义变量帮助</Hyperlink>
                     </TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="收到弹幕时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,10,0,0" IconGlyph="&#xF086;" Text="收到弹幕时，朗读以下内容：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_OnDanmaku" Height="23" Margin="10,25,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到弹幕时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,53,0,0" TextWrapping="Wrap" Text="收到醒目留言时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,53,0,0" IconGlyph="&#xF653;" Text="收到醒目留言时，朗读以下内容：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_OnSuperChat" Height="23" Margin="10,68,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到醒目留言时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,96,0,0" TextWrapping="Wrap" Text="收到礼物时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,96,0,0" IconGlyph="&#xF06B;" Text="收到礼物时，朗读以下内容：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_OnGift" Height="23" Margin="10,111,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到礼物时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$GIFT - 礼物名称&#xA;$COUNT - 礼物数量"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,139,0,0" TextWrapping="Wrap" Text="直播开始时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,139,0,0" IconGlyph="&#xF144;" Text="直播开始时，朗读以下内容：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_LiveStart" Height="23" Margin="10,154,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义直播开始时的读出内容&#xA;&#xA;此字段无变量可用"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,182,0,0" TextWrapping="Wrap" Text="直播结束时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,182,0,0" IconGlyph="&#xF28D;" Text="直播结束时，朗读以下内容：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_LiveEnd" Height="23" Margin="10,197,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义直播结束时的读出内容&#xA;&#xA;此字段无变量可用"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,225,0,0" TextWrapping="Wrap" Text="船员上船时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,225,0,0" IconGlyph="&#xF13D;" Text="船员上船时，朗读以下内容：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_GuardBuy" Height="23" Margin="10,240,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义船员上船时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 上船的船员名称&#xA;$COUNT - 上船月份数目"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,268,0,0" TextWrapping="Wrap" Text="老爷进入时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,268,0,0" IconGlyph="&#xF507;" Text="老爷进入时，朗读以下内容：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_Welcome" Height="23" Margin="10,283,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义老爷进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 老爷的用户名"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,311,0,0" TextWrapping="Wrap" Text="船员进入时，朗读以下内容：" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,311,0,0" IconGlyph="&#xF13D;" Text="船员进入时，朗读以下内容：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_WelcomeGuard" Height="23" Margin="10,326,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义船员进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 船员的用户名"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,354,0,0" TextWrapping="Wrap" Text="自定义头衔：" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,354,0,0" IconGlyph="&#xF085;" Text="自定义头衔：" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_CustomTitles" Height="23" Margin="10,370,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="顺序: 老爷/普通用户/总督/提督/舰长"/>
                 </Grid>
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF7D9;"/>
-                        <TextBlock VerticalAlignment="Center" Text="高级选项"/>
-                    </StackPanel>
+                    <local:IconTextBlock IconGlyph="&#xF7D9;" Text="高级选项"/>
                 </TabItem.Header>
                 <Grid>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="TTS 引擎" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,10,0,0" IconGlyph="&#xF130;" Text="TTS 引擎" VerticalAlignment="Top"/>
                     <ComboBox x:Name="ComboBox_Engine" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="120" ToolTip="选择插件使用的 TTS 引擎&#xA;&#xA;将鼠标指针悬浮在对应的引擎上以获取相应说明">
                         <ComboBoxItem Content="百度" ToolTip="使用百度翻译的公共 TTS 框架"/>
                         <ComboBoxItem Content=".NET 框架" ToolTip="使用 Windows 自带的语音合成引擎，效率最高，可离线合成&#xA;&#xA;请注意：部分修改版 Windows 系统可能删除了该模块，导致插件无法工作或弹幕姬崩溃，与插件本身无关"/>
@@ -151,57 +119,64 @@
                         <ComboBoxItem Content="有道（未经加密）" ToolTip="使用网易有道 TTS 引擎&#xA;&#xA;该引擎使用时与服务器的连接未经加密，请酌情使用"/>
                         <ComboBoxItem Content="用户自定义引擎" ToolTip="使用您在右侧自定义的 TTS 引擎&#xA;&#xA;使用 $TTSTEXT 来代替需要读出的文本"/>
                     </ComboBox>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,51,0,0" TextWrapping="Wrap" Text="下载失败重试次数（0 ~ 10）" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,51,0,0" IconGlyph="&#xF2F9;" Text="下载失败重试次数" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_RetryCount" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" Value="5" ToolTip="指定在下载 TTS 文件时出现网络错误的重试次数&#xA;&#xA;默认值: 5&#xA;范围为 0 ~ 10, 指定为 0 将阻止插件重新下载" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_RetryCount" HorizontalAlignment="Left" Margin="135,66,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Height="18"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,89,0,0" TextWrapping="Wrap" Text="最低弹幕字数限制" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,89,0,0" IconGlyph="&#xF063;" Text="最低弹幕字数限制" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_DMLengthLimit" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top" Width="120" Height="21" Minimum="1" Maximum="100" Value="1" SmallChange="1" ToolTip="设置最低弹幕字数限制，字数低于该值的弹幕将不会被读出" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_DMLengthLimit" HorizontalAlignment="Left" Margin="135,104,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="21"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,130,0,0" TextWrapping="Wrap" Text="最高弹幕字数限制" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,130,0,0" IconGlyph="&#xF062;" Text="最高弹幕字数限制" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_DMLengthLimitMax" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top" Width="120" Height="21" Minimum="1" Maximum="128" Value="1" SmallChange="1" ToolTip="设置最高弹幕字数限制，字数超出该值的弹幕将不会被读出" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_DMLengthLimitMax" HorizontalAlignment="Left" Margin="135,145,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="21"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,171,0,0" TextWrapping="Wrap" Text="朗读概率" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,171,0,0" IconGlyph="&#xF074;" Text="朗读概率" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_ReadPossibility" HorizontalAlignment="Left" Margin="10,186,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="以一定的概率读出语音" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_ReadPossibility" HorizontalAlignment="Left" Margin="135,186,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="21"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,212,0,0" TextWrapping="Wrap" Text="TTS 音量" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,212,0,0" IconGlyph="&#xF028;" Text="TTS 音量" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_TTSVolume" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="设置 TTS 音量&#xA;&#xA;这会覆盖系统音量合成器设置" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSVolume" HorizontalAlignment="Left" Margin="135,227,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="21"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,253,0,0" TextWrapping="Wrap" Text=".NET 框架引擎朗读速度" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,253,0,0" IconGlyph="&#xF3FD;" Text=".NET 框架引擎朗读速度" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="21"/>
-                    <CheckBox x:Name="CheckBox_DebugMode" Content="我是高级用户（请阅读悬停提示）" HorizontalAlignment="Left" Margin="10,0,0,10.8" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃" Height="14" VerticalAlignment="Bottom"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="167,10,0,0" TextWrapping="Wrap" Text="自定义 TTS 引擎 URL" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="CheckBox_DebugMode" HorizontalAlignment="Left" Margin="10,0,0,10.8" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃" Height="14" VerticalAlignment="Bottom">
+                        <local:IconTextBlock IconGlyph="&#xF0E7;" Text="我是高级用户（请阅读悬停提示）"/>
+                    </CheckBox>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="167,10,0,0" IconGlyph="&#xF0C1;" Text="自定义 TTS 引擎 URL" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_CustomEngineURL" FontFamily="Consolas" TextWrapping="Wrap" Text="https://tts.example.com/?text=$TTSTEXT" Margin="167,25,0,0" ToolTip="使用 $TTSTEXT 来代替需要读出的文本" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320"/>
-                    <CheckBox x:Name="CheckBox_EnableHTTPAuth" IsChecked="False" Content="启用 HTTP 身份验证" HorizontalAlignment="Left" Margin="167,89,0,0" VerticalAlignment="Top" ToolTip="如您的自定义 TTS 引擎需要 HTTP 身份验证，请勾选" Checked="CheckBox_EnableHTTPAuth_Checked" Unchecked="CheckBox_EnableHTTPAuth_Unchecked"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="167,108,0,0" TextWrapping="Wrap" Text="用户名" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="CheckBox_EnableHTTPAuth" IsChecked="False" HorizontalAlignment="Left" Margin="167,89,0,0" VerticalAlignment="Top" ToolTip="如您的自定义 TTS 引擎需要 HTTP 身份验证，请勾选" Checked="CheckBox_EnableHTTPAuth_Checked" Unchecked="CheckBox_EnableHTTPAuth_Unchecked">
+                        <local:IconTextBlock IconGlyph="&#xF13E;" Text="启用 HTTP 身份验证"/>
+                    </CheckBox>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="167,108,0,0" IconGlyph="&#xF007;" Text="用户名" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_HTTPAuthUsername" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="167,123,0,0" Width="320" ToolTip="HTTP 身份验证用户名" />
-                    <TextBlock HorizontalAlignment="Left" Margin="167,145,0,0" TextWrapping="Wrap" Text="密码" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="167,145,0,0" IconGlyph="&#xF084;" Text="密码" VerticalAlignment="Top"/>
                     <PasswordBox x:Name="TextBox_HTTPAuthPassword" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="167,160,0,0" Width="320" ToolTip="HTTP 身份验证密码" />
-                    <TextBlock HorizontalAlignment="Left" Margin="167,181,0,0" TextWrapping="Wrap" Text="请求方式" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="167,181,0,0" IconGlyph="&#xF013;" Text="请求方式" VerticalAlignment="Top"/>
                     <ComboBox x:Name="ComboBox_PostMethod" HorizontalAlignment="Left" Margin="167,196,0,0" VerticalAlignment="Top" Width="320" ToolTip="修改请求方式&#xA;&#xA;**ALPHA 版本**&#xA;目前仅确认 GET 方法能稳定工作，不保证 POST 方法工作稳定性" SelectionChanged="ComboBox_PostMethod_SelectionChanged">
                         <ComboBoxItem Content="GET" ToolTip="GET 方法"/>
                         <ComboBoxItem Content="POST: application/x-www-form-urlencoded" ToolTip="使用 application/x-www-form-urlencoded 编码的 POST 方法" />
                         <ComboBoxItem Content="POST: multipart/form-data" ToolTip="使用 multipart/form-data 编码的 POST 方法&#xA;&#xA;请在 POST 数据栏中填入 JSON 数据，表内容使用 base64 编码（包括字符串）&#xA;&#xA;如:&#xA;{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key1&quot;,&#xA;      &quot;Value&quot;: &quot;SGVsbG8gV29ybGQh&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key2&quot;,&#xA;      &quot;Value&quot;: &quot;WW91J3JlIEF3ZXNvbWUh&quot;&#xA;    }&#xA; ]&#xA;}" />
                         <ComboBoxItem Content="POST: text/plain" ToolTip="使用 text/plain 编码的 POST 方法" />
                     </ComboBox>
-                    <TextBlock x:Name="TextBlock_PostData" HorizontalAlignment="Left" Margin="167,222,0,0" TextWrapping="Wrap" Text="POST 数据" VerticalAlignment="Top"/>
+                    <local:IconTextBlock x:Name="TextBlock_PostData" HorizontalAlignment="Left" Margin="167,222,0,0" IconGlyph="&#xF1C0;" Text="POST 数据" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_PostData" FontFamily="Consolas" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key1&quot;,&#xA;      &quot;Value&quot;: &quot;SGVsbG8gV29ybGQh&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key2&quot;,&#xA;      &quot;Value&quot;: &quot;WW91J3JlIEF3ZXNvbWUh&quot;&#xA;    }&#xA; ]&#xA;}" Margin="167,237,301,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="POST 数据" Height="59" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="TextBlock_Headers" HorizontalAlignment="Left" Margin="492,9,0,0" TextWrapping="Wrap" Text="自定义请求头" VerticalAlignment="Top"/>
+                    <local:IconTextBlock x:Name="TextBlock_Headers" HorizontalAlignment="Left" Margin="492,9,0,0" IconGlyph="&#xF1C0;" Text="自定义请求头" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_Headers" FontFamily="Consolas" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Accept-Encoding&quot;,&#xA;      &quot;Value&quot;: &quot;gzip&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Host&quot;,&#xA;      &quot;Value&quot;: &quot;tts.example.com&quot;&#xA;    }&#xA; ]&#xA;}" Margin="0,25,10,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="请求头数据，JSON 格式，与 POST 数据格式保持一致" Height="59" VerticalAlignment="Top" HorizontalAlignment="Right" Width="286"/>
-                    <CheckBox x:Name="CheckBox_AllowDownloadMessage" IsChecked="True" Content="允许下载消息" HorizontalAlignment="Left" Margin="397,89,0,0" VerticalAlignment="Top" ToolTip="允许插件下载管理面板底部消息"/>
-                    <Button x:Name="Button_ClearCache" Content="清理缓存" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Click="Button_ClearCache_Click" Height="19" VerticalAlignment="Bottom"/>
-                    <Button x:Name="Button_Reset" Content="重置配置" Margin="0,0,10,10" ToolTip="将所有配置还原为默认值" HorizontalAlignment="Right" Width="75" Click="Button_Reset_Click" Height="19" VerticalAlignment="Bottom"/>
+                    <CheckBox x:Name="CheckBox_AllowDownloadMessage" IsChecked="True" HorizontalAlignment="Left" Margin="373,89,0,0" VerticalAlignment="Top" ToolTip="允许插件下载管理面板底部消息">
+                        <local:IconTextBlock IconGlyph="&#xF381;" Text="允许下载消息"/>
+                    </CheckBox>
+                    <Button x:Name="Button_ClearCache" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Click="Button_ClearCache_Click" Height="19" VerticalAlignment="Bottom">
+                        <local:IconTextBlock IconGlyph="&#xF2ED;" Text="清理缓存"/>
+                    </Button>
+                    <Button x:Name="Button_Reset" Margin="0,0,10,10" ToolTip="将所有配置还原为默认值" HorizontalAlignment="Right" Width="75" Click="Button_Reset_Click" Height="19" VerticalAlignment="Bottom">
+                        <local:IconTextBlock IconGlyph="&#xF011;" Text="重置设置"/>
+                    </Button>
                 </Grid>
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF05E;"/>
-                        <TextBlock VerticalAlignment="Center" Text="屏蔽选项"/>
-                    </StackPanel>
+                    <local:IconTextBlock IconGlyph="&#xF05E;" Text="屏蔽选项"/>
                 </TabItem.Header>
                 <Grid>
-                    <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="用户屏蔽模式" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,10,0,0" IconGlyph="&#xF007;" Text="用户屏蔽模式" VerticalAlignment="Top"/>
                     <ComboBox x:Name="ComboBox_Blockmode" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="120" ToolTip="选择用户屏蔽设置&#xA;&#xA;关闭: 没有任何屏蔽&#xA;黑名单: 屏蔽黑名单中的用户&#xA;白名单: 屏蔽白名单以外所有用户">
                         <ComboBoxItem Content="关闭"/>
                         <ComboBoxItem Content="黑名单"/>
@@ -211,7 +186,7 @@
                     <TextBox x:Name="TextBox_Blacklist" HorizontalAlignment="Left" Height="70" Margin="10,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="hidden" ToolTip="用户黑名单，回车分隔" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True"/>
                     <TextBlock x:Name="Label_Whitelist" HorizontalAlignment="Left" Margin="10,142,0,0" TextWrapping="Wrap" Text="白名单" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_Whitelist" HorizontalAlignment="Left" Height="70" Margin="10,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="hidden" ToolTip="用户白名单，回车分隔" SpellCheck.IsEnabled="True" AcceptsReturn="True" AcceptsTab="True"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="215,10,0,0" TextWrapping="Wrap" Text="礼物屏蔽模式" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="215,10,0,0" IconGlyph="&#xF06B;" Text="礼物屏蔽模式" VerticalAlignment="Top"/>
                     <ComboBox x:Name="ComboBox_GiftBlockMode" HorizontalAlignment="Left" Margin="215,25,0,0" VerticalAlignment="Top" Width="120" ToolTip="选择礼物屏蔽设置&#xA;&#xA;关闭: 没有任何屏蔽&#xA;黑名单: 屏蔽黑名单中的礼物&#xA;白名单: 屏蔽白名单以外所有礼物">
                         <ComboBoxItem Content="关闭"/>
                         <ComboBoxItem Content="黑名单"/>
@@ -221,7 +196,7 @@
                     <TextBox x:Name="TextBox_GiftBlacklist" HorizontalAlignment="Left" Height="70" Margin="215,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ToolTip="礼物黑名单，回车分隔&#xA;&#xA;礼物屏蔽会无视用户屏蔽设置" SpellCheck.IsEnabled="True" AcceptsReturn="True" AcceptsTab="True"/>
                     <TextBlock x:Name="Label_GiftWhitelist" HorizontalAlignment="Left" Margin="215,142,0,0" TextWrapping="Wrap" Text="白名单" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_GiftWhitelist" HorizontalAlignment="Left" Height="70" Margin="215,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ToolTip="礼物白名单，回车分隔&#xA;&#xA;礼物屏蔽会无视用户屏蔽设置" SpellCheck.IsEnabled="True" AcceptsReturn="True" AcceptsTab="True"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="420,10,0,0" TextWrapping="Wrap" Text="弹幕屏蔽模式" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="420,10,0,0" IconGlyph="&#xF086;" Text="弹幕屏蔽模式" VerticalAlignment="Top"/>
                     <ComboBox x:Name="ComboBox_KeywordBlockMode" HorizontalAlignment="Left" Margin="420,25,0,0" VerticalAlignment="Top" Width="120" ToolTip="选择弹幕屏蔽设置&#xA;&#xA;关闭: 没有任何屏蔽&#xA;黑名单: 屏蔽所有包含黑名单中关键字的弹幕&#xA;白名单: 屏蔽所有不含白名单中关键字的弹幕">
                         <ComboBoxItem Content="关闭"/>
                         <ComboBoxItem Content="黑名单"/>
@@ -231,7 +206,7 @@
                     <TextBox x:Name="TextBox_KeywordBlacklist" HorizontalAlignment="Left" Height="70" Margin="420,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ToolTip="关键字黑名单，回车分隔&#xA;&#xA;关键字屏蔽会无视用户屏蔽设置" SpellCheck.IsEnabled="True" AcceptsReturn="True" AcceptsTab="True"/>
                     <TextBlock x:Name="Label_KeywordWhitelist" HorizontalAlignment="Left" Margin="420,142,0,0" TextWrapping="Wrap" Text="白名单" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_KeywordWhitelist" HorizontalAlignment="Left" Height="70" Margin="420,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ToolTip="关键字白名单，回车分隔&#xA;&#xA;关键字屏蔽会无视用户屏蔽设置" SpellCheck.IsEnabled="True" AcceptsReturn="True" AcceptsTab="True"/>
-                    <TextBlock HorizontalAlignment="Right" Margin="0,10,10,0" TextWrapping="Wrap" Text="屏蔽类型" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Right" Margin="0,10,10,0" IconGlyph="&#xF074;" Text="屏蔽类型" VerticalAlignment="Top"/>
                     <TextBlock x:Name="Label_UID" HorizontalAlignment="Right" Margin="0,47,108,0" TextWrapping="Wrap" Text="UID" VerticalAlignment="Top"/>
                     <TextBlock x:Name="Label_Username" HorizontalAlignment="Right" Margin="0,47,10,0" TextWrapping="Wrap" Text="用户名" VerticalAlignment="Top"/>
                     <Slider x:Name="TrackBar_BlockType" HorizontalAlignment="Right" Margin="0,26,10,0" VerticalAlignment="Top" Width="120" Height="21" ToolTip="&lt;&lt;&lt; 滑动来改变 &gt;&gt;&gt;" Maximum="1" SmallChange="1"/>
@@ -239,25 +214,25 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF129;"/>
-                        <TextBlock VerticalAlignment="Center" Text="关于插件"/>
-                    </StackPanel>
+                    <local:IconTextBlock IconGlyph="&#xF129;" Text="关于插件"/>
                 </TabItem.Header>
                 <Grid>
-                    <TextBlock x:Name="Label_AboutTitle" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Re: TTSCat v3 - Amber" VerticalAlignment="Top" FontSize="16" ToolTip="插件版本"/>
-                    <Button x:Name="Button_PermissionInfo" Content="系统权限信息" HorizontalAlignment="Right" Margin="0,10,205,0" VerticalAlignment="Top" Width="89" Height="20" ToolTip="了解插件使用了哪些系统权限" Click="Button_PermissionInfo_Click"/>
-                    <Button x:Name="Button_About" Content="关于 Re: TTSCat" HorizontalAlignment="Right" Margin="0,10,100,0" VerticalAlignment="Top" Width="100" Height="20" ToolTip="在弹幕姬网站上查看插件信息" Click="Button_About_Click"/>
-                    <Button x:Name="Button_Suggestions" Content="留言板" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="85" Height="20" ToolTip="前往作者的留言板&#xA;我会尽快回复相关建议，但不一定准时准点，感谢理解" Click="Button_Suggestions_Click"/>
+                    <local:IconTextBlock x:Name="Label_AboutTitle" HorizontalAlignment="Left" Margin="10,10,0,0" IconGlyph="&#xF085;" Text="Re: TTSCat v3 - Amber" VerticalAlignment="Top" FontSize="16" ToolTip="插件版本"/>
+                    <Button x:Name="Button_PermissionInfo" HorizontalAlignment="Right" Margin="0,10,221,0" VerticalAlignment="Top" Width="100" Height="20" ToolTip="了解插件使用了哪些系统权限" Click="Button_PermissionInfo_Click">
+                        <local:IconTextBlock IconGlyph="&#xF3ED;" Text="系统权限信息"/>
+                    </Button>
+                    <Button x:Name="Button_About" HorizontalAlignment="Right" Margin="0,10,100,0" VerticalAlignment="Top" Width="116" Height="20" ToolTip="在弹幕姬网站上查看插件信息" Click="Button_About_Click">
+                        <local:IconTextBlock IconGlyph="&#xF129;" Text="关于 Re: TTSCat"/>
+                    </Button>
+                    <Button x:Name="Button_Suggestions" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="85" Height="20" ToolTip="前往作者的留言板&#xA;我会尽快回复相关建议，但不一定准时准点，感谢理解" Click="Button_Suggestions_Click">
+                        <local:IconTextBlock IconGlyph="&#xF27A;" Text="留言板"/>
+                    </Button>
                     <TextBox x:Name="TextBox_Debug" FontFamily="Consolas" Margin="10,35,10,10" TextWrapping="NoWrap" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" AcceptsReturn="True" IsReadOnly="True" ToolTip="这里是我们收集到的一些有助于调试的信息"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="TabItem_DebugOptions">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF188;"/>
-                        <TextBlock VerticalAlignment="Center" Text="调试选项"/>
-                    </StackPanel>
+                    <local:IconTextBlock IconGlyph="&#xF188;" Text="调试选项"/>
                 </TabItem.Header>
                 <Grid>
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="播放测试音频" VerticalAlignment="Top"/>
@@ -289,40 +264,22 @@
             </TabItem>
         </TabControl>
         <Button x:Name="Button_Donate" HorizontalAlignment="Left" Margin="10,0,0,35" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="支付一笔小小的费用，帮助我更好地开发插件" Click="Button_Donate_Click">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontFamily="{StaticResource FontAwesome}" Foreground="HotPink" VerticalAlignment="Center" Text="&#xF004;"/>
-                <TextBlock VerticalAlignment="Center" Text="支持开发"/>
-            </StackPanel>
+            <local:IconTextBlock IconForeground="HotPink" IconGlyph="&#xF004;" Text="支持开发"/>
         </Button>
         <Button x:Name="Button_CheckUpd" HorizontalAlignment="Left" Margin="10,0,0,10" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="检查插件更新" Click="Button_CheckUpd_Click">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontFamily="{StaticResource FontAwesome}" Foreground="DarkGreen" VerticalAlignment="Center" Text="&#xF0AB;"/>
-                <TextBlock VerticalAlignment="Center" Text="检查更新"/>
-            </StackPanel>
+            <local:IconTextBlock IconForeground="DarkGreen" IconGlyph="&#xF0AB;" Text="检查更新"/>
         </Button>
         <Button x:Name="Button_Reload" Margin="0,0,90,35" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="从文件中重新读取配置文件，已修改的配置将被覆盖" Click="Button_Reload_Click">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF2F1;"/>
-                <TextBlock VerticalAlignment="Center" Text="重载"/>
-            </StackPanel>
+            <local:IconTextBlock IconGlyph="&#xF2F1;" Text="重载"/>
         </Button>
         <Button x:Name="Button_Apply" Margin="0,0,10,35" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="将修改的配置保存到文件中" Click="Button_Apply_Click">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF0C7;"/>
-                <TextBlock VerticalAlignment="Center" Text="应用"/>
-            </StackPanel>
+            <local:IconTextBlock IconGlyph="&#xF0C7;" Text="应用"/>
         </Button>
         <Button x:Name="Button_OK" IsDefault="True" Margin="0,0,90,10" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="保存配置到文件中，并关闭设置窗口" Click="Button_OK_Click">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontFamily="{StaticResource FontAwesome}" Foreground="DarkGreen" VerticalAlignment="Center" Text="&#xF00C;"/>
-                <TextBlock VerticalAlignment="Center" Text="确定"/>
-            </StackPanel>
+            <local:IconTextBlock IconForeground="Green" IconGlyph="&#xF00C;" Text="确定"/>
         </Button>
         <Button x:Name="Button_Cancel" IsCancel="True" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="放弃所有已修改的设置并关闭窗口" Click="Button_Cancel_Click">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontFamily="{StaticResource FontAwesome}" Foreground="DarkRed" VerticalAlignment="Center" Text="&#xF00D;"/>
-                <TextBlock VerticalAlignment="Center" Text="取消"/>
-            </StackPanel>
+            <local:IconTextBlock IconForeground="DarkRed" IconGlyph="&#xF00D;" Text="取消"/>
         </Button>
         <TextBlock x:Name="TextBlock_Thanks" Margin="90,0,169.6,10" TextWrapping="Wrap" Text="感谢使用本插件" Height="45" TextAlignment="Center" ToolTip="Copyright (C) 2017 - 2020 Elepover.&#xA;This is an open-source(MIT) software." VerticalAlignment="Bottom"/>
     </Grid>

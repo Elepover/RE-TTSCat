@@ -200,6 +200,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.HttpAuth = CheckBox_EnableHTTPAuth.IsChecked ?? false;
             Vars.CurrentConf.SuppressLogOutput = CheckBox_SuppressLogOutput.IsChecked ?? false;
             Vars.CurrentConf.OverrideToLogsTabOnStartup = CheckBox_OverrideToLogsTabOnStartup.IsChecked ?? false;
+            Vars.CurrentConf.AutoStartOnLoad = CheckBox_AutoStartOnLoad.IsChecked ?? false;
             Vars.CurrentConf.ClearCacheOnStartup = CheckBox_ClearCacheOnStartup.IsChecked ?? true;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
@@ -279,6 +280,7 @@ namespace Re_TTSCat.Windows
             CheckBox_ClearCacheOnStartup.IsChecked = Vars.CurrentConf.ClearCacheOnStartup;
             CheckBox_SuppressLogOutput.IsChecked = Vars.CurrentConf.SuppressLogOutput;
             CheckBox_OverrideToLogsTabOnStartup.IsChecked = Vars.CurrentConf.OverrideToLogsTabOnStartup;
+            CheckBox_AutoStartOnLoad.IsChecked = Vars.CurrentConf.AutoStartOnLoad;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
             Slider_DMLengthLimitMax.Value = Vars.CurrentConf.MaximumDanmakuLength;
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;
