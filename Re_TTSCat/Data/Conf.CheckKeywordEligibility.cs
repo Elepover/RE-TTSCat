@@ -1,4 +1,5 @@
 ﻿using BilibiliDM_PluginFramework;
+using System;
 
 namespace Re_TTSCat.Data
 {
@@ -11,13 +12,15 @@ namespace Re_TTSCat.Data
                 default:
                     return true;
                 case 1:
-                    foreach (string keyword in Vars.CurrentConf.KeywordBlackList.Split('\n'))
+                    var list1 = Vars.CurrentConf.KeywordBlackList.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string keyword in list1)
                     {
                         if (content.Contains(keyword)) return false;
                     }
                     return true;
                 case 2:
-                    foreach (string keyword in Vars.CurrentConf.KeywordWhiteList.Split('\n'))
+                    var list2 = Vars.CurrentConf.KeywordWhiteList.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string keyword in list2)
                     {
                         if (content.Contains(keyword)) return true;
                     }
