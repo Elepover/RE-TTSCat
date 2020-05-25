@@ -207,9 +207,10 @@
                     <TextBlock x:Name="Label_KeywordWhitelist" HorizontalAlignment="Left" Margin="420,142,0,0" TextWrapping="Wrap" Text="白名单" VerticalAlignment="Top"/>
                     <TextBox x:Name="TextBox_KeywordWhitelist" HorizontalAlignment="Left" Height="70" Margin="420,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ToolTip="关键字白名单，回车分隔&#xA;&#xA;关键字屏蔽会无视用户屏蔽设置" SpellCheck.IsEnabled="True" AcceptsReturn="True" AcceptsTab="True"/>
                     <local:IconTextBlock HorizontalAlignment="Right" Margin="0,10,10,0" IconGlyph="&#xF074;" Text="屏蔽类型" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="Label_UID" HorizontalAlignment="Right" Margin="0,47,108,0" TextWrapping="Wrap" Text="UID" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="Label_Username" HorizontalAlignment="Right" Margin="0,47,10,0" TextWrapping="Wrap" Text="用户名" VerticalAlignment="Top"/>
-                    <Slider x:Name="TrackBar_BlockType" HorizontalAlignment="Right" Margin="0,26,10,0" VerticalAlignment="Top" Width="120" Height="21" ToolTip="&lt;&lt;&lt; 滑动来改变 &gt;&gt;&gt;" Maximum="1" SmallChange="1"/>
+                    <ComboBox x:Name="ComboBox_BlockType" HorizontalAlignment="Right" Margin="0,26,10,0" VerticalAlignment="Top" Width="68" Height="21" ToolTip="选择如何屏蔽用户" SelectedIndex="0">
+                        <ComboBoxItem Content="UID" ToolTip="在名单中输入数字形式的用户 ID"/>
+                        <ComboBoxItem Content="用户名" ToolTip="在名单中输入用户名"/>
+                    </ComboBox>
                 </Grid>
             </TabItem>
             <TabItem>

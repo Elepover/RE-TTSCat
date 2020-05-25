@@ -202,6 +202,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.OverrideToLogsTabOnStartup = CheckBox_OverrideToLogsTabOnStartup.IsChecked ?? false;
             Vars.CurrentConf.AutoStartOnLoad = CheckBox_AutoStartOnLoad.IsChecked ?? false;
             Vars.CurrentConf.ClearCacheOnStartup = CheckBox_ClearCacheOnStartup.IsChecked ?? true;
+            Vars.CurrentConf.BlockUID = ComboBox_BlockType.SelectedIndex == 0;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
             Vars.CurrentConf.ReadPossibility = (int)Math.Round(Slider_ReadPossibility.Value);
@@ -295,6 +296,7 @@ namespace Re_TTSCat.Windows
             ComboBox_Blockmode.SelectedIndex = Vars.CurrentConf.BlockMode;
             ComboBox_GiftBlockMode.SelectedIndex = Vars.CurrentConf.GiftBlockMode;
             ComboBox_KeywordBlockMode.SelectedIndex = Vars.CurrentConf.KeywordBlockMode;
+            ComboBox_BlockType.SelectedIndex = Vars.CurrentConf.BlockUID ? 0 : 1;
             TextBox_PostData.Text = Vars.CurrentConf.PostData;
             TextBox_Headers.Text = JsonConvert.SerializeObject(Vars.CurrentConf.Headers, Formatting.Indented);
             TextBox_Blacklist.Text = Vars.CurrentConf.BlackList;
