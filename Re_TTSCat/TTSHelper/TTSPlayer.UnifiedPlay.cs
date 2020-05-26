@@ -47,6 +47,9 @@ namespace Re_TTSCat
                 case 5:
                     fileName = await CustomTTS.Download(content);
                     break;
+                case 6:
+                    fileName = await BaiduTTS.AiApi.Download(content, BaiduTTS.AiApi.ParseToSpeechPerson(Vars.CurrentConf.SpeechPerson));
+                    break;
             }
             if (fileName == null)
             {

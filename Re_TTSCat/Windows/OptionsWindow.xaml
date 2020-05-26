@@ -111,32 +111,45 @@
                 </TabItem.Header>
                 <Grid>
                     <local:IconTextBlock HorizontalAlignment="Left" Margin="10,10,0,0" IconGlyph="&#xF130;" Text="TTS 引擎" VerticalAlignment="Top"/>
-                    <ComboBox x:Name="ComboBox_Engine" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="120" ToolTip="选择插件使用的 TTS 引擎&#xA;&#xA;将鼠标指针悬浮在对应的引擎上以获取相应说明">
+                    <ComboBox x:Name="ComboBox_Engine" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Width="120" ToolTip="选择插件使用的 TTS 引擎&#xA;&#xA;将鼠标指针悬浮在对应的引擎上以获取相应说明" SelectionChanged="ComboBox_Engine_SelectionChanged">
                         <ComboBoxItem Content="百度" ToolTip="使用百度翻译的公共 TTS 框架"/>
                         <ComboBoxItem Content=".NET 框架" ToolTip="使用 Windows 自带的语音合成引擎，效率最高，可离线合成&#xA;&#xA;请注意：部分修改版 Windows 系统可能删除了该模块，导致插件无法工作或弹幕姬崩溃，与插件本身无关"/>
                         <ComboBoxItem Content="Google" ToolTip="使用 Google 中国区 (translate.google.cn) 的 TTS 框架&#xA;&#xA;人称谷歌娘"/>
                         <ComboBoxItem Content="百度（粤语）" ToolTip="粤语 TTS 引擎！"/>
                         <ComboBoxItem Content="有道（未经加密）" ToolTip="使用网易有道 TTS 引擎&#xA;&#xA;该引擎使用时与服务器的连接未经加密，请酌情使用"/>
                         <ComboBoxItem Content="用户自定义引擎" ToolTip="使用您在右侧自定义的 TTS 引擎&#xA;&#xA;使用 $TTSTEXT 来代替需要读出的文本"/>
+                        <ComboBoxItem Content="百度（高级版）" ToolTip="使用百度高级 TTS 引擎"/>
                     </ComboBox>
-                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,51,0,0" IconGlyph="&#xF2F9;" Text="下载失败重试次数" VerticalAlignment="Top"/>
-                    <Slider x:Name="Slider_RetryCount" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" Value="5" ToolTip="指定在下载 TTS 文件时出现网络错误的重试次数&#xA;&#xA;默认值: 5&#xA;范围为 0 ~ 10, 指定为 0 将阻止插件重新下载" ValueChanged="UpdateSliders"/>
-                    <TextBlock x:Name="TextBlock_RetryCount" HorizontalAlignment="Left" Margin="135,66,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Height="18"/>
-                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,89,0,0" IconGlyph="&#xF063;" Text="最低弹幕字数限制" VerticalAlignment="Top"/>
-                    <Slider x:Name="Slider_DMLengthLimit" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top" Width="120" Height="21" Minimum="1" Maximum="100" Value="1" SmallChange="1" ToolTip="设置最低弹幕字数限制，字数低于该值的弹幕将不会被读出" ValueChanged="UpdateSliders"/>
-                    <TextBlock x:Name="TextBlock_DMLengthLimit" HorizontalAlignment="Left" Margin="135,104,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="21"/>
-                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,130,0,0" IconGlyph="&#xF062;" Text="最高弹幕字数限制" VerticalAlignment="Top"/>
-                    <Slider x:Name="Slider_DMLengthLimitMax" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top" Width="120" Height="21" Minimum="1" Maximum="128" Value="1" SmallChange="1" ToolTip="设置最高弹幕字数限制，字数超出该值的弹幕将不会被读出" ValueChanged="UpdateSliders"/>
-                    <TextBlock x:Name="TextBlock_DMLengthLimitMax" HorizontalAlignment="Left" Margin="135,145,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="21"/>
-                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,171,0,0" IconGlyph="&#xF074;" Text="朗读概率" VerticalAlignment="Top"/>
-                    <Slider x:Name="Slider_ReadPossibility" HorizontalAlignment="Left" Margin="10,186,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="以一定的概率读出语音" ValueChanged="UpdateSliders"/>
-                    <TextBlock x:Name="TextBlock_ReadPossibility" HorizontalAlignment="Left" Margin="135,186,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="21"/>
-                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,212,0,0" IconGlyph="&#xF028;" Text="TTS 音量" VerticalAlignment="Top"/>
-                    <Slider x:Name="Slider_TTSVolume" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="设置 TTS 音量&#xA;&#xA;这会覆盖系统音量合成器设置" ValueChanged="UpdateSliders"/>
-                    <TextBlock x:Name="TextBlock_TTSVolume" HorizontalAlignment="Left" Margin="135,227,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="21"/>
-                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,253,0,0" IconGlyph="&#xF3FD;" Text=".NET 框架引擎朗读速度" VerticalAlignment="Top"/>
-                    <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
-                    <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="21"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,52,0,0" IconGlyph="&#xF007;" Text="百度高级引擎朗读角色" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="ComboBox_Person" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="120" ToolTip="若您选择了百度高级版语音合成引擎，则可选择以下 9 位不同朗读者的音色">
+                        <ComboBoxItem Content="♀ 度小美（默认）"/>
+                        <ComboBoxItem Content="♂ 度小宇"/>
+                        <ComboBoxItem Content="♂ 度逍遥"/>
+                        <ComboBoxItem Content="♀ 度丫丫"/>
+                        <ComboBoxItem Content="♀ 度小娇"/>
+                        <ComboBoxItem Content="♀ 度米朵"/>
+                        <ComboBoxItem Content="♂ 度博文"/>
+                        <ComboBoxItem Content="♀ 度小童"/>
+                        <ComboBoxItem Content="♀ 度小萌"/>
+                    </ComboBox>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,94,0,0" IconGlyph="&#xF2F9;" Text="下载失败重试次数" VerticalAlignment="Top"/>
+                    <Slider x:Name="Slider_RetryCount" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" Width="120" SmallChange="1" Value="5" ToolTip="指定在下载 TTS 文件时出现网络错误的重试次数&#xA;&#xA;默认值: 5&#xA;范围为 0 ~ 10, 指定为 0 将阻止插件重新下载" ValueChanged="UpdateSliders"/>
+                    <TextBlock x:Name="TextBlock_RetryCount" HorizontalAlignment="Left" Margin="135,109,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Height="18"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,132,0,0" IconGlyph="&#xF063;" Text="最低弹幕字数限制" VerticalAlignment="Top"/>
+                    <Slider x:Name="Slider_DMLengthLimit" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" Width="120" Height="21" Minimum="1" Maximum="100" Value="1" SmallChange="1" ToolTip="设置最低弹幕字数限制，字数低于该值的弹幕将不会被读出" ValueChanged="UpdateSliders"/>
+                    <TextBlock x:Name="TextBlock_DMLengthLimit" HorizontalAlignment="Left" Margin="135,150,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="18"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,173,0,0" IconGlyph="&#xF062;" Text="最高弹幕字数限制" VerticalAlignment="Top"/>
+                    <Slider x:Name="Slider_DMLengthLimitMax" HorizontalAlignment="Left" Margin="10,188,0,0" VerticalAlignment="Top" Width="120" Height="21" Minimum="1" Maximum="128" Value="1" SmallChange="1" ToolTip="设置最高弹幕字数限制，字数超出该值的弹幕将不会被读出" ValueChanged="UpdateSliders"/>
+                    <TextBlock x:Name="TextBlock_DMLengthLimitMax" HorizontalAlignment="Left" Margin="135,191,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Height="18"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,214,0,0" IconGlyph="&#xF074;" Text="朗读概率" VerticalAlignment="Top"/>
+                    <Slider x:Name="Slider_ReadPossibility" HorizontalAlignment="Left" Margin="10,229,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="以一定的概率读出语音" ValueChanged="UpdateSliders"/>
+                    <TextBlock x:Name="TextBlock_ReadPossibility" HorizontalAlignment="Left" Margin="135,232,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="18"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,255,0,0" IconGlyph="&#xF028;" Text="TTS 音量" VerticalAlignment="Top"/>
+                    <Slider x:Name="Slider_TTSVolume" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="设置 TTS 音量&#xA;&#xA;这会覆盖系统音量合成器设置" ValueChanged="UpdateSliders"/>
+                    <TextBlock x:Name="TextBlock_TTSVolume" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="18"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,296,0,0" IconGlyph="&#xF3FD;" Text=".NET 框架引擎朗读速度" VerticalAlignment="Top"/>
+                    <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,311,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
+                    <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,314,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="18"/>
                     <CheckBox x:Name="CheckBox_DebugMode" HorizontalAlignment="Left" Margin="10,0,0,10.8" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃" Height="14" VerticalAlignment="Bottom">
                         <local:IconTextBlock IconGlyph="&#xF0E7;" Text="我是高级用户（请阅读悬停提示）"/>
                     </CheckBox>
@@ -149,7 +162,7 @@
                     <TextBox x:Name="TextBox_HTTPAuthUsername" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="167,123,0,0" Width="320" ToolTip="HTTP 身份验证用户名" />
                     <local:IconTextBlock HorizontalAlignment="Left" Margin="167,145,0,0" IconGlyph="&#xF084;" Text="密码" VerticalAlignment="Top"/>
                     <PasswordBox x:Name="TextBox_HTTPAuthPassword" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="167,160,0,0" Width="320" ToolTip="HTTP 身份验证密码" />
-                    <local:IconTextBlock HorizontalAlignment="Left" Margin="167,181,0,0" IconGlyph="&#xF013;" Text="请求方式" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="167,181,0,0" IconGlyph="&#xF013;" Text="自定义 TTS 引擎请求方式" VerticalAlignment="Top"/>
                     <ComboBox x:Name="ComboBox_PostMethod" HorizontalAlignment="Left" Margin="167,196,0,0" VerticalAlignment="Top" Width="320" ToolTip="修改请求方式&#xA;&#xA;**ALPHA 版本**&#xA;目前仅确认 GET 方法能稳定工作，不保证 POST 方法工作稳定性" SelectionChanged="ComboBox_PostMethod_SelectionChanged">
                         <ComboBoxItem Content="GET" ToolTip="GET 方法"/>
                         <ComboBoxItem Content="POST: application/x-www-form-urlencoded" ToolTip="使用 application/x-www-form-urlencoded 编码的 POST 方法" />

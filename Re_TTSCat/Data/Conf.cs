@@ -50,7 +50,7 @@ namespace Re_TTSCat.Data
         public bool DoNotKeepCache { get; set; }
         /// <summary>
         /// 要使用的弹幕引擎
-        /// (0 = 毒瘤, 1 = .NET, 2 = Does not exist, 3 = 毒瘤 广东话, 4 = 有道, 5 = 用户自定义)
+        /// (0 = 毒瘤, 1 = .NET, 2 = Does not exist, 3 = 毒瘤 广东话, 4 = 有道, 5 = 用户自定义, 6 = 毒瘤高级版)
         /// </summary>
         public byte Engine { get; set; }
         /// <summary>
@@ -141,6 +141,11 @@ namespace Re_TTSCat.Data
         /// 在弹幕姬启动时自动启动插件
         /// </summary>
         public bool AutoStartOnLoad { get; set; }
+        /// <summary>
+        /// 百度 AI 引擎的朗读人物
+        /// 0 = 度小美, 1 = 度小宇, 2 = 度逍遥, 3 = 度丫丫, 4 = 度小娇, 5 = 度米朵, 6 = 度博文, 7 = 度小童, 8 = 度小萌
+        /// </summary>
+        public int SpeechPerson { get; set; }
         /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>

@@ -38,6 +38,7 @@ namespace Re_TTSCat.Data
             ClearCacheOnStartup = true;
             OverrideToLogsTabOnStartup = false;
             AutoStartOnLoad = false;
+            SpeechPerson = 0;
             HttpAuth = false;
             HttpAuthPassword = "";
             HttpAuthUsername = "";

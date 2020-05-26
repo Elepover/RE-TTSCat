@@ -202,6 +202,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.OverrideToLogsTabOnStartup = CheckBox_OverrideToLogsTabOnStartup.IsChecked ?? false;
             Vars.CurrentConf.AutoStartOnLoad = CheckBox_AutoStartOnLoad.IsChecked ?? false;
             Vars.CurrentConf.ClearCacheOnStartup = CheckBox_ClearCacheOnStartup.IsChecked ?? true;
+            Vars.CurrentConf.SpeechPerson = ComboBox_Person.SelectedIndex;
             Vars.CurrentConf.BlockUID = ComboBox_BlockType.SelectedIndex == 0;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
@@ -292,6 +293,7 @@ namespace Re_TTSCat.Windows
             TextBox_HTTPAuthUsername.Text = Vars.CurrentConf.HttpAuthUsername;
             TextBox_HTTPAuthPassword.Password = Vars.CurrentConf.HttpAuthPassword;
             ComboBox_Engine.SelectedIndex = Vars.CurrentConf.Engine;
+            ComboBox_Person.SelectedIndex = Vars.CurrentConf.SpeechPerson;
             ComboBox_PostMethod.SelectedIndex = (int)Vars.CurrentConf.ReqType;
             ComboBox_Blockmode.SelectedIndex = Vars.CurrentConf.BlockMode;
             ComboBox_GiftBlockMode.SelectedIndex = Vars.CurrentConf.GiftBlockMode;
@@ -672,6 +674,12 @@ namespace Re_TTSCat.Windows
             var item = (TreeViewItem)TreeView_GeneralSettings.SelectedItem;
             if (item != null)
                 item.IsSelected = false;
+        }
+
+        private void ComboBox_Engine_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBox_Engine.SelectedIndex == 6) ComboBox_Person.IsEnabled = true;
+            else ComboBox_Person.IsEnabled = false;
         }
     }
 }

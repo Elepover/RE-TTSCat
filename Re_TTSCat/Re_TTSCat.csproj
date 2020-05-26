@@ -131,6 +131,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="TTSHelper\BaiduTTS\BaiduTTS.AiApi.Download.cs" />
+    <Compile Include="TTSHelper\BaiduTTS\BaiduTTS.AiApi.ParseToSpeechPerson.cs" />
+    <Compile Include="TTSHelper\BaiduTTS\BaiduTTS.AiApi.SpeechPerson.cs" />
     <Compile Include="TTSHelper\CustomTTS\CustomTTS.Download.cs" />
     <Compile Include="TTSHelper\BaiduTTS\BaiduTTS.Download.cs" />
     <Compile Include="TTSHelper\FrameworkTTS\FrameworkTTS.Download.cs" />

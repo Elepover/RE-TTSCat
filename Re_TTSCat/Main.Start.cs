@@ -19,15 +19,15 @@ namespace Re_TTSCat
             try
             {
                 loadWindow.Show();
-                loadWindow.ProgressBar.Value = 30; Data.Conf.Delay(10);
+                loadWindow.ProgressBar.Value = 30; Conf.Delay(10);
                 ALog("正在检查配置");
                 await Conf.InitiateAsync();
-                loadWindow.ProgressBar.Value = 60; Data.Conf.Delay(10);
+                loadWindow.ProgressBar.Value = 60; Conf.Delay(10);
                 ALog("配置初始化成功");
                 ALog("正在启用播放器");
                 TTSPlayer.Init();
-                loadWindow.ProgressBar.Value = 80; Data.Conf.Delay(10);
-                if (Data.Vars.CurrentConf.AutoUpdate)
+                loadWindow.ProgressBar.Value = 80; Conf.Delay(10);
+                if (Vars.CurrentConf.AutoUpdate)
                 {
                     ALog("正在启动更新检查");
                     Thread updateChecker = new Thread(async () =>
@@ -36,10 +36,10 @@ namespace Re_TTSCat
                         try
                         {
                             var latestVersion = await KruinUpdates.Update.GetLatestUpdAsync();
-                            var currentVersion = Data.Vars.CurrentVersion;
+                            var currentVersion = Vars.CurrentVersion;
                             if (KruinUpdates.CheckIfLatest(latestVersion, currentVersion))
                             {
-                                ALog("插件已为最新 (" + Data.Vars.CurrentVersion.ToString() + ")");
+                                ALog("插件已为最新 (" + Vars.CurrentVersion.ToString() + ")");
                             }
                             else
                             {
@@ -53,7 +53,7 @@ namespace Re_TTSCat
                     });
                     updateChecker.Start();
                 }
-                loadWindow.ProgressBar.Value = 100; Data.Conf.Delay(10);
+                loadWindow.ProgressBar.Value = 100; Conf.Delay(10);
                 loadWindow.Close();
                 Log("启动成功");
                 IsEnabled = true;
