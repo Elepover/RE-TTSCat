@@ -28,7 +28,9 @@ namespace Re_TTSCat.Windows
                 ProgressBar_Indicator.Visibility = Visibility.Visible;
                 var latestVersion = await KruinUpdates.Update.GetLatestUpdAsync();
                 var currentVersion = Vars.CurrentVersion;
-                TextBlock_Latest.Text = "最新版本: " + latestVersion.LatestVersion.ToString() + " / 当前版本: " + currentVersion.ToString();
+                TextBlock_Latest.Text = $"最新版本: {latestVersion.LatestVersion} / 当前版本: {currentVersion}";
+                if (currentVersion > latestVersion.LatestVersion)
+                    TextBlock_Latest.Text += "（草，怎么你的版本还更新）"; // <- 不愧是我 2/1
                 if (KruinUpdates.CheckIfLatest(latestVersion, currentVersion))
                 {
                     TextBlock_Status.Text = "插件已为最新";

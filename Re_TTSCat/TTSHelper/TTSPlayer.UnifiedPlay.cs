@@ -13,9 +13,9 @@ namespace Re_TTSCat
         /// </summary>
         /// <param name="content">Final TTS Content</param>
         /// <param name="ignoreRandomDitch">Specify true to ignore random ditching</param>
-        public static async Task UnifiedPlay(string content, bool ignoreRandomDitch = false)
+        public static async Task UnifiedPlay(string content, bool ignoreRandomDitch = false, bool overrideReadInQueue = false)
         {
-            if (content.Replace(" ", "") == "")
+            if (string.IsNullOrWhiteSpace(content))
             {
                 Bridge.ALog("放弃: 内容为空");
                 return;
@@ -56,32 +56,15 @@ namespace Re_TTSCat
                 Bridge.ALog("下载失败，丢弃");
                 return;
             }
-            if (Vars.CurrentConf.ReadInQueue)
+            if (Vars.CurrentConf.ReadInQueue && !overrideReadInQueue)
             {
-                Bridge.ALog("正在添加下列文件到播放列表: " + fileName);
+                Bridge.ALog($"正在添加下列文件到播放列表: {fileName}");
                 fileList.Add(fileName);
             }
             else
             {
-                Bridge.ALog("正在直接播放: " + fileName);
-                var thread = new Thread(() =>
-                {
-                    using (var waveOut = new WaveOutEvent())
-                    {
-                        using (var reader = new AudioFileReader(fileName))
-                        {
-                            waveOut.Init(reader);
-                            waveOut.Volume = ((float)Vars.CurrentConf.TTSVolume) / 100;
-                            Bridge.ALog("音量设置为: " + waveOut.Volume);
-                            waveOut.Play();
-                            Vars.TotalPlayed++;
-                            while (waveOut.PlaybackState != PlaybackState.Stopped) { Thread.Sleep(50); }
-                        }
-                    }
-                    if (Vars.CurrentConf.DoNotKeepCache)
-                        File.Delete(fileName);
-                });
-                thread.Start();
+                Bridge.ALog($"正在直接播放: {fileName}");
+                Play(fileName, false);
             }
             
         }

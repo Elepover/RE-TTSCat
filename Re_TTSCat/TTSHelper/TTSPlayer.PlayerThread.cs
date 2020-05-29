@@ -19,19 +19,17 @@ namespace Re_TTSCat
                     var fileName = fileList[0];
                     try
                     {
-                        using (var reader = new AudioFileReader(fileList[0]))
-                            Play(reader);
-                        Vars.TotalPlayed++;
+                        Play(fileList[0]);
                         if (Vars.CurrentConf.DoNotKeepCache)
                             File.Delete(fileName);
                     }
                     catch (Exception ex)
                     {
-                        Bridge.ALog($"无法读取文件 {Path.GetFileName(fileName)}, 放弃: {ex.Message}");
+                        Bridge.ALog($"无法读取/播放文件 {Path.GetFileName(fileName)}, 放弃: {ex.Message}");
                     }
                     if (fileList.Count > 0) fileList.RemoveAt(0);
                 }
-                Thread.Sleep(100);
+                try { Thread.Sleep(100); } catch { }
             }
             Bridge.ALog("播放器已停止");
             Vars.CallPlayerStop = false;

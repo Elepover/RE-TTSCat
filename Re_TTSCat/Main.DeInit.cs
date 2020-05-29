@@ -8,6 +8,7 @@ namespace Re_TTSCat
         public override void DeInit()
         {
             if ((Vars.ManagementWindow != null) && (!Vars.ManagementWindow.WindowDisposed)) Vars.ManagementWindow.Dispatcher.Invoke(() => { Vars.ManagementWindow.Close(); });
+            Vars.Player.Interrupt();
             base.DeInit();
         }
     }

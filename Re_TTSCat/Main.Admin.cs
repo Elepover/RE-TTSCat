@@ -17,7 +17,7 @@ namespace Re_TTSCat
                 var worker = new Thread(async () =>
                 {
                     if (MessageBox.Show("您按下了 Shift 键，重置配置吗？", "Re: TTSCat", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No) return;
-                    Log("重置配置...");
+                    ALog("重置配置...");
                     try
                     {
                         await Conf.InitiateAsync().ConfigureAwait(false);

@@ -11,7 +11,7 @@
         <Expander x:Name="Xpander" Header="详细信息" Margin="0,0,0,-175" Height="200" VerticalAlignment="Bottom" Collapsed="Xpander_Collapsed" Expanded="Xpander_Expanded">
             <Grid Background="#FFE5E5E5">
                 <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="错误详细信息" VerticalAlignment="Top"/>
-                <TextBox x:Name="TextBox_ErrorDetails" ScrollViewer.VerticalScrollBarVisibility="Visible" IsReadOnly="True" Margin="10,30,10,10" TextWrapping="Wrap" Text=""/>
+                <TextBox x:Name="TextBox_ErrorDetails" ScrollViewer.VerticalScrollBarVisibility="Visible" IsReadOnly="True" Margin="10,30,10,10" TextWrapping="Wrap" FontFamily="Consolas" Text=""/>
             </Grid>
         </Expander>
         <Button Content="复制详情" Margin="0,10,90,0" Click="Button_Copy_Click" HorizontalAlignment="Right" Width="75" Height="18" VerticalAlignment="Top"/>

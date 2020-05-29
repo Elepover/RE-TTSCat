@@ -39,6 +39,9 @@ namespace Re_TTSCat.Data
             OverrideToLogsTabOnStartup = false;
             AutoStartOnLoad = false;
             SpeechPerson = 0;
+            EnableVoiceReply = false;
+            InstantVoiceReply = false;
+            MinifyJson = true;
             HttpAuth = false;
             HttpAuthPassword = "";
             HttpAuthUsername = "";
@@ -62,6 +65,7 @@ namespace Re_TTSCat.Data
             CustomGuardLevel1 = "总督";
             CustomGuardLevel2 = "提督";
             CustomGuardLevel3 = "舰长";
+            VoiceReplyRules = new List<VoiceReplyRule>();
         }
     }
 }

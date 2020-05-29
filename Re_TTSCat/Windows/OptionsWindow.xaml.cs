@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualBasic;
+﻿using Microsoft.VisualBasic; // ← 不愧是我
 using NAudio.Wave;
 using Newtonsoft.Json;
 using Re_TTSCat.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -16,6 +18,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
 namespace Re_TTSCat.Windows
@@ -28,33 +32,57 @@ namespace Re_TTSCat.Windows
         public OptionsWindow()
         {
             InitializeComponent();
+            DataContext = this;
+            ListView_VoiceReplyRules.ItemsSource = voiceReplyRulesDataSource;
+            voiceReplyRulesDataSource.CollectionChanged += VoiceReplyRulesDataSource_CollectionChanged;
         }
 
-        private Thread StatsUpdater;
-        private bool WindowClosed = true;
+        private void VoiceReplyRulesDataSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ListView_VoiceReplyRules.GetBindingExpression(System.Windows.Controls.ListView.ItemsSourceProperty)?.UpdateTarget();
+        }
+
         public bool WindowDisposed = false;
+        private bool windowClosed = true;
         private DonateWindow donateWindow = new DonateWindow();
         private UpdateWindow updateWindow = new UpdateWindow();
+        private Thread statsUpdater;
+        private ObservableCollection<VoiceReplyRule> voiceReplyRulesDataSource = new ObservableCollection<VoiceReplyRule>();
 
-        private void Button_CheckConnectivity_Click(object sender, RoutedEventArgs e)
+        private async Task DarkenAsync()
         {
+            Rectangle_Overlay.Opacity = 0; // <- Reset opacity before letting it visible
+            Rectangle_Overlay.Visibility = Visibility.Visible;
+            var sb = Grid_Master.FindResource("DarkenAnimation") as Storyboard;
+            await sb.BeginAsync();
+        }
+
+        private async Task BrightenAsync()
+        {
+            var sb = Grid_Master.FindResource("BrightenAnimation") as Storyboard;
+            await sb.BeginAsync();
+            Rectangle_Overlay.Visibility = Visibility.Hidden;
+        }
+
+        private async void Button_CheckConnectivity_Click(object sender, RoutedEventArgs e)
+        {
+            await DarkenAsync();
             TextBox_ExecutionResult.Text = "延迟测试已启动...";
             try
             {
                 var thread = new Thread(() =>
                 {
-                    var window = new LoadingWindowLight()
-                    {
-                        Left = System.Windows.Forms.Cursor.Position.X,
-                        Top = System.Windows.Forms.Cursor.Position.Y
-                    };
-                    window.Show();
+                    var window = new LoadingWindowLight();
+                    window.IsOpen = true;
                     var result = new StringBuilder();
+                    var ip = new WebClient().DownloadString("https://apis.elepover.com/ip/");
+                    result.Append($"设备 IP（公网）: {ip}");
                     var listPing = new List<List<long>>();
                     var listAddresses = new Dictionary<string, string>
                     {
                         { "Google", "https://translate.google.cn/" },
                         { "百度", "https://fanyi.baidu.com/" },
+                        { "百度 (TSN)", "https://tsn.baidu.com/" },
                         { "有道", "http://tts.youdao.com/" }
                     };
                     var sw = new Stopwatch();
@@ -63,9 +91,10 @@ namespace Re_TTSCat.Windows
                     {
                         window.ProgressBar.Value = (double)(i * 100) / listAddresses.Count;
                         var list = new List<long>();
-                        for (int j = 0; j < 10; j++)
+                        for (int j = 0; j < 11; j++)
                         {
                             var req = WebRequest.CreateHttp(item.Value);
+                            req.Method = "HEAD";
                             req.Timeout = 5000;
                             var frame = new DispatcherFrame();
                             var getResWorker = new Thread(() =>
@@ -81,7 +110,8 @@ namespace Re_TTSCat.Windows
                             getResWorker.Start();
                             Dispatcher.PushFrame(frame);
                             sw.Stop();
-                            list.Add(sw.ElapsedMilliseconds);
+                            if (j != 0) // ditch first initial connection (stupid.png)
+                                list.Add(sw.ElapsedMilliseconds);
                             window.ProgressBar.Value += (double)(100 / listAddresses.Count) / 10;
                         }
                         listPing.Add(list);
@@ -104,9 +134,13 @@ namespace Re_TTSCat.Windows
                         _ = result.Append($" / stdev {Math.Round(Math.Sqrt(listPing[i].Average(x => x * x) - Math.Pow(listPing[i].Average(), 2)), 2)}{Environment.NewLine}");
                         i++;
                     }
-                    window.Close();
+                    window.IsOpen = false;
                     AsyncDialog.Open(result.ToString(), "Re: TTSCat");
-                    Dispatcher.Invoke(() => { TextBox_ExecutionResult.Text = "延迟测试完成"; });
+                    Dispatcher.Invoke(async () =>
+                    {
+                        TextBox_ExecutionResult.Text = "延迟测试完成";
+                        await BrightenAsync();
+                    });
                 });
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.Start();
@@ -145,7 +179,9 @@ namespace Re_TTSCat.Windows
 
         private async void Button_Reload_Click(object sender, RoutedEventArgs e)
         {
+            await DarkenAsync();
             await OnLoad(null, null);
+            await BrightenAsync();
         }
 
         private void UpdateStats()
@@ -178,7 +214,7 @@ namespace Re_TTSCat.Windows
         private void UpdateStatsThread()
         {
             
-            while (!WindowClosed)
+            while (!windowClosed)
             {
                 Dispatcher.Invoke(() => UpdateStats());
                 Thread.Sleep(1000);
@@ -203,6 +239,9 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.AutoStartOnLoad = CheckBox_AutoStartOnLoad.IsChecked ?? false;
             Vars.CurrentConf.ClearCacheOnStartup = CheckBox_ClearCacheOnStartup.IsChecked ?? true;
             Vars.CurrentConf.SpeechPerson = ComboBox_Person.SelectedIndex;
+            Vars.CurrentConf.EnableVoiceReply = CheckBox_EnableVoiceReply.IsChecked ?? false;
+            Vars.CurrentConf.InstantVoiceReply = CheckBox_InstantVoiceReply.IsChecked ?? false;
+            Vars.CurrentConf.MinifyJson = CheckBox_MinifyJson.IsChecked ?? true;
             Vars.CurrentConf.BlockUID = ComboBox_BlockType.SelectedIndex == 0;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
@@ -242,6 +281,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.OnGift = TextBox_OnGift.Text;
             Vars.CurrentConf.OnWelcome = TextBox_Welcome.Text;
             Vars.CurrentConf.OnWelcomeGuard = TextBox_WelcomeGuard.Text;
+            Vars.CurrentConf.VoiceReplyRules = new List<VoiceReplyRule>(voiceReplyRulesDataSource);
             // try to resolve custom titles
             try
             {
@@ -283,6 +323,9 @@ namespace Re_TTSCat.Windows
             CheckBox_SuppressLogOutput.IsChecked = Vars.CurrentConf.SuppressLogOutput;
             CheckBox_OverrideToLogsTabOnStartup.IsChecked = Vars.CurrentConf.OverrideToLogsTabOnStartup;
             CheckBox_AutoStartOnLoad.IsChecked = Vars.CurrentConf.AutoStartOnLoad;
+            CheckBox_EnableVoiceReply.IsChecked = Vars.CurrentConf.EnableVoiceReply;
+            CheckBox_InstantVoiceReply.IsChecked = Vars.CurrentConf.InstantVoiceReply;
+            CheckBox_MinifyJson.IsChecked = Vars.CurrentConf.MinifyJson;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
             Slider_DMLengthLimitMax.Value = Vars.CurrentConf.MaximumDanmakuLength;
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;
@@ -317,6 +360,9 @@ namespace Re_TTSCat.Windows
             TextBox_Welcome.Text = Vars.CurrentConf.OnWelcome;
             TextBox_WelcomeGuard.Text = Vars.CurrentConf.OnWelcomeGuard;
             TextBox_CustomTitles.Text = $"{Vars.CurrentConf.CustomVIP}/{Vars.CurrentConf.CustomGuardLevel0}/{Vars.CurrentConf.CustomGuardLevel1}/{Vars.CurrentConf.CustomGuardLevel2}/{Vars.CurrentConf.CustomGuardLevel3}";
+            voiceReplyRulesDataSource.Clear();
+            foreach (var item in Vars.CurrentConf.VoiceReplyRules)
+                voiceReplyRulesDataSource.Add(item);
 
             TextBox_Debug.Clear();
             TextBox_Debug.AppendText("---------- OS Environment ----------\n");
@@ -357,7 +403,7 @@ namespace Re_TTSCat.Windows
                     TextBox_Debug.AppendText($"Loaded assemblies ({assemblies.Count}): \n");
                     foreach (var assembly in assemblies)
                     {
-                        TextBox_Debug.AppendText($"{assembly.FullName}{(!assembly.IsDynamic ? $"@{assembly.Location}" : "")}\n");
+                        TextBox_Debug.AppendText($"{assembly.FullName}{(!assembly.IsDynamic ? $"@{assembly.Location}" : string.Empty)}\n");
                     }
                 }
                 catch (Exception ex)
@@ -368,12 +414,14 @@ namespace Re_TTSCat.Windows
             UpdateStats();
 
             TabItem_DebugOptions.Visibility = Vars.CurrentConf.DebugMode ? Visibility.Visible : Visibility.Hidden;
-            this.Title = $"{Vars.ManagementWindowDefaultTitle}{(Vars.CurrentConf.DebugMode ? " *用户调试模式*" : "")}{(Debugger.IsAttached ? " *弱智模式*" : "")}";
+            this.Title = $"{Vars.ManagementWindowDefaultTitle}{(Vars.CurrentConf.DebugMode ? " *用户调试模式*" : string.Empty)}{(Vars.CurrentConf.SuppressLogOutput ? " *日志已被压制*" : string.Empty)}{(Debugger.IsAttached ? " *弱智模式*" : string.Empty)}";
         }
 
         private async void Button_Apply_Click(object sender, RoutedEventArgs e)
         {
+            await DarkenAsync();
             await Apply();
+            await BrightenAsync();
         }
 
         private void Button_Donate_Click(object sender, RoutedEventArgs e)
@@ -426,7 +474,7 @@ namespace Re_TTSCat.Windows
                 return;
 
             _shown = true;
-            WindowClosed = false;
+            windowClosed = false;
 
             await OnLoad(null, null);
             _updateSliderAllowed = true;
@@ -543,21 +591,25 @@ namespace Re_TTSCat.Windows
 
         private void CheckBox_AutoUpdate_Checked(object sender, RoutedEventArgs e)
         {
-            if ((StatsUpdater == null) || !StatsUpdater.IsAlive)
+            CheckBox_AutoUpdate.IsEnabled = false;
+            if ((statsUpdater == null) || !statsUpdater.IsAlive)
             {
-                StatsUpdater = new Thread(() => UpdateStatsThread());
+                statsUpdater = new Thread(() => UpdateStatsThread());
             }
-            StatsUpdater.Start();
+            statsUpdater.Start();
+            CheckBox_AutoUpdate.IsEnabled = true;
         }
 
         private void CheckBox_AutoUpdate_Unchecked(object sender, RoutedEventArgs e)
         {
-            StatsUpdater.Abort();
+            CheckBox_AutoUpdate.IsEnabled = false;
+            statsUpdater.Abort();
+            CheckBox_AutoUpdate.IsEnabled = true;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            WindowClosed = true;
+            windowClosed = true;
             WindowDisposed = true;
         }
 
@@ -680,6 +732,28 @@ namespace Re_TTSCat.Windows
         {
             if (ComboBox_Engine.SelectedIndex == 6) ComboBox_Person.IsEnabled = true;
             else ComboBox_Person.IsEnabled = false;
+        }
+
+        private void Button_DeleteRule_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListView_VoiceReplyRules.SelectedIndex != -1)
+            {
+                voiceReplyRulesDataSource.RemoveAt(ListView_VoiceReplyRules.SelectedIndex);
+            }
+        }
+
+        private void Button_AddRule_Click(object sender, RoutedEventArgs e)
+        {
+            voiceReplyRulesDataSource.Add(new VoiceReplyRule());
+            ListView_VoiceReplyRules.SelectedIndex = voiceReplyRulesDataSource.Count - 1;
+        }
+
+        private void TextBox_ReplyContent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var obj = (System.Windows.Controls.TextBox)sender;
+            if (obj == null) return;
+            if (string.IsNullOrWhiteSpace(obj.Text)) obj.BorderBrush = Brushes.Red;
+            else obj.BorderBrush = Brushes.Lime;
         }
     }
 }

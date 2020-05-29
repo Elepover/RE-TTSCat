@@ -10,14 +10,21 @@ namespace Re_TTSCat.Data
     {
         public static async Task SaveAsync()
         {
-            var text = JsonConvert.SerializeObject(Vars.CurrentConf, Formatting.Indented);
-            var writer = new StreamWriter(Vars.ConfFileName, false, Encoding.UTF8)
+            try
             {
-                AutoFlush = true,
-                NewLine = Environment.NewLine
-            };
-            await writer.WriteAsync(text);
-            writer.Close();
+                var text = JsonConvert.SerializeObject(Vars.CurrentConf, Vars.CurrentConf.MinifyJson ? Formatting.None : Formatting.Indented);
+                var writer = new StreamWriter(Vars.ConfFileName, false, Encoding.UTF8)
+                {
+                    AutoFlush = true,
+                    NewLine = Environment.NewLine
+                };
+                await writer.WriteAsync(text);
+                writer.Close();
+            }
+            catch (Exception ex)
+            {
+                Bridge.ALog($"无法保存设置: {ex.Message}");
+            }
         }
     }
 }

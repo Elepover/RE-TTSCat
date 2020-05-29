@@ -147,6 +147,18 @@ namespace Re_TTSCat.Data
         /// </summary>
         public int SpeechPerson { get; set; }
         /// <summary>
+        /// 是否启用语音答复
+        /// </summary>
+        public bool EnableVoiceReply { get; set; }
+        /// <summary>
+        /// 是否立即读出语音答复而不排队
+        /// </summary>
+        public bool InstantVoiceReply { get; set; }
+        /// <summary>
+        /// 是否简化 JSON
+        /// </summary>
+        public bool MinifyJson { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }
@@ -231,5 +243,9 @@ namespace Re_TTSCat.Data
         /// 自定义老爷头衔
         /// </summary>
         public string CustomVIP { get; set; }
+        /// <summary>
+        /// 语音答复规则列表
+        /// </summary>
+        public List<VoiceReplyRule> VoiceReplyRules { get; set; }
     }
 }

@@ -11,14 +11,10 @@ namespace Re_TTSCat
         public override async void Start()
         {
             Log("插件启动中");
-            var loadWindow = new Windows.LoadingWindowLight
-            {
-                Left = Cursor.Position.X,
-                Top = Cursor.Position.Y
-            };
+            var loadWindow = new Windows.LoadingWindowLight();
             try
             {
-                loadWindow.Show();
+                loadWindow.IsOpen = true;
                 loadWindow.ProgressBar.Value = 30; Conf.Delay(10);
                 ALog("正在检查配置");
                 await Conf.InitiateAsync();
@@ -54,7 +50,7 @@ namespace Re_TTSCat
                     updateChecker.Start();
                 }
                 loadWindow.ProgressBar.Value = 100; Conf.Delay(10);
-                loadWindow.Close();
+                loadWindow.IsOpen = false;
                 Log("启动成功");
                 IsEnabled = true;
                 if ((Vars.ManagementWindow != null) && !Vars.ManagementWindow.WindowDisposed)
@@ -63,11 +59,7 @@ namespace Re_TTSCat
             }
             catch (Exception ex)
             {
-                try
-                {
-                    loadWindow.Close();
-                }
-                catch { }
+                loadWindow.IsOpen = false;
                 Log($"启动过程中出错: {ex}");
                 Windows.AsyncDialog.Open("启动失败，更多信息请查看日志（首页）。\n请在反馈错误时附加日志信息。\n\n如您在后期继续使用时遇到问题，请尝试重新启动弹幕姬。", "Re: TTSCat", MessageBoxIcon.Error);
                 Log("启动失败");

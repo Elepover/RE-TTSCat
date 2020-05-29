@@ -11,12 +11,8 @@ namespace Re_TTSCat
         public override void Stop()
         {
             Log("正在尝试停用插件");
-            var loadWindow = new Windows.LoadingWindowLight
-            {
-                Left = Cursor.Position.X,
-                Top = Cursor.Position.Y
-            };
-            loadWindow.Show(); Conf.Delay(25);
+            var loadWindow = new Windows.LoadingWindowLight();
+            loadWindow.IsOpen = true; Conf.Delay(25);
             loadWindow.ProgressBar.Value = 30; Conf.Delay(25);
 
             var frame = new DispatcherFrame();
@@ -29,7 +25,7 @@ namespace Re_TTSCat
             thread.Start();
             Dispatcher.PushFrame(frame);
             loadWindow.ProgressBar.Value = 100; Conf.Delay(25);
-            loadWindow.Close();
+            loadWindow.IsOpen = false;
 
             Log("插件已停用");
             IsEnabled = false;

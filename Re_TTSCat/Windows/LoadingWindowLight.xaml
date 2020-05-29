@@ -1,12 +1,12 @@
-﻿<Window x:Class="Re_TTSCat.Windows.LoadingWindowLight"
+﻿<Popup x:Class="Re_TTSCat.Windows.LoadingWindowLight"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
-        mc:Ignorable="d" WindowStyle="None" Topmost="True" AllowsTransparency="True" ResizeMode="NoResize"
-        Title="LoadingWindowLight" Height="15" Width="300" ShowInTaskbar="False">
+        Height="15" Placement="Mouse"
+        Width="300">
     <Grid>
         <ProgressBar x:Name="ProgressBar" IsIndeterminate="False" />
     </Grid>
-</Window>
+</Popup>
