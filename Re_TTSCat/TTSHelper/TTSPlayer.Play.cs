@@ -25,11 +25,11 @@ namespace Re_TTSCat
                         if (!wait)
                             frame.Continue = false;
                         while (waveOut.PlaybackState != PlaybackState.Stopped) { Thread.Sleep(50); }
-                        if (Vars.CurrentConf.DoNotKeepCache)
-                            File.Delete(filename);
                     }
-                    frame.Continue = false;
                 }
+                if (Vars.CurrentConf.DoNotKeepCache)
+                    File.Delete(filename);
+                frame.Continue = false;
             });
             thread.Start();
             Dispatcher.PushFrame(frame);
