@@ -88,11 +88,11 @@
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top">
                                 <StackPanel Margin="{StaticResource spMarginStats}">
                                     <local:IconTextBlock IconGlyph="&#xF101;" Text="正在队列中的语音"/>
-                                    <TextBlock x:Name="TextBlock_TTSInQueue" FontSize="25" TextWrapping="Wrap" Text="正在计算"/>
+                                    <TextBlock x:Name="TextBlock_TTSInQueue" FontSize="25" TextWrapping="Wrap" Text="正在计算" ToolTip="已经合成完毕，正在队列中等待播放的语音"/>
                                 </StackPanel>
                                 <StackPanel Margin="{StaticResource spMarginStats}">
                                     <local:IconTextBlock IconGlyph="&#xF00C;" Text="已播放的语音"/>
-                                    <TextBlock x:Name="TextBlock_TotalPlayed" FontSize="25" TextWrapping="Wrap" Text="正在计算"/>
+                                    <TextBlock x:Name="TextBlock_TotalPlayed" FontSize="25" TextWrapping="Wrap" Text="正在计算" ToolTip="已经完成播放的语音"/>
                                 </StackPanel>
                                 <StackPanel Margin="{StaticResource spMarginStats}">
                                     <local:IconTextBlock IconGlyph="&#xF0A0;" Text="缓存体积"/>
@@ -259,7 +259,7 @@
                     <Slider x:Name="Slider_ReadPossibility" HorizontalAlignment="Left" Margin="10,229,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="以一定的概率读出语音" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_ReadPossibility" HorizontalAlignment="Left" Margin="135,232,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="18"/>
                     <local:IconTextBlock HorizontalAlignment="Left" Margin="10,255,0,0" IconGlyph="&#xF028;" Text="TTS 音量" VerticalAlignment="Top"/>
-                    <Slider x:Name="Slider_TTSVolume" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="设置 TTS 音量&#xA;&#xA;这会覆盖系统音量合成器设置" ValueChanged="UpdateSliders"/>
+                    <Slider x:Name="Slider_TTSVolume" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSVolume" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="18"/>
                     <local:IconTextBlock HorizontalAlignment="Left" Margin="10,296,0,0" IconGlyph="&#xF3FD;" Text=".NET 框架引擎朗读速度" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,311,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>

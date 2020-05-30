@@ -18,13 +18,23 @@ namespace Re_TTSCat
                     using (var waveOut = new WaveOutEvent())
                     {
                         waveOut.Init(reader);
-                        waveOut.Volume = ((float)Vars.CurrentConf.TTSVolume) / 100;
-                        Bridge.ALog($"音量设置为: {waveOut.Volume}");
+                        reader.Volume = Volume;
+                        Bridge.ALog($"音量设置为: {Volume}");
                         waveOut.Play();
                         Vars.TotalPlayed++;
                         if (!wait)
                             frame.Continue = false;
-                        while (waveOut.PlaybackState != PlaybackState.Stopped) { Thread.Sleep(50); }
+                        while (waveOut.PlaybackState != PlaybackState.Stopped)
+                        {
+                            if (Vars.CallPlayerStop)
+                                waveOut.Stop();
+                            if (!reader.Volume.IsNearEnough(Volume, 0.02f))
+                            {
+                                Bridge.ALog($"同步音量: {Volume}");
+                                reader.Volume = Volume;
+                            }
+                            Thread.Sleep(50);
+                        }
                     }
                 }
                 if (Vars.CurrentConf.DoNotKeepCache)

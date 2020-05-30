@@ -4,7 +4,7 @@ using System.Windows.Media.Animation;
 
 namespace Re_TTSCat.Data
 {
-    public static class StoryboardExtensions
+    public static partial class Extensions
     {
         public static Task BeginAsync(this Storyboard storyboard)
         {
