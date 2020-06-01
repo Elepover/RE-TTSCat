@@ -1,4 +1,5 @@
 ﻿using BilibiliDM_PluginFramework;
+using Re_TTSCat.Data;
 
 namespace Re_TTSCat
 {
@@ -16,7 +17,19 @@ namespace Re_TTSCat
                     await SuperChatRoute(sender, e);
                     break;
                 case MsgTypeEnum.GiftSend:
-                    await GiftRoute(sender, e);
+                    if (Vars.CurrentConf.GiftsThrottle)
+                    {
+                        ALog($"礼物合并已启用，正在合并礼物: 来自 {e.Danmaku.UserName} ({e.Danmaku.UserID}) 的 {e.Danmaku.GiftCount} 个 {e.Danmaku.GiftName}");
+                        Vars.Debouncer.Add(new UserGift
+                        (
+                            e.Danmaku.UserName,
+                            e.Danmaku.UserID,
+                            e.Danmaku.GiftName,
+                            e.Danmaku.GiftCount
+                        ));
+                    }
+                    else
+                        await GiftRoute(sender, e);
                     break;
                 case MsgTypeEnum.GuardBuy:
                     await GuardBuyRoute(sender, e);

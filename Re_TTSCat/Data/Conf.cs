@@ -159,6 +159,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool MinifyJson { get; set; }
         /// <summary>
+        /// 是否合并短时间内的礼物
+        /// </summary>
+        public bool GiftsThrottle { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }

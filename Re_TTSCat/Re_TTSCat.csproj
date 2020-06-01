@@ -80,6 +80,7 @@
     <Compile Include="Data\Conf.CheckUserEligibility.cs" />
     <Compile Include="Data\Conf.VerifyLibraryIntegrity.cs" />
     <Compile Include="Data\Extensions.float.IsNearEnough.cs" />
+    <Compile Include="Data\GiftDebouncer.cs" />
     <Compile Include="Data\Header.cs" />
     <Compile Include="Data\RequestType.cs" />
     <Compile Include="Data\SecureRng\SecureRng.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Data\SecureRng\SecureRng.GetRandomUInt.cs" />
     <Compile Include="Data\SecureRng\SecureRng.Next.cs" />
     <Compile Include="Data\Extensions.StoryBoard.BeginAsync.cs" />
+    <Compile Include="Data\UserGift.cs" />
     <Compile Include="Data\VoiceReplyRule.cs" />
     <Compile Include="Data\VoiceReplyRule.Matches.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\SuperChatRoute.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="EventsHandler\DanmakuRoutes\GuardBuyRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\GiftRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\CommentRoute.cs" />
+    <Compile Include="EventsHandler\Main.OnGiftDebounced.cs" />
     <Compile Include="EventsHandler\Main.OnReceivedDanmaku.cs" />
     <Compile Include="EventsHandler\Main.OnReceivedRoomCount.cs" />
     <Compile Include="EventsHandler\Main.OnDisconnected.cs" />

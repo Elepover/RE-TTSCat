@@ -48,7 +48,7 @@
                     <local:IconTextBlock IconGlyph="&#xF013;" Text="常规选项"/>
                 </TabItem.Header>
                 <Grid>
-                    <TreeView x:Name="TreeView_GeneralSettings" Margin="0,0,0,160" BorderBrush="{x:Null}" SelectedItemChanged="TreeView_GeneralSettings_SelectedItemChanged">
+                    <TreeView x:Name="TreeView_GeneralSettings" Margin="0,0,0,115" BorderBrush="{x:Null}" SelectedItemChanged="TreeView_GeneralSettings_SelectedItemChanged">
                         <TreeView.Resources>
                             <Style TargetType="{x:Type CheckBox}">
                                 <Setter Property="Margin" Value="-18.7,2.5,0,2.5"/>
@@ -60,8 +60,9 @@
                             </TreeViewItem.Header>
                             <CheckBox x:Name="CheckBox_AutoUpdates" Content="自动检查更新" IsChecked="True" ToolTip="在插件启动时自动检查更新&#xA;&#xA;这并不会拖慢插件启动速度"/>
                             <CheckBox x:Name="CheckBox_ReadInQueue" Content="逐条阅读语音" IsChecked="True" ToolTip="待正在朗读的语音结束后再继续朗读下一条语音&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
-                            <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
                             <CheckBox x:Name="CheckBox_InstantVoiceReply" IsChecked="False" Content="立即读出语音答复" ToolTip="在收到弹幕的瞬间立刻读出语音答复而不排队"/>
+                            <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
+                            <CheckBox x:Name="CheckBox_GiftsThrottle" IsChecked="True" Content="合并短时间内同一用户的相同礼物" ToolTip="合并 3 秒内来自同一发送者的所有同一礼物&#xA;&#xA;这也会带来若干秒的语音延迟"/>
                         </TreeViewItem>
                         <TreeViewItem IsExpanded="True">
                             <TreeViewItem.Header>
@@ -80,7 +81,7 @@
                             <CheckBox x:Name="CheckBox_AutoStartOnLoad" IsChecked="False" Content="在弹幕姬启动时自动启动插件" ToolTip="启用此选项后，插件将在弹幕姬启动时自动启用&#xA;&#xA;这会拖慢弹幕姬启动速度"/>
                         </TreeViewItem>
                     </TreeView>
-                    <GroupBox Height="150" Margin="10,0,10,10" VerticalAlignment="Bottom">
+                    <GroupBox Height="100" Margin="10,0,10,10" VerticalAlignment="Bottom">
                         <GroupBox.Header>
                             <local:IconTextBlock IconGlyph="&#xF201;" Text="统计数据"/>
                         </GroupBox.Header>
@@ -262,7 +263,7 @@
                     <Slider x:Name="Slider_TTSVolume" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSVolume" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="18"/>
                     <local:IconTextBlock HorizontalAlignment="Left" Margin="10,296,0,0" IconGlyph="&#xF3FD;" Text=".NET 框架引擎朗读速度" VerticalAlignment="Top"/>
-                    <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,311,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
+                    <Slider x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,311,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 语速，仅对 .NET 框架引擎有效" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,314,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="18"/>
                     <CheckBox x:Name="CheckBox_DebugMode" HorizontalAlignment="Left" Margin="10,0,0,10.8" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃" Height="14" VerticalAlignment="Bottom">
                         <local:IconTextBlock IconGlyph="&#xF0E7;" Text="我是高级用户（请阅读悬停提示）"/>

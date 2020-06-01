@@ -1,4 +1,5 @@
 ﻿using BilibiliDM_PluginFramework;
+using Re_TTSCat.Data;
 using System;
 
 namespace Re_TTSCat
@@ -19,6 +20,7 @@ namespace Re_TTSCat
             ReceivedRoomCount += OnReceivedRoomCount;
             ReceivedDanmaku += OnReceivedDanmaku;
             AppDomain.CurrentDomain.UnhandledException += GlobalErrorHandler;
+            Vars.Debouncer.GiftDebouncedEvent += GiftDebouncedEvent;
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Re_TTSCat.Data
 {
-    public sealed class Vars
+    public static class Vars
     {
         public static readonly string ApiBaidu = "https://fanyi.baidu.com/gettts?lan=zh&text=$TTSTEXT&spd=5&source=web";
         public static readonly string ApiBaiduCantonese = "https://fanyi.baidu.com/gettts?lan=cte&text=$TTSTEXT&spd=5&source=web";
@@ -21,7 +21,7 @@ namespace Re_TTSCat.Data
         public static readonly string CacheDirTemp = Path.Combine(Path.GetTempPath(), "Re-TTSCat TTS Cache");
         public static readonly string ConfFileName = Path.Combine(ConfDir, "Config.json");
         public static readonly string AudioLibraryFileName = Path.Combine(ConfDir, "NAudio.dll");
-        public static readonly Version CurrentVersion = new Version("3.7.65.530");
+        public static readonly Version CurrentVersion = new Version("3.8.66.540");
         public static readonly string ManagementWindowDefaultTitle = "Re: TTSCat - 插件管理";
 
         public static Conf CurrentConf = new Conf();
@@ -33,5 +33,6 @@ namespace Re_TTSCat.Data
         public static OptionsWindow ManagementWindow;
         public static string CacheDir => CurrentConf?.SaveCacheInTempDir == false ? DefaultCacheDir : CacheDirTemp;
         public static string ApiBaiduAiAccessToken = string.Empty;
+        public static GiftDebouncer Debouncer = new GiftDebouncer();
     }
 }
