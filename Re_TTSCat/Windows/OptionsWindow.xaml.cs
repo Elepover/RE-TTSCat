@@ -734,6 +734,8 @@ namespace Re_TTSCat.Windows
         {
             if (ComboBox_Engine.SelectedIndex == 6) ComboBox_Person.IsEnabled = true;
             else ComboBox_Person.IsEnabled = false;
+            if (ComboBox_Engine.SelectedIndex == 6 || ComboBox_Engine.SelectedIndex == 1) Slider_TTSSpeed.IsEnabled = true;
+            else Slider_TTSSpeed.IsEnabled = false;
         }
 
         private void Button_DeleteRule_Click(object sender, RoutedEventArgs e)
