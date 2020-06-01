@@ -41,6 +41,7 @@ namespace Re_TTSCat
                     File.Delete(filename);
                 frame.Continue = false;
             });
+            thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             Dispatcher.PushFrame(frame);
         }

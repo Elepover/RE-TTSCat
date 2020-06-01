@@ -76,7 +76,7 @@ namespace Re_TTSCat.Windows
                     window.IsOpen = true;
                     var result = new StringBuilder();
                     var ip = new WebClient().DownloadString("https://apis.elepover.com/ip/");
-                    result.Append($"设备 IP（公网）: {ip}");
+                    result.Append($"设备 IP（公网）: {ip}{Environment.NewLine}");
                     var listPing = new List<List<long>>();
                     var listAddresses = new Dictionary<string, string>
                     {

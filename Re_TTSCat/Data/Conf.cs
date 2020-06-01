@@ -17,22 +17,22 @@ namespace Re_TTSCat.Data
         /// </summary>
         public string WhiteList { get; set; }
         /// <summary>
-        /// 屏蔽模式
-        /// (0 = 已关闭, 1 = 黑名单, 2 = 白名单)
+        /// 屏蔽模式<br/>
+        /// 0 = 已关闭, 1 = 黑名单, 2 = 白名单
         /// </summary>
         public byte BlockMode { get; set; }
         /// <summary>
-        /// 礼物屏蔽模式
-        /// (0 = 已关闭, 1 = 黑名单, 2 = 白名单)
+        /// 礼物屏蔽模式<br/>
+        /// 0 = 已关闭, 1 = 黑名单, 2 = 白名单
         /// </summary>
         public byte GiftBlockMode { get; set; }
         /// <summary>
-        /// 关键字屏蔽模式
-        /// (0 = 已关闭, 1 = 黑名单, 2 = 白名单)
+        /// 关键字屏蔽模式<br/>
+        /// 0 = 已关闭, 1 = 黑名单, 2 = 白名单
         /// </summary>
         public byte KeywordBlockMode { get; set; }
         /// <summary>
-        /// true = 黑名单中为 UID
+        /// true = 黑名单中为 UID<br/>
         /// false = 黑名单中为用户名
         /// </summary>
         public bool BlockUID { get; set; }
@@ -49,8 +49,8 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool DoNotKeepCache { get; set; }
         /// <summary>
-        /// 要使用的弹幕引擎
-        /// (0 = 毒瘤, 1 = .NET, 2 = Does not exist, 3 = 毒瘤 广东话, 4 = 有道, 5 = 用户自定义, 6 = 毒瘤高级版)
+        /// 要使用的弹幕引擎<br/>
+        /// 0 = 毒瘤, 1 = .NET, 2 = Does not exist, 3 = 毒瘤 广东话, 4 = 有道, 5 = 用户自定义, 6 = 毒瘤高级版
         /// </summary>
         public byte Engine { get; set; }
         /// <summary>
@@ -86,7 +86,8 @@ namespace Re_TTSCat.Data
         /// </summary>
         public int ReadPossibility { get; set; }
         /// <summary>
-        /// 读出速度（仅适用于 .NET 框架引擎，范围 -10 ~ 10）
+        /// 读出速度（仅适用于 .NET 框架引擎，范围 -10 ~ 10）<br />
+        /// 百度：转换为 0 ~ 15, 5 为正常语速
         /// </summary>
         public int ReadSpeed { get; set; }
         /// <summary>
@@ -142,7 +143,7 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool AutoStartOnLoad { get; set; }
         /// <summary>
-        /// 百度 AI 引擎的朗读人物
+        /// 百度 AI 引擎的朗读人物<br/>
         /// 0 = 度小美, 1 = 度小宇, 2 = 度逍遥, 3 = 度丫丫, 4 = 度小娇, 5 = 度米朵, 6 = 度博文, 7 = 度小童, 8 = 度小萌
         /// </summary>
         public int SpeechPerson { get; set; }

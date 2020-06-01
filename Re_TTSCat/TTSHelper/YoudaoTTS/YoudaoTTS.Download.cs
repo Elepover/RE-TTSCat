@@ -17,14 +17,15 @@ namespace Re_TTSCat
                 {
                     var fileName = Path.Combine(Vars.CacheDir, Conf.GetRandomFileName() + "YODO.mp3");
                     Bridge.ALog("(E4) 正在下载 TTS, 文件名: " + fileName);
-                    var downloader = new WebClient();
-                    downloader.Headers.Add(HttpRequestHeader.AcceptEncoding, "identity;q=1, *;q=0");
-                    downloader.Headers.Add(HttpRequestHeader.Referer, "http://fanyi.youdao.com/");
-                    downloader.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
-                    await downloader.DownloadFileTaskAsync(Vars.ApiYoudao.Replace("$TTSTEXT", content),
-                                                           fileName);
-                    downloader.Dispose();
-                    return fileName;
+                    using (var downloader = new WebClient())
+                    {
+                        downloader.Headers.Add(HttpRequestHeader.AcceptEncoding, "identity;q=1, *;q=0");
+                        downloader.Headers.Add(HttpRequestHeader.Referer, "http://fanyi.youdao.com/");
+                        downloader.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
+                        await downloader.DownloadFileTaskAsync(Vars.ApiYoudao.Replace("$TTSTEXT", content),
+                                                               fileName);
+                        return fileName;
+                    }
                 }
                 catch (Exception ex)
                 {

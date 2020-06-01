@@ -19,6 +19,7 @@ namespace Re_TTSCat
                 synth.Dispose();
                 frame.Continue = false;
             });
+            thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             Dispatcher.PushFrame(frame);
             return fileName;
