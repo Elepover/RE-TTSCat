@@ -15,12 +15,10 @@ namespace Re_TTSCat
                 if (fileList.Count != 0)
                 {
                     Bridge.ALog("启动播放，剩余数目:" + fileList.Count);
-                    var fileName = fileList[0];
+                    var fileName = fileList[0].Filename;
                     try
                     {
-                        Play(fileList[0]);
-                        if (Vars.CurrentConf.DoNotKeepCache)
-                            File.Delete(fileName);
+                        Play(fileName, true, fileList[0].DoNotDelete);
                     }
                     catch (Exception ex)
                     {

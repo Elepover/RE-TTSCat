@@ -59,7 +59,7 @@ namespace Re_TTSCat
             if (Vars.CurrentConf.ReadInQueue && !overrideReadInQueue)
             {
                 Bridge.ALog($"正在添加下列文件到播放列表: {fileName}");
-                fileList.Add(fileName);
+                fileList.Add(new TTSEntry(fileName));
             }
             else
             {

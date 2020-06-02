@@ -149,6 +149,7 @@
     <Compile Include="TTSHelper\BaiduTTS\BaiduTTS.Download.cs" />
     <Compile Include="TTSHelper\FrameworkTTS\FrameworkTTS.Download.cs" />
     <Compile Include="TTSHelper\GoogleTTS\GoogleTTS.cs" />
+    <Compile Include="TTSHelper\TTSEntry.cs" />
     <Compile Include="TTSHelper\TTSPlayer.Init.cs" />
     <Compile Include="TTSHelper\TTSPlayer.PlayVoiceReply.cs" />
     <Compile Include="TTSHelper\TTSPlayer.UnifiedPlay.cs" />

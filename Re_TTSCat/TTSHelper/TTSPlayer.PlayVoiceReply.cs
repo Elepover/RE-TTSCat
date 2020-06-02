@@ -23,12 +23,12 @@ namespace Re_TTSCat
                         {
                             if (Vars.CurrentConf.InstantVoiceReply)
                             {
-                                Play(rule.ReplyContent, false);
+                                Play(rule.ReplyContent, false, true);
                             }
                             else
                             {
                                 // add the file to queue
-                                fileList.Add(rule.ReplyContent);
+                                fileList.Add(new TTSEntry(rule.ReplyContent, true));
                             }
                         }
                         catch (Exception ex)

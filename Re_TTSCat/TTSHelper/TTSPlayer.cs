@@ -5,7 +5,7 @@ namespace Re_TTSCat
 {
     public static partial class TTSPlayer
     {
-        public static List<string> fileList = new List<string>();
+        public static List<TTSEntry> fileList = new List<TTSEntry>();
         public static float Volume { get => ((float)Vars.CurrentConf.TTSVolume) / 100; }
     }
 }
