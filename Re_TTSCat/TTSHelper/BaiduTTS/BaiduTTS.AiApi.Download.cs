@@ -36,6 +36,7 @@ namespace Re_TTSCat
                         var url = Vars.ApiBaiduAi
                             .Replace("$PERSON", ((int)person).ToString())
                             .Replace("$SPEED", ConvertSpeed(Vars.CurrentConf.ReadSpeed).ToString())
+                            .Replace("$PITCH", ConvertSpeed(Vars.CurrentConf.SpeechPitch).ToString())
                             .Replace("$TOKEN", Vars.ApiBaiduAiAccessToken)
                             .Replace("$TTSTEXT", content);
                         await downloader.DownloadFileTaskAsync(url, fileName);

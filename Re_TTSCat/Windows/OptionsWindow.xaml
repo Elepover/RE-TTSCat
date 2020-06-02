@@ -235,8 +235,8 @@
                         <ComboBoxItem Content="用户自定义引擎" ToolTip="使用您在右侧自定义的 TTS 引擎&#xA;&#xA;使用 $TTSTEXT 来代替需要读出的文本"/>
                         <ComboBoxItem Content="百度（高级版）" ToolTip="使用百度高级 TTS 引擎"/>
                     </ComboBox>
-                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,52,0,0" IconGlyph="&#xF007;" Text="百度高级引擎朗读角色" VerticalAlignment="Top"/>
-                    <ComboBox x:Name="ComboBox_Person" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Width="120" ToolTip="若您选择了百度高级版语音合成引擎，则可选择以下 9 位不同朗读者的音色">
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,52,0,0" IconGlyph="&#xF007;" Text="百度高级引擎朗读角色" ToolTip="若您选择了百度高级版语音合成引擎，则可选择以下 9 位不同朗读者的音色" VerticalAlignment="Top"/>
+                    <ComboBox x:Name="ComboBox_Person" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" ToolTip="选择朗读角色" Width="120">
                         <ComboBoxItem Content="♀ 度小美（默认）"/>
                         <ComboBoxItem Content="♂ 度小宇"/>
                         <ComboBoxItem Content="♂ 度逍遥"/>
@@ -262,9 +262,12 @@
                     <local:IconTextBlock HorizontalAlignment="Left" Margin="10,255,0,0" IconGlyph="&#xF028;" Text="TTS 音量" VerticalAlignment="Top"/>
                     <Slider x:Name="Slider_TTSVolume" HorizontalAlignment="Left" Margin="10,270,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="100" Maximum="100" Minimum="0" SmallChange="1" ToolTip="设置 TTS 音量" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSVolume" HorizontalAlignment="Left" Margin="135,273,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Height="18"/>
-                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,296,0,0" IconGlyph="&#xF3FD;" Text="朗读速度（部分引擎）" VerticalAlignment="Top"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,296,0,0" IconGlyph="&#xF3FD;" Text="朗读速度（部分引擎）" VerticalAlignment="Top" ToolTip="限 .NET 框架引擎和百度高级版引擎，选中后解锁"/>
                     <Slider IsEnabled="False" x:Name="Slider_TTSSpeed" HorizontalAlignment="Left" Margin="10,311,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 语速&#xA;&#xA;对以下引擎有效：&#xA;.NET 框架引擎&#xA;百度（高级版）&#xA;&#xA;&lt; 0: 减速&#xA;= 0: 正常&#xA;&gt; 0: 加速" ValueChanged="UpdateSliders"/>
                     <TextBlock x:Name="TextBlock_TTSSpeed" HorizontalAlignment="Left" Margin="135,314,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="18"/>
+                    <local:IconTextBlock HorizontalAlignment="Left" Margin="10,337,0,0" IconGlyph="&#xF70C;" Text="朗读语调（部分引擎）" VerticalAlignment="Top" ToolTip="限百度高级版引擎，选中后解锁"/>
+                    <Slider IsEnabled="False" x:Name="Slider_TTSPitch" HorizontalAlignment="Left" Margin="10,352,0,0" VerticalAlignment="Top" Width="120" Height="21" Value="0" Maximum="10" Minimum="-10" SmallChange="1" ToolTip="设置 TTS 语调&#xA;&#xA;对以下引擎有效：&#xA;百度（高级版）&#xA;&#xA;&lt; 0: 降调&#xA;= 0: 正常&#xA;&gt; 0: 升调" ValueChanged="UpdateSliders"/>
+                    <TextBlock x:Name="TextBlock_TTSPitch" HorizontalAlignment="Left" Margin="135,355,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Height="18"/>
                     <CheckBox x:Name="CheckBox_DebugMode" HorizontalAlignment="Left" Margin="10,0,0,10.8" ToolTip="显示更加详细的日志输出，并解锁调试选项&#xA;&#xA;请避免在生产环境中（如：直播时）使用调试功能，否则可能使插件或弹幕姬崩溃" Height="14" VerticalAlignment="Bottom">
                         <local:IconTextBlock IconGlyph="&#xF0E7;" Text="我是高级用户（请阅读悬停提示）"/>
                     </CheckBox>

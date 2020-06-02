@@ -250,6 +250,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.DownloadFailRetryCount = (byte)Math.Round(Slider_RetryCount.Value);
             Vars.CurrentConf.TTSVolume = (int)Math.Round(Slider_TTSVolume.Value);
             Vars.CurrentConf.ReadSpeed = (int)Math.Round(Slider_TTSSpeed.Value);
+            Vars.CurrentConf.SpeechPitch = (int)Math.Round(Slider_TTSPitch.Value);
             Vars.CurrentConf.CustomEngineURL = TextBox_CustomEngineURL.Text;
             Vars.CurrentConf.HttpAuthUsername = TextBox_HTTPAuthUsername.Text;
             Vars.CurrentConf.HttpAuthPassword = TextBox_HTTPAuthPassword.Password;
@@ -334,6 +335,7 @@ namespace Re_TTSCat.Windows
             Slider_RetryCount.Value = Vars.CurrentConf.DownloadFailRetryCount;
             Slider_TTSVolume.Value = Vars.CurrentConf.TTSVolume;
             Slider_TTSSpeed.Value = Vars.CurrentConf.ReadSpeed;
+            Slider_TTSPitch.Value = Vars.CurrentConf.SpeechPitch;
             TextBox_CustomEngineURL.Text = Vars.CurrentConf.CustomEngineURL;
             TextBox_HTTPAuthUsername.Text = Vars.CurrentConf.HttpAuthUsername;
             TextBox_HTTPAuthPassword.Password = Vars.CurrentConf.HttpAuthPassword;
@@ -445,6 +447,7 @@ namespace Re_TTSCat.Windows
             TextBlock_RetryCount.Text = Math.Round(Slider_RetryCount.Value).ToString();
             TextBlock_TTSVolume.Text = Math.Round(Slider_TTSVolume.Value).ToString();
             TextBlock_TTSSpeed.Text = Math.Round(Slider_TTSSpeed.Value).ToString();
+            TextBlock_TTSPitch.Text = Math.Round(Slider_TTSPitch.Value).ToString();
             Slider_DMLengthLimit.Maximum = Slider_DMLengthLimitMax.Value;
             Slider_DMLengthLimitMax.Minimum = Slider_DMLengthLimit.Value;
         }
@@ -732,8 +735,16 @@ namespace Re_TTSCat.Windows
 
         private void ComboBox_Engine_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ComboBox_Engine.SelectedIndex == 6) ComboBox_Person.IsEnabled = true;
-            else ComboBox_Person.IsEnabled = false;
+            if (ComboBox_Engine.SelectedIndex == 6)
+            {
+                ComboBox_Person.IsEnabled = true;
+                Slider_TTSPitch.IsEnabled = true;
+            }
+            else
+            {
+                ComboBox_Person.IsEnabled = false;
+                Slider_TTSPitch.IsEnabled = false;
+            }
             if (ComboBox_Engine.SelectedIndex == 6 || ComboBox_Engine.SelectedIndex == 1) Slider_TTSSpeed.IsEnabled = true;
             else Slider_TTSSpeed.IsEnabled = false;
         }

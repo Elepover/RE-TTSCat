@@ -160,6 +160,11 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool MinifyJson { get; set; }
         /// <summary>
+        /// 百度高级版 TTS 的语调，0 至 15<br />
+        /// 可使用 <see cref="BaiduTTS.ConvertSpeed(double)"/> 函数来从 -10 至 10 转换
+        /// </summary>
+        public int SpeechPitch { get; set; }
+        /// <summary>
         /// 是否合并短时间内的礼物
         /// </summary>
         public bool GiftsThrottle { get; set; }
