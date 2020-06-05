@@ -12,8 +12,8 @@ namespace Re_TTSCat
         }
         public static bool CheckIfLatest(Update upd, Version currentVer)
         {
-            // return (upd.LatestVersion > currentVer) ? false : true;
-            return false;
+            return (upd.LatestVersion > currentVer) ? false : true;
+            //return false;
         }
     }
 }
