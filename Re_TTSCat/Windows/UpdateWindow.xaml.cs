@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using Re_TTSCat.Data;
 
 namespace Re_TTSCat.Windows
@@ -18,6 +23,21 @@ namespace Re_TTSCat.Windows
         }
 
         private string updateDownloadURL = "undefined";
+
+        private void DetectPendingUpdates()
+        {
+            Button_DLUpd.IsEnabled = !Vars.UpdatePending;
+            Button_CheckUpd.IsEnabled = !Vars.UpdatePending;
+            if (Vars.UpdatePending)
+            {
+                TextBlock_Status.Text = "已安装更新，等待弹幕姬重启...";
+                TextBlock_Status.FontWeight = FontWeights.SemiBold;
+                TextBlock_Status.Foreground = new SolidColorBrush(Colors.DarkGreen);
+                FontIcon_DlUpdate.Foreground = new SolidColorBrush(Colors.DarkGreen);
+                FontIcon_DlUpdate.Text = "\uF00C";
+                FontIcon_Title.Text = "\uF00C";
+            }
+        }
 
         private async Task CheckUpdate()
         {
@@ -50,6 +70,7 @@ namespace Re_TTSCat.Windows
             }
             finally
             {
+                DetectPendingUpdates();
                 ProgressBar_Indicator.Visibility = Visibility.Hidden;
                 MasterGrid.IsEnabled = true;
             }
@@ -60,15 +81,79 @@ namespace Re_TTSCat.Windows
             await CheckUpdate();
         }
 
-        private void Button_DLUpd_Click(object sender, RoutedEventArgs e)
+        private async void Button_DLUpd_Click(object sender, RoutedEventArgs e)
         {
             if (updateDownloadURL == "undefined")
             {
-                AsyncDialog.Open("先检查更新吧~");
+                AsyncDialog.Open("先检查更新吧~", "Re: TTSCat", System.Windows.Forms.MessageBoxIcon.Warning, System.Windows.Forms.MessageBoxButtons.OK);
             }
             else
             {
-                Process.Start(updateDownloadURL);
+                try
+                {
+                    StaysOpen = true;
+                    ProgressBar_Indicator.Visibility = Visibility.Visible;
+                    ProgressBar_Indicator.IsIndeterminate = false;
+                    Button_CheckUpd.IsEnabled = false;
+                    Button_DLUpd.IsEnabled = false;
+
+                    TextBlock_Status.Text = "正在准备更新...";
+                    ProgressBar_Indicator.Value = 0;
+                    await Task.Delay(100);
+
+                    TextBlock_Status.Text = "正在下载更新...";
+                    ProgressBar_Indicator.Value = 10;
+
+                    void progressChangedHandler(object sdr, DownloadProgressChangedEventArgs dpce)
+                    {
+                        var progress = Math.Round((double)dpce.BytesReceived / dpce.TotalBytesToReceive, 4);
+                        TextBlock_Status.Text = $"正在下载更新... ({progress * 100}%)";
+                        ProgressBar_Indicator.Value = progress * 100;
+                    }
+
+                    using (var downloader = new WebClient())
+                    {
+                        downloader.DownloadProgressChanged += progressChangedHandler;
+                        await downloader.DownloadFileTaskAsync(updateDownloadURL, Vars.DownloadUpdateFilename);
+                    }
+
+                    TextBlock_Status.Text = "正在备份...";
+                    ProgressBar_Indicator.Value = 50;
+                    var backupFilename = Path.Combine(Vars.ConfDir, $"Re_TTSCat_v{Vars.CurrentVersion}.dll");
+                    if (File.Exists(backupFilename)) File.Delete(backupFilename);
+                    File.Move(Vars.AppDllFileName, backupFilename);
+
+                    TextBlock_Status.Text = "正在解压...";
+                    ProgressBar_Indicator.Value = 80;
+                    using (var zip = ZipFile.OpenRead(Vars.DownloadUpdateFilename))
+                    {
+                        foreach (var entry in zip.Entries)
+                        {
+                            TextBlock_Status.Text = $"正在解压... ({entry.FullName})";
+                            entry.ExtractToFile(Path.Combine(Vars.AppDllFilePath, entry.FullName), true);
+                        }
+                    }
+
+                    TextBlock_Status.Text = "正在清理...";
+                    ProgressBar_Indicator.Value = 90;
+                    if (File.Exists(Vars.DownloadUpdateFilename)) File.Delete(Vars.DownloadUpdateFilename);
+
+                    Vars.UpdatePending = true;
+                    ProgressBar_Indicator.Value = 100;
+                }
+                catch (Exception ex)
+                {
+                    TextBlock_Status.Text = $"更新出错: {ex.Message}";
+                }
+                finally
+                {
+                    StaysOpen = false;
+                    ProgressBar_Indicator.Visibility = Visibility.Hidden;
+                    ProgressBar_Indicator.IsIndeterminate = true;
+                    Button_CheckUpd.IsEnabled = true;
+                    Button_DLUpd.IsEnabled = !Vars.UpdatePending;
+                    DetectPendingUpdates();
+                }
             }
         }
 

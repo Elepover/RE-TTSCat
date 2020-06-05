@@ -17,11 +17,12 @@ namespace Re_TTSCat.Data
         public static readonly string AppDllFileName = Assembly.GetExecutingAssembly().Location;
         public static readonly string AppDllFilePath = (new FileInfo(AppDllFileName)).DirectoryName;
         public static readonly string ConfDir = Path.Combine(AppDllFilePath, "RE-TTSCat");
+        public static readonly string DownloadUpdateFilename = Path.Combine(ConfDir, "Re_TTSCat_update.zip");
         public static readonly string DefaultCacheDir = Path.Combine(ConfDir, "Cache");
         public static readonly string CacheDirTemp = Path.Combine(Path.GetTempPath(), "Re-TTSCat TTS Cache");
         public static readonly string ConfFileName = Path.Combine(ConfDir, "Config.json");
         public static readonly string AudioLibraryFileName = Path.Combine(ConfDir, "NAudio.dll");
-        public static readonly Version CurrentVersion = new Version("3.8.69.556");
+        public static readonly Version CurrentVersion = new Version("3.8.70.588");
         public static readonly string ManagementWindowDefaultTitle = "Re: TTSCat - 插件管理";
 
         public static Conf CurrentConf = new Conf();
@@ -30,6 +31,7 @@ namespace Re_TTSCat.Data
         public static uint TotalPlayed = 0;
         public static bool CallPlayerStop = false;
         public static bool HangWhenCrash = false;
+        public static bool UpdatePending = false;
         public static OptionsWindow ManagementWindow;
         public static string CacheDir => CurrentConf?.SaveCacheInTempDir == false ? DefaultCacheDir : CacheDirTemp;
         public static string ApiBaiduAiAccessToken = string.Empty;
