@@ -22,13 +22,14 @@ namespace Re_TTSCat.Data
         public static readonly string CacheDirTemp = Path.Combine(Path.GetTempPath(), "Re-TTSCat TTS Cache");
         public static readonly string ConfFileName = Path.Combine(ConfDir, "Config.json");
         public static readonly string AudioLibraryFileName = Path.Combine(ConfDir, "NAudio.dll");
-        public static readonly Version CurrentVersion = new Version("3.8.70.588");
+        public static readonly Version CurrentVersion = new Version("3.8.71.590");
         public static readonly string ManagementWindowDefaultTitle = "Re: TTSCat - 插件管理";
 
         public static Conf CurrentConf = new Conf();
         public static Thread Player;
         public static uint RoomCount;
         public static uint TotalPlayed = 0;
+        public static uint TotalFails = 0;
         public static bool CallPlayerStop = false;
         public static bool HangWhenCrash = false;
         public static bool UpdatePending = false;

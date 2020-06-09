@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using NAudio.Wave;
 using Re_TTSCat.Data;
 
 namespace Re_TTSCat
@@ -31,6 +32,8 @@ Retry:
                         url = Vars.ApiBaidu.Replace("$TTSTEXT", content);
                     }
                     await downloader.DownloadFileTaskAsync(url, fileName);
+                    // validate if file is playable
+                    using (var reader = new AudioFileReader(fileName)) { }
                     return fileName;
                 }
             }
@@ -38,6 +41,7 @@ Retry:
             {
                 Bridge.ALog("(E0) TTS 下载失败: " + ex.Message);
                 errorCount += 1;
+                Vars.TotalFails++;
                 if (errorCount <= Vars.CurrentConf.DownloadFailRetryCount)
                 {
                     goto Retry;

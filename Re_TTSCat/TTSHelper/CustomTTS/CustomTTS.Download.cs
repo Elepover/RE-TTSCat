@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using NAudio.Wave;
 using Newtonsoft.Json;
 using Re_TTSCat.Data;
 
@@ -112,12 +113,15 @@ Retry:
                         await downloader.DownloadFileTaskAsync(Vars.CurrentConf.CustomEngineURL.Replace("$TTSTEXT", content), fileName);
                     }
                 }
+                // validate if file is playable
+                using (var reader = new AudioFileReader(fileName)) { }
                 return fileName;
             }
             catch (Exception ex)
             {
                 Bridge.ALog($"(E5) TTS 下载失败: {ex.Message}");
                 errorCount += 1;
+                Vars.TotalFails++;
                 if (errorCount <= Vars.CurrentConf.DownloadFailRetryCount)
                 {
                     goto Retry;

@@ -1,4 +1,5 @@
-﻿using Re_TTSCat.Data;
+﻿using NAudio.Wave;
+using Re_TTSCat.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -117,12 +118,15 @@ Retry:
                 Bridge.ALog("(E2) 正在下载 TTS, 文件名: " + fileName);
                 var instance = new GoogleTTS(content, language);
                 instance.WriteFile(fileName);
+                // validate if file is playable
+                using (var reader = new AudioFileReader(fileName)) { }
                 return fileName;
             }
             catch (Exception ex)
             {
                 Bridge.ALog("(E2) TTS 下载失败: " + ex.Message);
                 errorCount += 1;
+                Vars.TotalFails++;
                 if (errorCount <= Vars.CurrentConf.DownloadFailRetryCount)
                 {
                     goto Retry;

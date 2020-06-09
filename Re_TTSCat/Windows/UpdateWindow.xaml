@@ -33,7 +33,7 @@
             <Button x:Name="Button_DLUpd" HorizontalAlignment="Right" Margin="0,34,10,0" VerticalAlignment="Top" Width="75" ToolTip="下载更新" Click="Button_DLUpd_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Name="FontIcon_DlUpdate" FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF063;"/>
-                    <TextBlock VerticalAlignment="Center" Text="下载更新"/>
+                    <TextBlock x:Name="TextBlock_DownloadUpdate" VerticalAlignment="Center" Text="下载更新"/>
                 </StackPanel>
             </Button>
             <TextBlock x:Name="TextBlock_Latest" HorizontalAlignment="Left" Margin="10,38,0,0" TextWrapping="Wrap" Text="最新版本: （" VerticalAlignment="Top"/>

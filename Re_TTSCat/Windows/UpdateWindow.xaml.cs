@@ -54,6 +54,9 @@ namespace Re_TTSCat.Windows
                 if (KruinUpdates.CheckIfLatest(latestVersion, currentVersion))
                 {
                     TextBlock_Status.Text = "插件已为最新";
+                    FontIcon_DlUpdate.Text = "\uF7D9";
+                    TextBlock_DownloadUpdate.Text = "重新安装";
+                    Button_DLUpd.ToolTip = "重新安装当前版本";
                 }
                 else
                 {
@@ -104,17 +107,18 @@ namespace Re_TTSCat.Windows
                     TextBlock_Status.Text = "正在下载更新...";
                     ProgressBar_Indicator.Value = 10;
 
-                    void progressChangedHandler(object sdr, DownloadProgressChangedEventArgs dpce)
+                    DownloadProgressChangedEventHandler progressChangedHandler = (_sender, progressData) =>
                     {
-                        var progress = Math.Round((double)dpce.BytesReceived / dpce.TotalBytesToReceive, 4);
+                        var progress = Math.Round((double)progressData.BytesReceived / progressData.TotalBytesToReceive, 4);
                         TextBlock_Status.Text = $"正在下载更新... ({progress * 100}%)";
                         ProgressBar_Indicator.Value = progress * 100;
-                    }
+                    };
 
                     using (var downloader = new WebClient())
                     {
                         downloader.DownloadProgressChanged += progressChangedHandler;
                         await downloader.DownloadFileTaskAsync(updateDownloadURL, Vars.DownloadUpdateFilename);
+                        downloader.DownloadProgressChanged -= progressChangedHandler;
                     }
 
                     TextBlock_Status.Text = "正在备份...";

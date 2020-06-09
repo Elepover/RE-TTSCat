@@ -1,4 +1,5 @@
-﻿using Re_TTSCat.Data;
+﻿using NAudio.Wave;
+using Re_TTSCat.Data;
 using System;
 using System.IO;
 using System.Net;
@@ -24,6 +25,8 @@ namespace Re_TTSCat
                         downloader.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36");
                         await downloader.DownloadFileTaskAsync(Vars.ApiYoudao.Replace("$TTSTEXT", content),
                                                                fileName);
+                        // validate if file is playable
+                        using (var reader = new AudioFileReader(fileName)) { }
                         return fileName;
                     }
                 }
@@ -31,6 +34,7 @@ namespace Re_TTSCat
                 {
                     Bridge.ALog("(E4) TTS 下载失败: " + ex.Message);
                     errorCount += 1;
+                    Vars.TotalFails++;
                     if (errorCount <= Vars.CurrentConf.DownloadFailRetryCount)
                     {
                         goto Retry;

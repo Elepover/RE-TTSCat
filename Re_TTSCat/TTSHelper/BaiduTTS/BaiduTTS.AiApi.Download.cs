@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using NAudio.Wave;
 using Newtonsoft.Json.Linq;
 using Re_TTSCat.Data;
 
@@ -40,6 +41,8 @@ namespace Re_TTSCat
                             .Replace("$TOKEN", Vars.ApiBaiduAiAccessToken)
                             .Replace("$TTSTEXT", content);
                         await downloader.DownloadFileTaskAsync(url, fileName);
+                        // validate if file is playable
+                        using (var reader = new AudioFileReader(fileName)) { }
                         return fileName;
                     }
                 }
@@ -47,6 +50,7 @@ namespace Re_TTSCat
                 {
                     Bridge.ALog("(E6) TTS 下载失败: " + ex.Message);
                     errorCount += 1;
+                    Vars.TotalFails++;
                     if (errorCount <= Vars.CurrentConf.DownloadFailRetryCount)
                     {
                         goto Retry;

@@ -20,6 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Threading;
 
 namespace Re_TTSCat.Windows
@@ -51,17 +52,43 @@ namespace Re_TTSCat.Windows
 
         private async Task DarkenAsync()
         {
-            Rectangle_Overlay.Opacity = 0; // <- Reset opacity before letting it visible
-            Rectangle_Overlay.Visibility = Visibility.Visible;
-            var sb = Grid_Master.FindResource("DarkenAnimation") as Storyboard;
+            Grid_AnimationContainer.Visibility = Visibility.Visible;
+
+            var animation = new DoubleAnimation
+            {
+                From = 0,
+                To = 5,
+                Duration = new TimeSpan(0, 0, 0, 0, 625)
+            };
+            animation.EasingFunction = new PowerEase() { Power = 15, EasingMode = EasingMode.EaseOut };
+
+            var effect = new BlurEffect() { KernelType = KernelType.Gaussian, Radius = 0 };
+            Grid_Master.Effect = effect;
+            Grid_Master.Effect.BeginAnimation(BlurEffect.RadiusProperty, animation);
+
+            var sb = Grid_AnimationContainer.FindResource("DarkenAnimation") as Storyboard;
             await sb.BeginAsync();
         }
 
         private async Task BrightenAsync()
         {
-            var sb = Grid_Master.FindResource("BrightenAnimation") as Storyboard;
+            if (Grid_Master.Effect != null)
+            {
+                var animation = new DoubleAnimation
+                {
+                    From = 5,
+                    To = 0,
+                    Duration = new TimeSpan(0, 0, 0, 0, 625)
+                };
+                animation.EasingFunction = new PowerEase() { Power = 15, EasingMode = EasingMode.EaseIn };
+
+                Grid_Master.Effect.BeginAnimation(BlurEffect.RadiusProperty, animation);
+            }
+
+            var sb = Grid_AnimationContainer.FindResource("BrightenAnimation") as Storyboard;
             await sb.BeginAsync();
-            Rectangle_Overlay.Visibility = Visibility.Hidden;
+            Grid_Master.Effect = null;
+            Grid_AnimationContainer.Visibility = Visibility.Hidden;
         }
 
         private async void Button_CheckConnectivity_Click(object sender, RoutedEventArgs e)
@@ -209,6 +236,7 @@ namespace Re_TTSCat.Windows
             TextBlock_CacheSize.Text = (totalSize > 1048576L) ? $"{Math.Round((double)(totalSize / 1048576), 2)} MiB" : $"{Math.Round((double)(totalSize / 1024), 2)} KiB";
             TextBlock_CacheSize.Text += $" / {count} 个文件";
             TextBlock_TotalPlayed.Text = Vars.TotalPlayed.ToString();
+            TextBlock_TotalFailed.Text = Vars.TotalFails.ToString();
         }
 
         private void UpdateStatsThread()
@@ -769,6 +797,18 @@ namespace Re_TTSCat.Windows
             if (obj == null) return;
             if (string.IsNullOrWhiteSpace(obj.Text)) obj.BorderBrush = Brushes.Red;
             else obj.BorderBrush = Brushes.Lime;
+        }
+
+        private void TextBlock_TTSInQueue_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                lock (TTSPlayer.fileList)
+                {
+                    TTSPlayer.fileList.Clear();
+                }
+                UpdateStats();
+            }
         }
     }
 }

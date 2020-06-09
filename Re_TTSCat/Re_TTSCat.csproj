@@ -169,6 +169,9 @@
     <Compile Include="Windows\IconTextBlock.xaml.cs">
       <DependentUpon>IconTextBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\LoadingSpinner.xaml.cs">
+      <DependentUpon>LoadingSpinner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\LoadingWindowLight.xaml.cs">
       <DependentUpon>LoadingWindowLight.xaml</DependentUpon>
     </Compile>
@@ -199,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\IconTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoadingSpinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Re_TTSCat.Windows.LoadingSpinner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Re_TTSCat.Windows"
+             Height="100"
+             Width="100"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="100">
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="RotationAngle"
+                        Storyboard.TargetProperty="(RotateTransform.Angle)"
+                        From="0.0" To="360" Duration="0:0:1.25"
+                        RepeatBehavior="Forever">
+                        <DoubleAnimation.EasingFunction>
+                            <BackEase EasingMode="EaseInOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+    <Grid>
+        <Ellipse Stroke="DeepSkyBlue" StrokeThickness="12"></Ellipse>
+        <Canvas>
+            <Canvas.RenderTransform>
+                <RotateTransform x:Name="RotationAngle"
+                                 CenterX="50"
+                                 CenterY="50"
+                                 Angle="0" />
+            </Canvas.RenderTransform>
+            <Path Stroke="LightBlue" StrokeThickness="12">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathFigure StartPoint="6,50">
+                            <ArcSegment IsLargeArc="True"
+                                Size="44,44"
+                                Point="50,6"
+                                SweepDirection="Counterclockwise" />
+                        </PathFigure>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Grid>
+</UserControl>
