@@ -13,6 +13,7 @@ namespace Re_TTSCat
             // check gift eligibility
             if (!Conf.CheckGiftEligibility(e)) return;
             Bridge.ALog("规则检查通过，准备朗读");
+            await TTSPlayer.PlayVoiceReply(e.Danmaku);
             await TTSPlayer.UnifiedPlay(ProcessGift(e));
         }
     }

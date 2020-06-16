@@ -34,6 +34,7 @@ namespace Re_TTSCat.Windows
                 TextBlock_Status.FontWeight = FontWeights.SemiBold;
                 TextBlock_Status.Foreground = new SolidColorBrush(Colors.DarkGreen);
                 FontIcon_DlUpdate.Foreground = new SolidColorBrush(Colors.DarkGreen);
+                Border_GlowBorder.BorderBrush = new SolidColorBrush(Colors.DarkGreen);
                 FontIcon_DlUpdate.Text = "\uF00C";
                 FontIcon_Title.Text = "\uF00C";
             }
@@ -49,8 +50,6 @@ namespace Re_TTSCat.Windows
                 var latestVersion = await KruinUpdates.Update.GetLatestUpdAsync();
                 var currentVersion = Vars.CurrentVersion;
                 TextBlock_Latest.Text = $"最新版本: {latestVersion.LatestVersion} / 当前版本: {currentVersion}";
-                if (currentVersion > latestVersion.LatestVersion)
-                    TextBlock_Latest.Text += "（草，怎么你的版本还更新）"; // <- 不愧是我 2/1
                 if (KruinUpdates.CheckIfLatest(latestVersion, currentVersion))
                 {
                     TextBlock_Status.Text = "插件已为最新";
@@ -61,6 +60,12 @@ namespace Re_TTSCat.Windows
                 else
                 {
                     TextBlock_Status.Text = "发现更新";
+                }
+                if (currentVersion > latestVersion.LatestVersion)
+                {
+                    FontIcon_DlUpdate.Text = "\uF04A";
+                    TextBlock_DownloadUpdate.Text = "一键降级";
+                    TextBlock_Latest.Text += "（草，怎么你的版本还更新）"; // <- 不愧是我 2/1
                 }
                 TextBox_UpdContents.Text = "更新时间: " + latestVersion.UpdateTime.ToString() + "\n" + "更新日志: " + "\n" + latestVersion.UpdateDescription.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
                 updateDownloadURL = "https://www.danmuji.org" + latestVersion.DownloadLink;

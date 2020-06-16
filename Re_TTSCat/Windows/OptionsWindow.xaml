@@ -101,7 +101,7 @@
                         <local:IconTextBlock HorizontalAlignment="Left" Margin="10,10,0,0" IconGlyph="&#xF086;" Text="收到弹幕时，朗读以下内容：" VerticalAlignment="Top"/>
                         <TextBox x:Name="TextBox_OnDanmaku" Height="23" Margin="10,25,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到弹幕时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本"/>
                         <local:IconTextBlock HorizontalAlignment="Left" Margin="10,53,0,0" IconGlyph="&#xF653;" Text="收到醒目留言时，朗读以下内容：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_OnSuperChat" Height="23" Margin="10,68,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到醒目留言时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本"/>
+                        <TextBox x:Name="TextBox_OnSuperChat" Height="23" Margin="10,68,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到醒目留言时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本&#xA;$PRICE 发送醒目留言所花费的金额"/>
                         <local:IconTextBlock HorizontalAlignment="Left" Margin="10,96,0,0" IconGlyph="&#xF06B;" Text="收到礼物时，朗读以下内容：" VerticalAlignment="Top"/>
                         <TextBox x:Name="TextBox_OnGift" Height="23" Margin="10,111,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到礼物时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$GIFT - 礼物名称&#xA;$COUNT - 礼物数量"/>
                         <local:IconTextBlock HorizontalAlignment="Left" Margin="10,139,0,0" IconGlyph="&#xF144;" Text="直播开始时，朗读以下内容：" VerticalAlignment="Top"/>
@@ -163,25 +163,51 @@
                                     </GridViewColumn>
                                     <GridViewColumn Width="120">
                                         <GridViewColumn.Header>
-                                            <local:IconTextBlock IconGlyph="&#xF085;" Text="匹配模式"/>
+                                            <local:IconTextBlock IconGlyph="&#xF0EB;" Text="匹配数据源"/>
                                         </GridViewColumn.Header>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox HorizontalAlignment="Stretch" SelectedIndex="{Binding MatchingMode, Mode=TwoWay}">
-                                                    <ComboBoxItem>
-                                                        <local:IconTextBlock IconGlyph="&#xF10E;" Text="包含关键词"/>
+                                                <ComboBox HorizontalAlignment="Stretch" SelectedIndex="{Binding MatchingSource, Mode=TwoWay}">
+                                                    <ComboBoxItem ToolTip="匹配弹幕的文本内容&#xA;&#xA;可用变量与&quot;自定义读出内容&quot;页面的可定制性相同，具体请转至该页面，鼠标悬浮在对应项目上查看">
+                                                        <local:IconTextBlock IconGlyph="&#xF4AD;" Text="弹幕内容"/>
                                                     </ComboBoxItem>
-                                                    <ComboBoxItem>
-                                                        <local:IconTextBlock IconGlyph="&#xF295;" Text="正则表达式"/>
+                                                    <ComboBoxItem ToolTip="匹配发送弹幕的用户名&#xA;&#xA;可用变量与&quot;自定义读出内容&quot;页面的可定制性相同，具体请转至该页面，鼠标悬浮在对应项目上查看">
+                                                        <local:IconTextBlock IconGlyph="&#xF007;" Text="弹幕发送用户"/>
                                                     </ComboBoxItem>
-                                                    <ComboBoxItem>
-                                                        <local:IconTextBlock IconGlyph="&#xF1DD;" Text="完全匹配"/>
+                                                    <ComboBoxItem ToolTip="匹配礼物名称&#xA;&#xA;可用变量与&quot;自定义读出内容&quot;页面的可定制性相同，具体请转至该页面，鼠标悬浮在对应项目上查看">
+                                                        <local:IconTextBlock IconGlyph="&#xF06B;" Text="礼物名称"/>
+                                                    </ComboBoxItem>
+                                                    <ComboBoxItem ToolTip="匹配发送礼物的用户名&#xA;&#xA;可用变量与&quot;自定义读出内容&quot;页面的可定制性相同，具体请转至该页面，鼠标悬浮在对应项目上查看">
+                                                        <local:IconTextBlock IconGlyph="&#xF507;" Text="礼物发送用户"/>
                                                     </ComboBoxItem>
                                                 </ComboBox>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                     <GridViewColumn Width="120">
+                                        <GridViewColumn.Header>
+                                            <local:IconTextBlock IconGlyph="&#xF085;" Text="匹配模式"/>
+                                        </GridViewColumn.Header>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox HorizontalAlignment="Stretch" SelectedIndex="{Binding MatchingMode, Mode=TwoWay}">
+                                                    <ComboBoxItem ToolTip="如数据源包含了关键词，则规则命中">
+                                                        <local:IconTextBlock IconGlyph="&#xF10E;" Text="包含关键词"/>
+                                                    </ComboBoxItem>
+                                                    <ComboBoxItem ToolTip="如正则表达式匹配，则规则命中">
+                                                        <local:IconTextBlock IconGlyph="&#xF295;" Text="正则表达式"/>
+                                                    </ComboBoxItem>
+                                                    <ComboBoxItem ToolTip="如数据源内容与关键词完全一致，则规则命中">
+                                                        <local:IconTextBlock IconGlyph="&#xF1DD;" Text="完全匹配"/>
+                                                    </ComboBoxItem>
+                                                    <ComboBoxItem ToolTip="如通配符表达式匹配，则规则命中&#xA;&#xA;&quot;*&quot; 表示任意长度的文本&#xA;&quot;?&quot; 表示一个字符&#xA;&#xA;如: &quot;我在?天前找了小明&quot;&#xA;&quot;我在?天前找了*出来玩&quot;">
+                                                        <local:IconTextBlock IconGlyph="&#xF069;" Text="通配符表达式"/>
+                                                    </ComboBoxItem>
+                                                </ComboBox>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Width="110">
                                         <GridViewColumn.Header>
                                             <local:IconTextBlock IconGlyph="&#xF3E5;" Text="答复模式"/>
                                         </GridViewColumn.Header>
@@ -198,13 +224,23 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="350">
+                                    <GridViewColumn Width="180">
                                         <GridViewColumn.Header>
                                             <local:IconTextBlock IconGlyph="&#xF005;" Text="答复内容"/>
                                         </GridViewColumn.Header>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBox ToolTip="答复模式为语音合成：输入合成的文本内容，可使用 $USER 来代表弹幕发送者&#xA;&#xA;答复模式为预置音频: 输入音频的完整路径&#xA;&#xA;（礼物答复以后会加的（咕咕咕））" HorizontalAlignment="Stretch" Text="{Binding ReplyContent, Mode=TwoWay}" TextChanged="TextBox_ReplyContent_TextChanged"/>
+                                                <TextBox HorizontalAlignment="Stretch" Text="{Binding ReplyContent, Mode=TwoWay}" ToolTip="答复模式为语音合成：输入合成的文本内容，可使用匹配数据源可使用的变量&#xA;&#xA;答复模式为预置音频: 输入音频的完整路径" TextChanged="TextBox_ReplyContent_TextChanged"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Width="60">
+                                        <GridViewColumn.Header>
+                                            <local:IconTextBlock IconGlyph="&#xF0C3;" Text="测试"/>
+                                        </GridViewColumn.Header>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="朗读" ToolTip="朗读此项，变量将被替换为固定的预置值" Click="Button_TestVoiceReply_Click"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

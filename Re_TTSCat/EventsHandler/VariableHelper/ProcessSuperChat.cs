@@ -5,10 +5,11 @@ namespace Re_TTSCat
 {
     public partial class Main : DMPlugin
     {
-        public string ProcessSuperChat(ReceivedDanmakuArgs e)
+        public static string ProcessSuperChat(ReceivedDanmakuArgs e)
         {
             var rawDanmaku = Preprocess(Vars.CurrentConf.OnSuperChat, e);
             return rawDanmaku
+                .Replace("$PRICE", e.Danmaku.Price.ToString())
                 .Replace("$USER", e.Danmaku.UserName)
                 .Replace("$DM", e.Danmaku.CommentText);
         }

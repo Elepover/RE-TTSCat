@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BilibiliDM_PluginFramework;
+using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
@@ -6,19 +7,40 @@ namespace Re_TTSCat.Data
 {
     public partial class VoiceReplyRule : INotifyPropertyChanged
     {
-        public bool Matches(string danmaku)
+        public bool Matches(DanmakuModel dm)
         {
             if (!IsTurnedOn) return false;
             bool status;
+            string content;
+            switch ((MatchSource)MatchingSource)
+            {
+                case MatchSource.DanmakuContent:
+                    if (!(dm.MsgType == MsgTypeEnum.Comment || dm.MsgType != MsgTypeEnum.SuperChat)) return false;
+                    content = dm.CommentText;
+                    break;
+                case MatchSource.DanmakuUser:
+                    if (!(dm.MsgType == MsgTypeEnum.Comment || dm.MsgType != MsgTypeEnum.SuperChat)) return false;
+                    content = dm.UserName;
+                    break;
+                case MatchSource.GiftName:
+                    if (dm.MsgType != MsgTypeEnum.GiftSend) return false;
+                    content = dm.GiftName;
+                    break;
+                case MatchSource.GiftUser:
+                    if (dm.MsgType != MsgTypeEnum.GiftSend) return false;
+                    content = dm.UserName;
+                    break;
+                default: return false;
+            }
             switch ((MatchMode)MatchingMode)
             {
                 case MatchMode.Contains:
-                    status = danmaku.Contains(Keyword);
+                    status = content.Contains(Keyword);
                     break;
                 case MatchMode.Regex:
                     try
                     {
-                        status = Regex.IsMatch(danmaku, Keyword, RegexOptions.None);
+                        status = Regex.IsMatch(content, Keyword, RegexOptions.None);
                     }
                     catch (Exception ex)
                     {
@@ -27,7 +49,10 @@ namespace Re_TTSCat.Data
                     }
                     break;
                 case MatchMode.Exact:
-                    status = danmaku == Keyword;
+                    status = content == Keyword;
+                    break;
+                case MatchMode.Wildcard:
+                    status = Conf.CheckWildcard(Keyword, content);
                     break;
                 default:
                     // how can you come here?

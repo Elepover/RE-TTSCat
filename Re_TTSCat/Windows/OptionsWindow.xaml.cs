@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic; // ← 不愧是我
+﻿using BilibiliDM_PluginFramework;
+using Microsoft.VisualBasic; // ← 不愧是我
 using NAudio.Wave;
 using Newtonsoft.Json;
 using Re_TTSCat.Data;
@@ -18,6 +19,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
@@ -795,8 +797,10 @@ namespace Re_TTSCat.Windows
         {
             var obj = (System.Windows.Controls.TextBox)sender;
             if (obj == null) return;
-            if (string.IsNullOrWhiteSpace(obj.Text)) obj.BorderBrush = Brushes.Red;
-            else obj.BorderBrush = Brushes.Lime;
+            if (string.IsNullOrWhiteSpace(obj.Text)) obj.Background = Brushes.LightPink;
+            else obj.Background = !((sender as System.Windows.Controls.TextBox).DataContext as VoiceReplyRule).IsVariablesGood()
+                ? Brushes.LightGoldenrodYellow
+                : Brushes.LightGreen;
         }
 
         private void TextBlock_TTSInQueue_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -809,6 +813,19 @@ namespace Re_TTSCat.Windows
                 }
                 UpdateStats();
             }
+        }
+
+        private async void Button_TestVoiceReply_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender == null) return;
+            var context = (sender as System.Windows.Controls.Button).DataContext as VoiceReplyRule;
+            var model = await TestVoiceReplyParamsWindow.GetDanmakuModel(context.ReplyContent);
+            Activate();
+            if (model == null) return;
+            model.MsgType = ((VoiceReplyRule.MatchSource)context.MatchingSource == VoiceReplyRule.MatchSource.GiftName)
+                ||
+                ((VoiceReplyRule.MatchSource)context.MatchingSource == VoiceReplyRule.MatchSource.GiftName) ? MsgTypeEnum.GiftSend : MsgTypeEnum.Comment;
+            await TTSPlayer.PlayVoiceReply(model, context, true, true);
         }
     }
 }

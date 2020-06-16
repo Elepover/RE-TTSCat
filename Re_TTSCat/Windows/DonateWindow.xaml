@@ -13,7 +13,7 @@
     </Popup.Resources>
     <Grid Background="Transparent">
         <Grid Background="Transparent">
-            <Border x:Name="Border_GlowBorder" BorderBrush="DarkGray" BorderThickness="5" Margin="5,5,5,5"/>
+            <Border x:Name="Border_GlowBorder" BorderBrush="LightPink" BorderThickness="5" Margin="5,5,5,5"/>
             <Grid.BitmapEffect>
                 <BlurBitmapEffect Radius="10" KernelType="Gaussian"></BlurBitmapEffect>
             </Grid.BitmapEffect>

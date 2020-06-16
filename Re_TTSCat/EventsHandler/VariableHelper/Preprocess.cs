@@ -11,10 +11,10 @@ namespace Re_TTSCat
         /// <param name="format">原始模板</param>
         /// <param name="e">原始事件</param>
         /// <returns></returns>
-        public static string Preprocess(string format, ReceivedDanmakuArgs e)
+        public static string Preprocess(string format, DanmakuModel e)
         {
             string guardText;
-            switch (e.Danmaku.UserGuardLevel)
+            switch (e.UserGuardLevel)
             {
                 default: guardText = Vars.CurrentConf.CustomGuardLevel0; break;
                 case 1: guardText = Vars.CurrentConf.CustomGuardLevel1; break;
@@ -24,9 +24,11 @@ namespace Re_TTSCat
             format = format
                 .Replace("$$", "$GUARD$")
                 .Replace("$!", "$VIP$");
-            if (e.Danmaku.isVIP) format = format.Replace("$VIP", Vars.CurrentConf.CustomVIP);
+            if (e.isVIP) format = format.Replace("$VIP", Vars.CurrentConf.CustomVIP);
             else format = format.Replace("$VIP", "");
             return format.Replace("$GUARD", guardText);
         }
+
+        public static string Preprocess(string format, ReceivedDanmakuArgs e) => Preprocess(format, e.Danmaku);
     }
 }

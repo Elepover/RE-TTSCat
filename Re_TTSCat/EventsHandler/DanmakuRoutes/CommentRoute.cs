@@ -15,7 +15,7 @@ namespace Re_TTSCat
             // check length rule
             if (!Conf.CheckDanmakuLength(e)) return;
             Bridge.ALog("规则检查通过，准备朗读");
-            await TTSPlayer.PlayVoiceReply(e.Danmaku.CommentText, e.Danmaku.UserName);
+            await TTSPlayer.PlayVoiceReply(e.Danmaku);
             await TTSPlayer.UnifiedPlay(ProcessDanmaku(e));
         }
     }
