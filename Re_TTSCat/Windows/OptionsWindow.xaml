@@ -37,27 +37,33 @@
                                 <TreeViewItem.Header>
                                     <local:IconTextBlock IconGlyph="&#xF1DE;" Text="一般"/>
                                 </TreeViewItem.Header>
-                                <CheckBox x:Name="CheckBox_AutoUpdates" Content="自动检查更新" IsChecked="True" ToolTip="在插件启动时自动检查更新&#xA;&#xA;这并不会拖慢插件启动速度"/>
-                                <CheckBox x:Name="CheckBox_ReadInQueue" Content="逐条阅读语音" IsChecked="True" ToolTip="待正在朗读的语音结束后再继续朗读下一条语音&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
-                                <CheckBox x:Name="CheckBox_InstantVoiceReply" IsChecked="False" Content="立即读出语音答复" ToolTip="在收到弹幕的瞬间立刻读出语音答复而不排队"/>
-                                <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
-                                <CheckBox x:Name="CheckBox_GiftsThrottle" IsChecked="True" Content="合并短时间内同一用户的相同礼物" ToolTip="合并 3 秒内来自同一发送者的所有同一礼物&#xA;&#xA;这也会带来若干秒的语音延迟"/>
+                                <StackPanel>
+                                    <CheckBox x:Name="CheckBox_AutoUpdates" Content="自动检查更新" IsChecked="True" ToolTip="在插件启动时自动检查更新&#xA;&#xA;这并不会拖慢插件启动速度"/>
+                                    <CheckBox x:Name="CheckBox_ReadInQueue" Content="逐条阅读语音" IsChecked="True" ToolTip="待正在朗读的语音结束后再继续朗读下一条语音&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
+                                    <CheckBox x:Name="CheckBox_InstantVoiceReply" IsChecked="False" Content="立即读出语音答复" ToolTip="在收到弹幕的瞬间立刻读出语音答复而不排队"/>
+                                    <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
+                                    <CheckBox x:Name="CheckBox_GiftsThrottle" IsChecked="True" Content="合并短时间内同一用户的相同礼物" ToolTip="合并 3 秒内来自同一发送者的所有同一礼物&#xA;&#xA;这也会带来若干秒的语音延迟"/>
+                                </StackPanel>
                             </TreeViewItem>
                             <TreeViewItem IsExpanded="True">
                                 <TreeViewItem.Header>
                                     <local:IconTextBlock IconGlyph="&#xF019;" Text="缓存"/>
                                 </TreeViewItem.Header>
-                                <CheckBox x:Name="CheckBox_DoNotKeepCache" Content="不保留缓存文件" ToolTip="在朗读完毕后立即删除缓存文件&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
-                                <CheckBox x:Name="CheckBox_ClearCacheOnStartup" Content="在启动时清理残留缓存" IsChecked="True" ToolTip="在弹幕姬启动时自动清理上次运行剩余的缓存"/>
-                                <CheckBox x:Name="CheckBox_SaveCacheInTemp" Content="在系统临时文件夹保存缓存" IsChecked="True" ToolTip="在系统缓存文件夹保存缓存文件&#xA;&#xA;由系统管理缓存文件，推荐使用"/>
+                                <StackPanel>
+                                    <CheckBox x:Name="CheckBox_DoNotKeepCache" Content="不保留缓存文件" ToolTip="在朗读完毕后立即删除缓存文件&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
+                                    <CheckBox x:Name="CheckBox_ClearCacheOnStartup" Content="在启动时清理残留缓存" IsChecked="True" ToolTip="在弹幕姬启动时自动清理上次运行剩余的缓存"/>
+                                    <CheckBox x:Name="CheckBox_SaveCacheInTemp" Content="在系统临时文件夹保存缓存" IsChecked="True" ToolTip="在系统缓存文件夹保存缓存文件&#xA;&#xA;由系统管理缓存文件，推荐使用"/>
+                                </StackPanel>
                             </TreeViewItem>
                             <TreeViewItem IsExpanded="True">
                                 <TreeViewItem.Header>
                                     <local:IconTextBlock IconGlyph="&#xF06A;" Text="事件"/>
                                 </TreeViewItem.Header>
-                                <CheckBox x:Name="CheckBox_ProcessEvents" IsChecked="True" Content="处理连接/断开事件" ToolTip="允许插件在弹幕姬连接/断开时读出相应内容" Checked="CheckBox_ProcessEvents_IsCheckedChanged" Unchecked="CheckBox_ProcessEvents_IsCheckedChanged"/>
-                                <CheckBox x:Name="CheckBox_ClearQueueOnDisconnect" IsChecked="True" Content="断开连接时清空朗读队列" ToolTip="在断开连接时取消所有待朗读语音（需要启用&quot;处理连接/断开&quot;事件）"/>
-                                <CheckBox x:Name="CheckBox_AutoStartOnLoad" IsChecked="False" Content="在弹幕姬启动时自动启动插件" ToolTip="启用此选项后，插件将在弹幕姬启动时自动启用&#xA;&#xA;这会拖慢弹幕姬启动速度"/>
+                                <StackPanel>
+                                    <CheckBox x:Name="CheckBox_ProcessEvents" IsChecked="True" Content="处理连接/断开事件" ToolTip="允许插件在弹幕姬连接/断开时读出相应内容" Checked="CheckBox_ProcessEvents_IsCheckedChanged" Unchecked="CheckBox_ProcessEvents_IsCheckedChanged"/>
+                                    <CheckBox x:Name="CheckBox_ClearQueueOnDisconnect" IsChecked="True" Content="断开连接时清空朗读队列" ToolTip="在断开连接时取消所有待朗读语音（需要启用&quot;处理连接/断开&quot;事件）"/>
+                                    <CheckBox x:Name="CheckBox_AutoStartOnLoad" IsChecked="False" Content="在弹幕姬启动时自动启动插件" ToolTip="启用此选项后，插件将在弹幕姬启动时自动启用&#xA;&#xA;这会拖慢弹幕姬启动速度"/>
+                                </StackPanel>
                             </TreeViewItem>
                         </TreeView>
                         <TextBlock Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" TextAlignment="Right">
