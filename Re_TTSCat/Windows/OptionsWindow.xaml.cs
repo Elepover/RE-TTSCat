@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
@@ -755,13 +754,6 @@ namespace Re_TTSCat.Windows
         {
             GC.Collect();
             TextBox_ExecutionResult.Text = "垃圾回收成功";
-        }
-
-        private void TreeView_GeneralSettings_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var item = (TreeViewItem)TreeView_GeneralSettings.SelectedItem;
-            if (item != null)
-                item.IsSelected = false;
         }
 
         private void ComboBox_Engine_SelectionChanged(object sender, SelectionChangedEventArgs e)

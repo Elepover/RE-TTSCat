@@ -27,11 +27,15 @@
                         <local:IconTextBlock IconGlyph="&#xF013;" Text="常规选项"/>
                     </TabItem.Header>
                     <Grid>
-                        <TreeView x:Name="TreeView_GeneralSettings" Margin="0,0,0,100" BorderBrush="{x:Null}" SelectedItemChanged="TreeView_GeneralSettings_SelectedItemChanged">
+                        <TreeView x:Name="TreeView_GeneralSettings" Margin="0,0,0,100" BorderBrush="{x:Null}">
                             <TreeView.Resources>
                                 <Style TargetType="{x:Type CheckBox}">
                                     <Setter Property="Margin" Value="-18.7,2.5,0,2.5"/>
                                 </Style>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
                             </TreeView.Resources>
                             <TreeViewItem IsExpanded="True">
                                 <TreeViewItem.Header>
