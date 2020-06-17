@@ -394,6 +394,7 @@ namespace Re_TTSCat.Windows
             TextBox_Welcome.Text = Vars.CurrentConf.OnWelcome;
             TextBox_WelcomeGuard.Text = Vars.CurrentConf.OnWelcomeGuard;
             TextBox_CustomTitles.Text = $"{Vars.CurrentConf.CustomVIP}/{Vars.CurrentConf.CustomGuardLevel0}/{Vars.CurrentConf.CustomGuardLevel1}/{Vars.CurrentConf.CustomGuardLevel2}/{Vars.CurrentConf.CustomGuardLevel3}";
+            Label_AboutTitle.Text = $"Re: TTSCat - Charcoal ({Vars.CurrentVersion})";
             voiceReplyRulesDataSource.Clear();
             foreach (var item in Vars.CurrentConf.VoiceReplyRules)
                 voiceReplyRulesDataSource.Add(item);
@@ -826,6 +827,11 @@ namespace Re_TTSCat.Windows
                 ||
                 ((VoiceReplyRule.MatchSource)context.MatchingSource == VoiceReplyRule.MatchSource.GiftName) ? MsgTypeEnum.GiftSend : MsgTypeEnum.Comment;
             await TTSPlayer.PlayVoiceReply(model, context, true, true);
+        }
+
+        private void Hyperlink_Click_1(object sender, RoutedEventArgs e)
+        {
+            TabControl_Main.SelectedIndex = 3;
         }
     }
 }

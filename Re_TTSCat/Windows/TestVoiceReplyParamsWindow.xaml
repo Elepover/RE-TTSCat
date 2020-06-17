@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" ShowInTaskbar="False"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" WindowStyle="None" WindowStartupLocation="CenterScreen"
              xmlns:local="clr-namespace:Re_TTSCat.Windows" AllowsTransparency="True" Background="Transparent" Height="530"
-             Width="300" Deactivated="Window_Deactivated">
+             Width="300" Deactivated="Window_Deactivated" MouseDown="Window_MouseDown">
     <Window.Triggers>
         <EventTrigger RoutedEvent="Loaded">
             <BeginStoryboard>

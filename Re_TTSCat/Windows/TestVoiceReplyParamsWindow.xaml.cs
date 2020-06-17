@@ -1,16 +1,13 @@
 ﻿using BilibiliDM_PluginFramework;
-using Re_TTSCat.Data;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Re_TTSCat.Windows
 {
-    /// <summary>
-    /// TestVoiceReplyParamsWindow.xaml 的交互逻辑
-    /// </summary>
     public partial class TestVoiceReplyParamsWindow : Window
     {
         private bool stayOpen = false;
@@ -137,6 +134,11 @@ namespace Re_TTSCat.Windows
                 }
             }
             catch { }
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left) DragMove();
         }
     }
 }
