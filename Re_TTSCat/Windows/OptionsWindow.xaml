@@ -164,7 +164,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="120">
+                                    <GridViewColumn Width="135">
                                         <GridViewColumn.Header>
                                             <local:IconTextBlock IconGlyph="&#xF0EB;" Text="匹配数据源"/>
                                         </GridViewColumn.Header>
@@ -187,7 +187,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="120">
+                                    <GridViewColumn Width="130">
                                         <GridViewColumn.Header>
                                             <local:IconTextBlock IconGlyph="&#xF085;" Text="匹配模式"/>
                                         </GridViewColumn.Header>
@@ -227,7 +227,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="180">
+                                    <GridViewColumn Width="150">
                                         <GridViewColumn.Header>
                                             <local:IconTextBlock IconGlyph="&#xF005;" Text="答复内容"/>
                                         </GridViewColumn.Header>
