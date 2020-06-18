@@ -14,6 +14,7 @@ namespace Re_TTSCat
             constructedArgs.Danmaku.GiftCount = e.Qty;
             constructedArgs.Danmaku.UserName = e.User;
             constructedArgs.Danmaku.UserID = e.UserId;
+            constructedArgs.Danmaku.MsgType = MsgTypeEnum.GiftSend;
             await GiftRoute(null, constructedArgs);
         }
     }
