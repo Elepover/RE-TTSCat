@@ -8,7 +8,7 @@ namespace Re_TTSCat.Data
 {
     public static class Vars
     {
-        public static readonly string ApiBaidu = "https://fanyi.baidu.com/gettts?lan=zh&text=$TTSTEXT&source=web";
+        public static readonly string ApiBaidu = "https://fanyi.baidu.com/gettts?lan=zh&text=$TTSTEXT&spd=5&source=web";
         public static readonly string ApiBaiduCantonese = "https://fanyi.baidu.com/gettts?lan=cte&text=$TTSTEXT&source=web";
         public static readonly string ApiYoudao = "http://tts.youdao.com/fanyivoice?word=$TTSTEXT&le=zh&keyfrom=speaker-target";
         public static readonly string ApiBaiduAi = "https://tsn.baidu.com/text2audio?tex=$TTSTEXT&lan=zh&per=$PERSON&spd=$SPEED&pit=$PITCH&cuid=1234567JAVA&ctp=1&tok=$TOKEN";
@@ -22,7 +22,7 @@ namespace Re_TTSCat.Data
         public static readonly string CacheDirTemp = Path.Combine(Path.GetTempPath(), "Re-TTSCat TTS Cache");
         public static readonly string ConfFileName = Path.Combine(ConfDir, "Config.json");
         public static readonly string AudioLibraryFileName = Path.Combine(ConfDir, "NAudio.dll");
-        public static readonly Version CurrentVersion = new Version("3.8.74.605");
+        public static readonly Version CurrentVersion = new Version("3.8.75.606");
         public static readonly string ManagementWindowDefaultTitle = "Re: TTSCat - 插件管理";
 
         public static Conf CurrentConf = new Conf();
