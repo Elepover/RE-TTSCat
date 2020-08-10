@@ -1,6 +1,7 @@
 ﻿using BilibiliDM_PluginFramework;
 using System.Threading.Tasks;
 using Re_TTSCat.Data;
+using System.Linq;
 
 namespace Re_TTSCat
 {
@@ -15,8 +16,19 @@ namespace Re_TTSCat
             // check length rule
             if (!Conf.CheckDanmakuLength(e)) return;
             Bridge.ALog("规则检查通过，准备朗读");
-            await TTSPlayer.PlayVoiceReply(e.Danmaku);
-            await TTSPlayer.UnifiedPlay(ProcessDanmaku(e));
+            if (Vars.CurrentConf.VoiceReplyFirst)
+            {
+                var hitAnyRule = await TTSPlayer.PlayVoiceReply(e.Danmaku);
+                if (!hitAnyRule || !Vars.CurrentConf.IgnoreIfHitVoiceReply)
+                    await TTSPlayer.UnifiedPlay(ProcessDanmaku(e));
+            }
+            else
+            {
+                var hitAnyRule = Vars.CurrentConf.VoiceReplyRules.Any(x => x.Matches(e.Danmaku));
+                if (!hitAnyRule || !Vars.CurrentConf.IgnoreIfHitVoiceReply)
+                    await TTSPlayer.UnifiedPlay(ProcessDanmaku(e));
+                await TTSPlayer.PlayVoiceReply(e.Danmaku);
+            }
         }
     }
 }

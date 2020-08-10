@@ -169,6 +169,18 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool GiftsThrottle { get; set; }
         /// <summary>
+        /// 是否优先读出语音答复
+        /// </summary>
+        public bool VoiceReplyFirst { get; set; }
+        /// <summary>
+        /// 命中语音回复时是否取消对应事件朗读
+        /// </summary>
+        public bool IgnoreIfHitVoiceReply { get; set; }
+        /// <summary>
+        /// 全自动更新
+        /// </summary>
+        public bool FullyAutomaticUpdate { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }

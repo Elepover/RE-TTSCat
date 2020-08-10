@@ -7,7 +7,7 @@ namespace Re_TTSCat
 {
     public static partial class TTSPlayer
     {
-        public static async Task PlayVoiceReply(DanmakuModel e, VoiceReplyRule rule, bool alwaysMatch = false, bool overrideReadInQueue = false)
+        public static async Task<bool> PlayVoiceReply(DanmakuModel e, VoiceReplyRule rule, bool alwaysMatch = false, bool overrideReadInQueue = false)
         {
             if (alwaysMatch || rule.Matches(e))
             {
@@ -41,18 +41,22 @@ namespace Re_TTSCat
                         Vars.CurrentConf.InstantVoiceReply || overrideReadInQueue
                     );
                 }
+                return true;
             }
+            else return false;
         }
-        public static async Task PlayVoiceReply(DanmakuModel e)
+        public static async Task<bool> PlayVoiceReply(DanmakuModel e)
         {
-            if (!Vars.CurrentConf.EnableVoiceReply) return;
+            if (!Vars.CurrentConf.EnableVoiceReply) return false;
             // danmaku blocking rules have been processed, just process what's left for us
             // go through all rules to see if there's a match
             // (this is the master cycle)
+            var hitAny = false;
             foreach (var rule in Vars.CurrentConf.VoiceReplyRules)
             {
-                await PlayVoiceReply(e, rule);
+                if (await PlayVoiceReply(e, rule)) hitAny = true;
             }
+            return hitAny;
         }
     }
 }

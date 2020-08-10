@@ -44,9 +44,18 @@
                                 <StackPanel>
                                     <CheckBox x:Name="CheckBox_AutoUpdates" Content="自动检查更新" IsChecked="True" ToolTip="在插件启动时自动检查更新&#xA;&#xA;这并不会拖慢插件启动速度"/>
                                     <CheckBox x:Name="CheckBox_ReadInQueue" Content="逐条阅读语音" IsChecked="True" ToolTip="待正在朗读的语音结束后再继续朗读下一条语音&#xA;&#xA;如果您的直播间中有大量弹幕，建议启用"/>
-                                    <CheckBox x:Name="CheckBox_InstantVoiceReply" IsChecked="False" Content="立即读出语音答复" ToolTip="在收到弹幕的瞬间立刻读出语音答复而不排队"/>
                                     <CheckBox x:Name="CheckBox_SuperChatIgnoreRandomDitch" IsChecked="True" Content="对醒目留言无视随机朗读选项" ToolTip="读出所有醒目留言，无视目前已有的随机朗读选项"/>
                                     <CheckBox x:Name="CheckBox_GiftsThrottle" IsChecked="True" Content="合并短时间内同一用户的相同礼物" ToolTip="合并 3 秒内来自同一发送者的所有同一礼物&#xA;&#xA;这也会带来若干秒的语音延迟"/>
+                                </StackPanel>
+                            </TreeViewItem>
+                            <TreeViewItem IsExpanded="True">
+                                <TreeViewItem.Header>
+                                    <local:IconTextBlock IconGlyph="&#xF3E5;" Text="语音答复"/>
+                                </TreeViewItem.Header>
+                                <StackPanel>
+                                    <CheckBox x:Name="CheckBox_InstantVoiceReply" IsChecked="False" Content="立即读出语音答复" ToolTip="在收到弹幕的瞬间立刻读出语音答复而不排队"/>
+                                    <CheckBox x:Name="CheckBox_VoiceReplyFirst" IsChecked="False" Content="优先读出语音答复" ToolTip="先读出语音答复，再读出对应的语音（如弹幕）"/>
+                                    <CheckBox x:Name="CheckBox_IgnoreIfHit" IsChecked="False" Content="命中语音答复规则即取消朗读" ToolTip="如弹幕或礼物等命中了语音答复规则，则仅朗读语音答复"/>
                                 </StackPanel>
                             </TreeViewItem>
                             <TreeViewItem IsExpanded="True">
@@ -71,7 +80,7 @@
                             </TreeViewItem>
                         </TreeView>
                         <TextBlock Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" TextAlignment="Right">
-                            控制插件的基本功能。前往<Hyperlink Click="Hyperlink_Click_1">高级设置</Hyperlink>以调整语音参数、字数限制和随机朗读等
+                            控制插件的基本功能，鼠标悬浮可查看帮助。前往<Hyperlink Click="Hyperlink_Click_1">高级设置</Hyperlink>以调整语音参数、字数限制和随机朗读等
                         </TextBlock>
                         <GroupBox Height="90" Margin="10,0,10,10" VerticalAlignment="Bottom">
                             <GroupBox.Header>

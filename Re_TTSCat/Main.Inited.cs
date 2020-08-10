@@ -46,6 +46,15 @@ namespace Re_TTSCat
                 });
                 thread.Start();
             }
+            if (Vars.CurrentConf.FullyAutomaticUpdate)
+            {
+                if (Vars.CurrentConf.AutoUpdate)
+                {
+                    ALog("正在启动更新检查");
+                    Thread updateChecker = new Thread(() => UpdateThread());
+                    updateChecker.Start();
+                }
+            }
             try
             {
                 if (Vars.CurrentConf?.OverrideToLogsTabOnStartup == true)

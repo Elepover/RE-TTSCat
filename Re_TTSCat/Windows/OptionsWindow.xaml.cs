@@ -272,6 +272,8 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.InstantVoiceReply = CheckBox_InstantVoiceReply.IsChecked ?? false;
             Vars.CurrentConf.MinifyJson = CheckBox_MinifyJson.IsChecked ?? true;
             Vars.CurrentConf.GiftsThrottle = CheckBox_GiftsThrottle.IsChecked ?? true;
+            Vars.CurrentConf.VoiceReplyFirst = CheckBox_VoiceReplyFirst.IsChecked ?? false;
+            Vars.CurrentConf.IgnoreIfHitVoiceReply = CheckBox_IgnoreIfHit.IsChecked ?? false;
             Vars.CurrentConf.BlockUID = ComboBox_BlockType.SelectedIndex == 0;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
@@ -358,6 +360,8 @@ namespace Re_TTSCat.Windows
             CheckBox_InstantVoiceReply.IsChecked = Vars.CurrentConf.InstantVoiceReply;
             CheckBox_MinifyJson.IsChecked = Vars.CurrentConf.MinifyJson;
             CheckBox_GiftsThrottle.IsChecked = Vars.CurrentConf.GiftsThrottle;
+            CheckBox_VoiceReplyFirst.IsChecked = Vars.CurrentConf.VoiceReplyFirst;
+            CheckBox_IgnoreIfHit.IsChecked = Vars.CurrentConf.IgnoreIfHitVoiceReply;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
             Slider_DMLengthLimitMax.Value = Vars.CurrentConf.MaximumDanmakuLength;
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;

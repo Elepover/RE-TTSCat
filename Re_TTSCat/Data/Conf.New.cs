@@ -44,6 +44,9 @@ namespace Re_TTSCat.Data
             MinifyJson = true;
             SpeechPitch = 0;
             GiftsThrottle = true;
+            VoiceReplyFirst = false;
+            IgnoreIfHitVoiceReply = false;
+            FullyAutomaticUpdate = true;
             HttpAuth = false;
             HttpAuthPassword = "";
             HttpAuthUsername = "";
