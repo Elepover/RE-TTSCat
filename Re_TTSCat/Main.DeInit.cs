@@ -9,7 +9,7 @@ namespace Re_TTSCat
         {
             if ((Vars.ManagementWindow != null) && (!Vars.ManagementWindow.WindowDisposed)) Vars.ManagementWindow.Dispatcher.Invoke(() => { Vars.ManagementWindow.Close(); });
             Vars.CallPlayerStop = true;
-            Vars.Player.Interrupt();
+            Vars.Player?.Interrupt();
             base.DeInit();
         }
     }
