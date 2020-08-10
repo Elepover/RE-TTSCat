@@ -53,6 +53,7 @@ namespace Re_TTSCat.Windows
 
         private async Task DarkenAsync()
         {
+            WebBrowser_Today.Visibility = Visibility.Hidden; // sry but we have to do this
             Grid_AnimationContainer.Visibility = Visibility.Visible;
 
             var animation = new DoubleAnimation
@@ -90,6 +91,8 @@ namespace Re_TTSCat.Windows
             await sb.BeginAsync();
             Grid_Master.Effect = null;
             Grid_AnimationContainer.Visibility = Visibility.Hidden;
+            if (Vars.CurrentConf.AllowDownloadMessage)
+                WebBrowser_Today.Visibility = Visibility.Visible;
         }
 
         private async void Button_CheckConnectivity_Click(object sender, RoutedEventArgs e)
@@ -522,34 +525,11 @@ namespace Re_TTSCat.Windows
             // THIS IS NOT TELEMETRY, WE RESPECT OUR USERS' PRIVACY AND WILL NEVER DO SO
             if (Vars.CurrentConf.AllowDownloadMessage)
             {
-                var downloader = new Thread(() =>
-                {
-                    string str = "感谢使用本插件", comments = $"Copyright (C) 2017 - {DateTime.Now.Year} Elepover.\nThis is an open-source(MIT) software.";
-                    using (var client = new WebClient())
-                    {
-                        try
-                        {
-                            client.Headers.Set(HttpRequestHeader.Referer, "https://www.danmuji.org/plugins/Re-TTSCat");
-                            client.Headers.Set(HttpRequestHeader.UserAgent, $"Re_TTSCat/{Vars.CurrentVersion} (Windows NT {Environment.OSVersion.Version.ToString(2)}; {(Environment.Is64BitOperatingSystem ? "Win64; x64" : "Win32; x86")})");
-                            str = Encoding.UTF8.GetString(client.DownloadData("https://static-cn.itsmy.app:12306/files/today"));
-                            comments = Encoding.UTF8.GetString(client.DownloadData("https://static-cn.itsmy.app:12306/files/today_comments"));
-                        }
-                        catch { }
-                    }
-                    try
-                    {
-                        Dispatcher.Invoke(() =>
-                        {
-                            TextBlock_Thanks.Text = str;
-                            TextBlock_Thanks.ToolTip = comments;
-                        });
-                    }
-                    catch { }
-                })
-                {
-                    IsBackground = true
-                };
-                downloader.Start();
+                WebBrowser_Today.Navigate("https://static-cn.itsmy.app:12306/files/today.html");
+            }
+            else
+            {
+                WebBrowser_Today.Visibility = Visibility.Hidden;
             }
         }
 

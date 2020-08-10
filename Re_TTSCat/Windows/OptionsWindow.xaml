@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理"
-        MinHeight="550" Height="550"
-        MinWidth="800" Width="800"
+        MinHeight="570" Height="570"
+        MinWidth="850" Width="850"
         Closing="Window_Closing">
     <Window.Resources>
         <FontFamily x:Key="FontAwesome">/Re_TTSCat;component/Resources/#Font Awesome 5 Free Solid</FontFamily>
@@ -471,7 +471,12 @@
             <Button x:Name="Button_Cancel" IsCancel="True" Margin="0,0,10,10" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Bottom" ToolTip="放弃所有已修改的设置并关闭窗口" Click="Button_Cancel_Click">
                 <local:IconTextBlock IconForeground="DarkRed" IconGlyph="&#xF00D;" Text="取消"/>
             </Button>
-            <TextBlock x:Name="TextBlock_Thanks" Margin="90,0,170,10" TextWrapping="Wrap" Text="感谢使用本插件" Height="45" TextAlignment="Center" ToolTip="Copyright (C) 2017 - 2020 Elepover.&#xA;This is an open-source(MIT) software." VerticalAlignment="Bottom"/>
+            <WebBrowser
+                x:Name="WebBrowser_Today"
+                Margin="90,0,170,10"
+                Height="45"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                VerticalAlignment="Bottom"/>
         </Grid>
         <Grid x:Name="Grid_AnimationContainer" Visibility="Hidden">
             <Grid.Resources>
