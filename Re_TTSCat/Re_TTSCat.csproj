@@ -38,7 +38,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BilibiliDM_PluginFramework">
+    <Reference Include="BilibiliDM_PluginFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\BilibiliDM_PluginFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
@@ -94,6 +95,7 @@
     <Compile Include="Data\UserGift.cs" />
     <Compile Include="Data\VoiceReplyRule.cs" />
     <Compile Include="Data\VoiceReplyRule.Matches.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\InteractRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\SuperChatRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\WelcomeGuardRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\WelcomeRoute.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="EventsHandler\Main.OnDisconnected.cs" />
     <Compile Include="EventsHandler\Main.OnConnected.cs" />
     <Compile Include="EventsHandler\VariableHelper\Preprocess.cs" />
+    <Compile Include="EventsHandler\VariableHelper\ProcessInteract.cs" />
     <Compile Include="EventsHandler\VariableHelper\ProcessVoiceReply.cs" />
     <Compile Include="EventsHandler\VariableHelper\ProcessSuperChat.cs" />
     <Compile Include="EventsHandler\VariableHelper\ProcessGift.cs" />

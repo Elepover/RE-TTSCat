@@ -10,6 +10,9 @@ namespace Re_TTSCat
             if (!IsNAudioReady) return;
             switch (e.Danmaku.MsgType)
             {
+                case MsgTypeEnum.Interact:
+                    await InteractRoute(sender, e);
+                    break;
                 case MsgTypeEnum.Comment:
                     await CommentRoute(sender, e);
                     break;

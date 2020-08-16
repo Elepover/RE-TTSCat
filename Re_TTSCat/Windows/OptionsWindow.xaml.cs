@@ -317,6 +317,11 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.OnGift = TextBox_OnGift.Text;
             Vars.CurrentConf.OnWelcome = TextBox_Welcome.Text;
             Vars.CurrentConf.OnWelcomeGuard = TextBox_WelcomeGuard.Text;
+            Vars.CurrentConf.OnInteractEnter = TextBox_InteractEnter.Text;
+            Vars.CurrentConf.OnInteractFollow = TextBox_InteractFollow.Text;
+            Vars.CurrentConf.OnInteractMutualFollow = TextBox_InteractMutualFollow.Text;
+            Vars.CurrentConf.OnInteractShare = TextBox_InteractShare.Text;
+            Vars.CurrentConf.OnInteractSpecialFollow = TextBox_InteractSpecialFollow.Text;
             Vars.CurrentConf.VoiceReplyRules = new List<VoiceReplyRule>(voiceReplyRulesDataSource);
             // try to resolve custom titles
             try
@@ -397,10 +402,15 @@ namespace Re_TTSCat.Windows
             TextBox_OnDanmaku.Text = Vars.CurrentConf.OnDanmaku;
             TextBox_OnSuperChat.Text = Vars.CurrentConf.OnSuperChat;
             TextBox_OnGift.Text = Vars.CurrentConf.OnGift;
+            TextBox_InteractEnter.Text = Vars.CurrentConf.OnInteractEnter;
+            TextBox_InteractFollow.Text = Vars.CurrentConf.OnInteractFollow;
+            TextBox_InteractMutualFollow.Text = Vars.CurrentConf.OnInteractMutualFollow;
+            TextBox_InteractShare.Text = Vars.CurrentConf.OnInteractShare;
+            TextBox_InteractSpecialFollow.Text = Vars.CurrentConf.OnInteractSpecialFollow;
             TextBox_Welcome.Text = Vars.CurrentConf.OnWelcome;
             TextBox_WelcomeGuard.Text = Vars.CurrentConf.OnWelcomeGuard;
             TextBox_CustomTitles.Text = $"{Vars.CurrentConf.CustomVIP}/{Vars.CurrentConf.CustomGuardLevel0}/{Vars.CurrentConf.CustomGuardLevel1}/{Vars.CurrentConf.CustomGuardLevel2}/{Vars.CurrentConf.CustomGuardLevel3}";
-            Label_AboutTitle.Text = $"Re: TTSCat - Charcoal ({Vars.CurrentVersion})";
+            Label_AboutTitle.Text = $"Re: TTSCat - Delta ({Vars.CurrentVersion})";
             voiceReplyRulesDataSource.Clear();
             foreach (var item in Vars.CurrentConf.VoiceReplyRules)
                 voiceReplyRulesDataSource.Add(item);

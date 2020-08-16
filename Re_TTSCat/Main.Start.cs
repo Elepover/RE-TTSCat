@@ -1,9 +1,6 @@
 ﻿using BilibiliDM_PluginFramework;
 using Re_TTSCat.Data;
 using System;
-using System.IO;
-using System.IO.Compression;
-using System.Net;
 using System.Threading;
 using System.Windows.Forms;
 

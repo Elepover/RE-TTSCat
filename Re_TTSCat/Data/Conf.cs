@@ -266,6 +266,26 @@ namespace Re_TTSCat.Data
         /// </summary>
         public string CustomVIP { get; set; }
         /// <summary>
+        /// 进入房间时的读出内容
+        /// </summary>
+        public string OnInteractEnter { get; set; }
+        /// <summary>
+        /// 当用户关注时的读出内容
+        /// </summary>
+        public string OnInteractFollow { get; set; }
+        /// <summary>
+        /// 当用户互相关注时的读出内容
+        /// </summary>
+        public string OnInteractMutualFollow { get; set; }
+        /// <summary>
+        /// 当用户分享直播间时的读出内容
+        /// </summary>
+        public string OnInteractShare { get; set; }
+        /// <summary>
+        /// 当用户特别关注时的读出内容
+        /// </summary>
+        public string OnInteractSpecialFollow { get; set; }
+        /// <summary>
         /// 语音答复规则列表
         /// </summary>
         public List<VoiceReplyRule> VoiceReplyRules { get; set; }

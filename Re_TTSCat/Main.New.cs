@@ -14,7 +14,7 @@ namespace Re_TTSCat
             PluginCont = "elepover@outlook.com";
             PluginDesc = "直接读出你收到的弹幕和礼物！";
             PluginName = "Re: TTSCat";
-            PluginVer = Data.Vars.CurrentVersion.ToString();
+            PluginVer = Vars.CurrentVersion.ToString();
             Connected += OnConnected;
             Disconnected += OnDisconnected;
             ReceivedRoomCount += OnReceivedRoomCount;

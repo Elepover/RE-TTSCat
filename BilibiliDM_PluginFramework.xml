@@ -93,6 +93,11 @@
             </summary>
             <param name="text">Sakura Script脚本</param>
         </member>
+        <member name="T:BilibiliDM_PluginFramework.MsgTypeEnum">
+            <summary>
+            消息类型
+            </summary>
+        </member>
         <member name="F:BilibiliDM_PluginFramework.MsgTypeEnum.Comment">
             <summary>
             彈幕
@@ -143,6 +148,41 @@
             SC
             </summary>
         </member>
+        <member name="F:BilibiliDM_PluginFramework.MsgTypeEnum.Interact">
+            <summary>
+            观众互动信息
+            </summary>
+        </member>
+        <member name="T:BilibiliDM_PluginFramework.InteractTypeEnum">
+            <summary>
+            观众互动内容
+            </summary>
+        </member>
+        <member name="F:BilibiliDM_PluginFramework.InteractTypeEnum.Enter">
+            <summary>
+            进入
+            </summary>
+        </member>
+        <member name="F:BilibiliDM_PluginFramework.InteractTypeEnum.Follow">
+            <summary>
+            关注
+            </summary>
+        </member>
+        <member name="F:BilibiliDM_PluginFramework.InteractTypeEnum.Share">
+            <summary>
+            分享直播间
+            </summary>
+        </member>
+        <member name="F:BilibiliDM_PluginFramework.InteractTypeEnum.SpecialFollow">
+            <summary>
+            特别关注
+            </summary>
+        </member>
+        <member name="F:BilibiliDM_PluginFramework.InteractTypeEnum.MutualFollow">
+            <summary>
+            互相关注
+            </summary>
+        </member>
         <member name="P:BilibiliDM_PluginFramework.DanmakuModel.MsgType">
             <summary>
             消息類型
@@ -170,6 +210,7 @@
             <item><see cref="F:BilibiliDM_PluginFramework.MsgTypeEnum.Welcome"/></item>
             <item><see cref="F:BilibiliDM_PluginFramework.MsgTypeEnum.WelcomeGuard"/></item>
             <item><see cref="F:BilibiliDM_PluginFramework.MsgTypeEnum.GuardBuy"/></item>
+            <item><see cref="F:BilibiliDM_PluginFramework.MsgTypeEnum.Interact"/></item>
             </list></para>
             </summary>
         </member>
@@ -182,6 +223,7 @@
             <item><see cref="F:BilibiliDM_PluginFramework.MsgTypeEnum.Welcome"/></item>
             <item><see cref="F:BilibiliDM_PluginFramework.MsgTypeEnum.WelcomeGuard"/></item>
             <item><see cref="F:BilibiliDM_PluginFramework.MsgTypeEnum.GuardBuy"/></item>
+            <item><see cref="F:BilibiliDM_PluginFramework.MsgTypeEnum.Interact"/></item>
             </list></para>
             </summary>
         </member>

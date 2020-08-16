@@ -70,6 +70,11 @@ namespace Re_TTSCat.Data
             CustomGuardLevel1 = "总督";
             CustomGuardLevel2 = "提督";
             CustomGuardLevel3 = "舰长";
+            OnInteractEnter = "欢迎 $USER 进入直播间";
+            OnInteractFollow = "感谢 $USER 关注直播间";
+            OnInteractMutualFollow = "感谢 $USER 的互关";
+            OnInteractShare = "感谢 $USER 分享直播间";
+            OnInteractSpecialFollow = "感谢 $USER 的特别关注";
             VoiceReplyRules = new List<VoiceReplyRule>();
         }
     }
