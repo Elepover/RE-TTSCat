@@ -44,6 +44,7 @@ namespace Re_TTSCat.Data
             MinifyJson = true;
             SpeechPitch = 0;
             GiftsThrottle = true;
+            GiftsThrottleDuration = 3;
             VoiceReplyFirst = false;
             IgnoreIfHitVoiceReply = false;
             FullyAutomaticUpdate = true;

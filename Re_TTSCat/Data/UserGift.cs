@@ -10,7 +10,7 @@ namespace Re_TTSCat.Data
         public int Qty;
         public DateTimeOffset TargetTime;
 
-        public UserGift() => TargetTime = DateTimeOffset.Now + TimeSpan.FromSeconds(3);
+        public UserGift() => TargetTime = DateTimeOffset.Now + TimeSpan.FromSeconds(Vars.CurrentConf.GiftsThrottleDuration);
         public UserGift(string user, int userId, string gift, int qty) : this()
         {
             User = user;

@@ -169,6 +169,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool GiftsThrottle { get; set; }
         /// <summary>
+        /// 礼物合并时长
+        /// </summary>
+        public int GiftsThrottleDuration { get; set; }
+        /// <summary>
         /// 是否优先读出语音答复
         /// </summary>
         public bool VoiceReplyFirst { get; set; }
