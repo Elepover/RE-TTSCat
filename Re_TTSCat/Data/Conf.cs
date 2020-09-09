@@ -173,6 +173,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public int GiftsThrottleDuration { get; set; }
         /// <summary>
+        /// 启用 URL 编码
+        /// </summary>
+        public bool EnableUrlEncode { get; set; }
+        /// <summary>
         /// 是否优先读出语音答复
         /// </summary>
         public bool VoiceReplyFirst { get; set; }

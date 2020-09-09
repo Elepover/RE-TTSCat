@@ -21,7 +21,7 @@ namespace Re_TTSCat.Data
             GiftWhiteList = "";
             KeywordBlackList = "";
             KeywordWhiteList = "";
-            MinimumDanmakuLength = 3;
+            MinimumDanmakuLength = 0;
             MaximumDanmakuLength = 50;
             ReadInQueue = true;
             ReadPossibility = 100;
@@ -45,6 +45,7 @@ namespace Re_TTSCat.Data
             SpeechPitch = 0;
             GiftsThrottle = true;
             GiftsThrottleDuration = 3;
+            EnableUrlEncode = true;
             VoiceReplyFirst = false;
             IgnoreIfHitVoiceReply = false;
             FullyAutomaticUpdate = true;

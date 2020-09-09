@@ -5,17 +5,18 @@ using System.Management;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Re_TTSCat
 {
     public partial class Main
     {
-        public async void GlobalErrorHandler(object sender, UnhandledExceptionEventArgs e)
+        public void GlobalErrorHandler(object sender, UnhandledExceptionEventArgs e)
         {
             if (!Vars.CurrentConf.CatchGlobalError) return;
             if (Vars.HangWhenCrash)
             {
-                await Task.Delay(-1);
+                MessageBox.Show("已捕获弹幕姬崩溃，尝试阻止，请不要关闭此对话框。");
             }
             var obj = (Exception) e.ExceptionObject;
             var window = new Windows.CriticalErrorWindow();

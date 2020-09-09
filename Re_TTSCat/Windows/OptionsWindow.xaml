@@ -533,6 +533,7 @@
                             <Run>配置文件</Run>
                             </TextBlock>
                         </CheckBox>
+                        <CheckBox x:Name="CheckBox_UrlEncode" Content="合成语音前将文本进行 URL 编码" IsChecked="True" HorizontalAlignment="Left" Margin="5,310,0,0" VerticalAlignment="Top"/>
                         <TextBlock HorizontalAlignment="Left" Margin="5,0,0,56.5" TextWrapping="Wrap" Text="执行结果" Height="15" VerticalAlignment="Bottom"/>
                         <TextBox x:Name="TextBox_ExecutionResult" IsReadOnly="True" FontFamily="Consolas" Margin="5,0,5,40.5" TextWrapping="Wrap" Height="16" VerticalAlignment="Bottom"/>
                         <TextBlock Margin="5,0,5,5" TextWrapping="Wrap" TextAlignment="Center" FontSize="12" VerticalAlignment="Bottom">

@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -275,6 +276,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.InstantVoiceReply = CheckBox_InstantVoiceReply.IsChecked ?? false;
             Vars.CurrentConf.MinifyJson = CheckBox_MinifyJson.IsChecked ?? true;
             Vars.CurrentConf.GiftsThrottle = CheckBox_GiftsThrottle.IsChecked ?? true;
+            Vars.CurrentConf.EnableUrlEncode = CheckBox_UrlEncode.IsChecked ?? true;
             Vars.CurrentConf.VoiceReplyFirst = CheckBox_VoiceReplyFirst.IsChecked ?? false;
             Vars.CurrentConf.IgnoreIfHitVoiceReply = CheckBox_IgnoreIfHit.IsChecked ?? false;
             Vars.CurrentConf.BlockUID = ComboBox_BlockType.SelectedIndex == 0;
@@ -369,6 +371,7 @@ namespace Re_TTSCat.Windows
             CheckBox_InstantVoiceReply.IsChecked = Vars.CurrentConf.InstantVoiceReply;
             CheckBox_MinifyJson.IsChecked = Vars.CurrentConf.MinifyJson;
             CheckBox_GiftsThrottle.IsChecked = Vars.CurrentConf.GiftsThrottle;
+            CheckBox_UrlEncode.IsChecked = Vars.CurrentConf.EnableUrlEncode;
             CheckBox_VoiceReplyFirst.IsChecked = Vars.CurrentConf.VoiceReplyFirst;
             CheckBox_IgnoreIfHit.IsChecked = Vars.CurrentConf.IgnoreIfHitVoiceReply;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;

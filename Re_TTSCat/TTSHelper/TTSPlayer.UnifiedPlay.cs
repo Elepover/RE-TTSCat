@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using NAudio.Wave;
 using Re_TTSCat.Data;
 
@@ -27,6 +29,11 @@ namespace Re_TTSCat
                 return;
             }
             string fileName;
+            if (Vars.CurrentConf.EnableUrlEncode)
+            {
+                content = HttpUtility.UrlEncode(content);
+                Bridge.ALog("URL 编码完成: " + content);
+            }
             switch (Vars.CurrentConf.Engine)
             {
                 default:
