@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Speech.Synthesis;
 using System.Threading;
+using System.Web;
 using System.Windows.Threading;
 
 namespace Re_TTSCat
@@ -20,7 +21,7 @@ namespace Re_TTSCat
                 {
                     synth.SetOutputToWaveFile(fileName);
                     Data.Bridge.ALog("(E1) 正在生成 TTS, 文件名: " + fileName);
-                    synth.Speak(content);
+                    synth.Speak(HttpUtility.UrlDecode(content));
                 }
                 frame.Continue = false;
             });

@@ -40,7 +40,8 @@ namespace Re_TTSCat
                 webClient.QueryString.Add("ie", "UTF-8");
                 webClient.QueryString.Add("client", "tw-ob");
                 webClient.QueryString.Add("tl", lang);
-                webClient.QueryString.Add("q", WebUtility.UrlEncode(text));
+                webClient.QueryString.Add("q", text); // already encoded in UnifiedPlay()
+                //webClient.QueryString.Add("q", WebUtility.UrlEncode(text));
                 webClient.UseDefaultCredentials = true;
 
                 byteList.Add(webClient.DownloadData(TtsUrl));
