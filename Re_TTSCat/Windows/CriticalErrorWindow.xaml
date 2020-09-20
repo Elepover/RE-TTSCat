@@ -14,8 +14,12 @@
                 <TextBox x:Name="TextBox_ErrorDetails" ScrollViewer.VerticalScrollBarVisibility="Visible" IsReadOnly="True" Margin="10,30,10,10" TextWrapping="Wrap" FontFamily="Consolas" Text=""/>
             </Grid>
         </Expander>
-        <Button Content="复制详情" Margin="0,10,90,0" Click="Button_Copy_Click" HorizontalAlignment="Right" Width="75" Height="18" VerticalAlignment="Top"/>
-        <Button IsDefault="True" Content="确定" Margin="0,10,10,0" Click="Button_Click" HorizontalAlignment="Right" Width="75" Height="18" VerticalAlignment="Top"/>
+        <Button Margin="0,10,90,0" Click="Button_Copy_Click" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Top">
+            <TextBlock Text="复制详情" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
+        <Button IsDefault="True" Margin="0,10,10,0" Click="Button_Click" HorizontalAlignment="Right" Width="75" Height="20" VerticalAlignment="Top">
+            <TextBlock Text="确定" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Button>
         <TextBlock x:Name="TextBlock_Copied" Margin="0,11,170,0" TextWrapping="Wrap" Text="已复制！" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="Hidden"/>
     </Grid>
 </Window>

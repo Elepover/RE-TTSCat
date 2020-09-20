@@ -198,10 +198,10 @@
                             <local:IconTextBlock IconGlyph="&#xF130;" Text="启用语音答复（测试版）" ToolTip="启用后，插件可对观众的弹幕自动作出回应&#xA;&#xA;此功能目前处于测试状态"/>
                         </CheckBox>
                         <Button Margin="0,5,95,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="85" x:Name="Button_DeleteRule" Click="Button_DeleteRule_Click">
-                            <local:IconTextBlock IconGlyph="&#xF2ED;" Text="删除规则"/>
+                            <local:IconTextBlock IconGlyph="&#xF2ED;" Text="删除规则" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
                         <Button Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="85" x:Name="Button_AddRule" Click="Button_AddRule_Click">
-                            <local:IconTextBlock IconGlyph="&#xF067;" Text="新增规则"/>
+                            <local:IconTextBlock IconGlyph="&#xF067;" Text="新增规则" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
                         <local:IconTextBlock Margin="5,25,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IconGlyph="&#xF5AE;" Text="规则列表"/>
                         <ListView x:Name="ListView_VoiceReplyRules" Margin="5,40,5,5" HorizontalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Auto">
