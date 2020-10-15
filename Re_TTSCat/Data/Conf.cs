@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Re_TTSCat.Data
 {
     public partial class Conf
     {
+        // sorry, have to rip that off https://github.com/naudio/NAudio/blob/master/NAudio/Wave/WaveOutputs/DirectSoundOut.cs
+        // because this part of code should be independent on NAudio
+        public static readonly Guid DefaultDeviceGuid = new Guid("DEF00000-9C6D-47ED-AAF1-4DDA8F2B5C03");
+
         /// <summary>
         /// 是否启用自动更新
         /// </summary>
@@ -184,6 +189,14 @@ namespace Re_TTSCat.Data
         /// 命中语音回复时是否取消对应事件朗读
         /// </summary>
         public bool IgnoreIfHitVoiceReply { get; set; }
+        /// <summary>
+        /// 音频输出设备 GUID
+        /// </summary>
+        public Guid DeviceGuid { get; set; }
+        /// <summary>
+        /// 是否失败时自动回落到默认设备
+        /// </summary>
+        public bool AutoFallback { get; set; }
         /// <summary>
         /// 全自动更新
         /// </summary>

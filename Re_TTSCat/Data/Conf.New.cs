@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Re_TTSCat.Data
 {
@@ -48,6 +49,8 @@ namespace Re_TTSCat.Data
             EnableUrlEncode = true;
             VoiceReplyFirst = false;
             IgnoreIfHitVoiceReply = false;
+            DeviceGuid = DefaultDeviceGuid;
+            AutoFallback = true;
             FullyAutomaticUpdate = true;
             HttpAuth = false;
             HttpAuthPassword = "";

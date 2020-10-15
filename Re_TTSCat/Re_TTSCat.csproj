@@ -87,6 +87,7 @@
     <Compile Include="Data\Extensions.float.IsNearEnough.cs" />
     <Compile Include="Data\GiftDebouncer.cs" />
     <Compile Include="Data\Header.cs" />
+    <Compile Include="Data\PlaybackDeviceWrapper.cs" />
     <Compile Include="Data\RequestType.cs" />
     <Compile Include="Data\SecureRng\SecureRng.cs" />
     <Compile Include="Data\SecureRng\SecureRng.GenerateRandomBytes.cs" />

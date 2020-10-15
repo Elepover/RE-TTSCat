@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Windows.Threading;
+using NAudio.Dmo.Effect;
 using NAudio.Wave;
 using Re_TTSCat.Data;
 
@@ -18,7 +19,29 @@ namespace Re_TTSCat
                 {
                     using (var reader = new AudioFileReader(filename))
                     {
-                        using (var waveOut = new WaveOutEvent())
+                        bool exists = false;
+                        var targetDevice = Vars.CurrentConf.DeviceGuid;
+                        foreach (var dev in DirectSoundOut.Devices)
+                        {
+                            if (dev.Guid == Vars.CurrentConf.DeviceGuid)
+                            {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if (!exists)
+                        {
+                            if (Vars.CurrentConf.AutoFallback)
+                            {
+                                Bridge.ALog($"设备 {Vars.CurrentConf.DeviceGuid} 不存在，正在自动回落到默认设备。");
+                                targetDevice = Conf.DefaultDeviceGuid;
+                            }
+                            else
+                            {
+                                throw new ArgumentOutOfRangeException($"设备 {Vars.CurrentConf.DeviceGuid} 不存在。");
+                            }
+                        }
+                        using (var waveOut = new DirectSoundOut(targetDevice))
                         {
                             waveOut.Init(reader);
                             reader.Volume = Volume;
@@ -40,15 +63,25 @@ namespace Re_TTSCat
                             }
                         }
                     }
-                    if (Vars.CurrentConf.DoNotKeepCache && !forceKeepCache)
-                    {
-                        Bridge.ALog($"正在删除缓存文件: {filename}");
-                        File.Delete(filename);
-                    }
                 }
                 catch (Exception ex)
                 {
                     Bridge.ALog($"播放过程中发生错误: {Path.GetFileName(filename)}: {ex.Message}");
+                }
+                finally
+                {
+                    try
+                    {
+                        if (Vars.CurrentConf.DoNotKeepCache && !forceKeepCache)
+                        {
+                            Bridge.ALog($"正在删除缓存文件: {filename}");
+                            File.Delete(filename);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Bridge.ALog($"无法删除缓存文件 {filename}: {ex.Message}");
+                    }
                 }
                 frame.Continue = false;
             });

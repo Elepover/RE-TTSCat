@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理"
-        MinHeight="570" Height="570"
+        MinHeight="550" Height="550"
         MinWidth="850" Width="850"
         Closing="Window_Closing">
     <Window.Resources>
@@ -78,13 +78,40 @@
                                     <CheckBox x:Name="CheckBox_AutoStartOnLoad" IsChecked="False" Content="在弹幕姬启动时自动启动插件" ToolTip="启用此选项后，插件将在弹幕姬启动时自动启用&#xA;&#xA;这会拖慢弹幕姬启动速度"/>
                                 </StackPanel>
                             </TreeViewItem>
+                            <TreeViewItem IsExpanded="True">
+                                <TreeViewItem.Header>
+                                    <local:IconTextBlock IconGlyph="&#xF028;" Text="音频"/>
+                                </TreeViewItem.Header>
+                                <StackPanel>
+                                    <TextBlock Text="选择音频输出设备" Margin="-18.7,2.5,0,2.5"/>
+                                    <ComboBox x:Name="ComboBox_OutputDevice" Width="400" Margin="-18.7,0,0,2.5" ToolTip="选择音频输出设备。"/>
+                                    <CheckBox x:Name="CheckBox_AutoFallback" Content="所选设备不可用时，自动切换回默认音频设备"/>
+                                </StackPanel>
+                            </TreeViewItem>
                         </TreeView>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" Margin="0,5,25,0" HorizontalAlignment="Right" VerticalAlignment="Top">
                             <local:IconTextBlock IconGlyph="&#xF0AD;"/>
                             <TextBlock>
                                 控制插件的基本功能，鼠标悬浮可查看帮助。前往<Hyperlink Click="Hyperlink_Click_1">高级设置</Hyperlink>以调整语音参数、字数限制和随机朗读等
                             </TextBlock>
                         </StackPanel>
+                        <TextBlock Margin="0,0,25,100" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontFamily="{StaticResource FontAwesome}" FontSize="30" Text="&#xF0AB;">
+                            <TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation
+                                                Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
+                                                From="Black" To="Transparent" Duration="0:0:2">
+                                                <ColorAnimation.EasingFunction>
+                                                    <PowerEase EasingMode="EaseIn" Power="20"/>
+                                                </ColorAnimation.EasingFunction>
+                                            </ColorAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </TextBlock.Triggers>
+                        </TextBlock>
                         <GroupBox Height="90" Margin="5,0,5,5" VerticalAlignment="Bottom">
                             <GroupBox.Header>
                                 <local:IconTextBlock IconGlyph="&#xF201;" Text="统计数据"/>
@@ -195,7 +222,7 @@
                     </TabItem.Header>
                     <Grid>
                         <CheckBox Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="CheckBox_EnableVoiceReply">
-                            <local:IconTextBlock IconGlyph="&#xF130;" Text="启用语音答复（测试版）" ToolTip="启用后，插件可对观众的弹幕自动作出回应&#xA;&#xA;此功能目前处于测试状态"/>
+                            <local:IconTextBlock IconGlyph="&#xF130;" Text="启用语音答复" ToolTip="启用后，插件可对观众的弹幕自动作出回应"/>
                         </CheckBox>
                         <Button Margin="0,5,95,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="85" x:Name="Button_DeleteRule" Click="Button_DeleteRule_Click">
                             <local:IconTextBlock IconGlyph="&#xF2ED;" Text="删除规则" HorizontalAlignment="Center" VerticalAlignment="Center"/>

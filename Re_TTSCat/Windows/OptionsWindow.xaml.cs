@@ -1,5 +1,6 @@
 ﻿using BilibiliDM_PluginFramework;
 using Microsoft.VisualBasic; // ← 不愧是我
+using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using Newtonsoft.Json;
 using Re_TTSCat.Data;
@@ -272,6 +273,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.AutoStartOnLoad = CheckBox_AutoStartOnLoad.IsChecked ?? false;
             Vars.CurrentConf.ClearCacheOnStartup = CheckBox_ClearCacheOnStartup.IsChecked ?? true;
             Vars.CurrentConf.SpeechPerson = ComboBox_Person.SelectedIndex;
+            Vars.CurrentConf.DeviceGuid = ((PlaybackDeviceWrapper)ComboBox_OutputDevice.SelectedItem).DeviceGuid;
             Vars.CurrentConf.EnableVoiceReply = CheckBox_EnableVoiceReply.IsChecked ?? false;
             Vars.CurrentConf.InstantVoiceReply = CheckBox_InstantVoiceReply.IsChecked ?? false;
             Vars.CurrentConf.MinifyJson = CheckBox_MinifyJson.IsChecked ?? true;
@@ -279,6 +281,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.EnableUrlEncode = CheckBox_UrlEncode.IsChecked ?? true;
             Vars.CurrentConf.VoiceReplyFirst = CheckBox_VoiceReplyFirst.IsChecked ?? false;
             Vars.CurrentConf.IgnoreIfHitVoiceReply = CheckBox_IgnoreIfHit.IsChecked ?? false;
+            Vars.CurrentConf.AutoFallback = CheckBox_AutoFallback.IsChecked ?? true;
             Vars.CurrentConf.BlockUID = ComboBox_BlockType.SelectedIndex == 0;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
@@ -374,6 +377,7 @@ namespace Re_TTSCat.Windows
             CheckBox_UrlEncode.IsChecked = Vars.CurrentConf.EnableUrlEncode;
             CheckBox_VoiceReplyFirst.IsChecked = Vars.CurrentConf.VoiceReplyFirst;
             CheckBox_IgnoreIfHit.IsChecked = Vars.CurrentConf.IgnoreIfHitVoiceReply;
+            CheckBox_AutoFallback.IsChecked = Vars.CurrentConf.AutoFallback;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
             Slider_DMLengthLimitMax.Value = Vars.CurrentConf.MaximumDanmakuLength;
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;
@@ -392,6 +396,15 @@ namespace Re_TTSCat.Windows
             ComboBox_GiftBlockMode.SelectedIndex = Vars.CurrentConf.GiftBlockMode;
             ComboBox_KeywordBlockMode.SelectedIndex = Vars.CurrentConf.KeywordBlockMode;
             ComboBox_BlockType.SelectedIndex = Vars.CurrentConf.BlockUID ? 0 : 1;
+            var deviceList = new List<PlaybackDeviceWrapper>();
+            var matchIndex = 0;
+            foreach (var dev in DirectSoundOut.Devices)
+            {
+                deviceList.Add(new PlaybackDeviceWrapper() { DeviceGuid = dev.Guid });
+                if (dev.Guid == Vars.CurrentConf.DeviceGuid) matchIndex = deviceList.Count - 1;
+            }
+            ComboBox_OutputDevice.ItemsSource = deviceList;
+            ComboBox_OutputDevice.SelectedIndex = matchIndex;
             TextBox_PostData.Text = Vars.CurrentConf.PostData;
             TextBox_Headers.Text = JsonConvert.SerializeObject(Vars.CurrentConf.Headers, Formatting.Indented);
             TextBox_Blacklist.Text = Vars.CurrentConf.BlackList;
