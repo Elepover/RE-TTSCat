@@ -96,6 +96,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public int ReadSpeed { get; set; }
         /// <summary>
+        /// 系统语音名称
+        /// </summary>
+        public string VoiceName { get; set; }
+        /// <summary>
         /// TTS 音量 (0~100, 调用时转换为 /100 后的 float)
         /// </summary>
         public int TTSVolume { get; set; }

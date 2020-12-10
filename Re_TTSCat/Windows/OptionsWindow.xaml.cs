@@ -15,6 +15,7 @@ using System.Management;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
+using System.Speech.Synthesis;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -274,6 +275,53 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.ClearCacheOnStartup = CheckBox_ClearCacheOnStartup.IsChecked ?? true;
             Vars.CurrentConf.SpeechPerson = ComboBox_Person.SelectedIndex;
             Vars.CurrentConf.DeviceGuid = ((PlaybackDeviceWrapper)ComboBox_OutputDevice.SelectedItem).DeviceGuid;
+            var tempVoiceName = (string)ComboBox_VoiceName.SelectedItem ?? "(无效选择)";
+            if (tempVoiceName != Vars.CurrentConf.VoiceName)
+            {
+                var warningMessage = new StringBuilder($"选择的语音包 \"{tempVoiceName}\" 存在问题，可能无法正常使用：{Environment.NewLine}");
+                var voiceFound = false;
+                var warningTriggered = false;
+                using (var synth = new SpeechSynthesizer())
+                {
+                    foreach (var voice in synth.GetInstalledVoices())
+                    {
+                        if (voice.VoiceInfo.Name == tempVoiceName)
+                        {
+                            voiceFound = true;
+                            if (!voice.Enabled)
+                            {
+                                warningTriggered = true;
+                                warningMessage.Append(Environment.NewLine);
+                                warningMessage.Append("语音包已安装，但未启用");
+                            }
+                            if (voice.VoiceInfo.Culture.TwoLetterISOLanguageName.ToLowerInvariant() != "zh")
+                            {
+                                warningTriggered = true;
+                                warningMessage.Append(Environment.NewLine);
+                                warningMessage.Append($"语音包目标语言 \"{voice.VoiceInfo.Culture.DisplayName}\" 非中文");
+                            }
+                            break;
+                        }
+                    }
+                    if (!voiceFound)
+                    {
+                        warningTriggered = true;
+                        warningMessage.Append(Environment.NewLine);
+                        warningMessage.Append("系统上并未找到此语音包");
+                    }
+                }
+                if (warningTriggered)
+                {
+                    warningMessage.Append(Environment.NewLine);
+                    warningMessage.Append(Environment.NewLine);
+                    warningMessage.Append("是否仍要保存语音包选择？");
+                    if (System.Windows.Forms.MessageBox.Show(warningMessage.ToString(), "语音包警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        Vars.CurrentConf.VoiceName = tempVoiceName;
+                    }
+                }
+                else Vars.CurrentConf.VoiceName = tempVoiceName;
+            }
             Vars.CurrentConf.EnableVoiceReply = CheckBox_EnableVoiceReply.IsChecked ?? false;
             Vars.CurrentConf.InstantVoiceReply = CheckBox_InstantVoiceReply.IsChecked ?? false;
             Vars.CurrentConf.MinifyJson = CheckBox_MinifyJson.IsChecked ?? true;
@@ -405,6 +453,26 @@ namespace Re_TTSCat.Windows
             }
             ComboBox_OutputDevice.ItemsSource = deviceList;
             ComboBox_OutputDevice.SelectedIndex = matchIndex;
+            using (var synth = new SpeechSynthesizer())
+            {
+                ComboBox_VoiceName.Items.Clear();
+                var voices = synth.GetInstalledVoices().Where(x => x.Enabled);
+                if (voices.Count() == 0)
+                {
+                    ComboBox_VoiceName.Items.Add(Vars.CurrentConf.VoiceName);
+                    ComboBox_VoiceName.SelectedIndex = 0;
+                }
+                else
+                {
+                    var voiceMatchIndex = 0;
+                    foreach (var voice in voices)
+                    {
+                        ComboBox_VoiceName.Items.Add(voice.VoiceInfo.Name);
+                        if (voice.VoiceInfo.Name == Vars.CurrentConf.VoiceName) voiceMatchIndex = ComboBox_VoiceName.Items.Count - 1;
+                    }
+                    ComboBox_VoiceName.SelectedIndex = voiceMatchIndex;
+                }
+            }
             TextBox_PostData.Text = Vars.CurrentConf.PostData;
             TextBox_Headers.Text = JsonConvert.SerializeObject(Vars.CurrentConf.Headers, Formatting.Indented);
             TextBox_Blacklist.Text = Vars.CurrentConf.BlackList;

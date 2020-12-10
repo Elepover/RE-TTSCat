@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理"
-        MinHeight="550" Height="550"
+        MinHeight="570" Height="570"
         MinWidth="850" Width="850"
         Closing="Window_Closing">
     <Window.Resources>
@@ -378,6 +378,10 @@
                                     <ComboBoxItem Content="♀ 度小童"/>
                                     <ComboBoxItem Content="♀ 度小萌"/>
                                 </ComboBox>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF466;" Text=".NET 引擎语音包"/>
+                                <ComboBox HorizontalAlignment="Left" x:Name="ComboBox_VoiceName" ToolTip="选择用来合成语音的语音包" Width="120"/>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
                                 <local:IconTextBlock IconGlyph="&#xF2F9;" Text="下载失败重试次数"/>

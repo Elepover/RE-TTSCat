@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Speech.Synthesis;
 using System.Threading;
 using System.Web;
@@ -21,6 +22,10 @@ namespace Re_TTSCat
                 {
                     synth.SetOutputToWaveFile(fileName);
                     Data.Bridge.ALog("(E1) 正在生成 TTS, 文件名: " + fileName);
+                    var voices = synth.GetInstalledVoices().Where(x => x.Enabled);
+                    var targetVoice = voices.FirstOrDefault(x => x.VoiceInfo.Name == Data.Vars.CurrentConf.VoiceName);
+                    if (targetVoice == default) Data.Bridge.ALog($"(E1) 错误：选中的语音包 {Data.Vars.CurrentConf.VoiceName} 不可用，将忽略语音选择");
+                    else synth.SelectVoice(targetVoice.VoiceInfo.Name);
                     synth.Speak(HttpUtility.UrlDecode(content));
                 }
                 frame.Continue = false;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Speech.Synthesis;
 
 namespace Re_TTSCat.Data
 {
@@ -28,6 +30,12 @@ namespace Re_TTSCat.Data
             ReadPossibility = 100;
             TTSVolume = 100;
             ReadSpeed = 0;
+            using (var synth = new SpeechSynthesizer())
+            {
+                var voice = synth.GetInstalledVoices().FirstOrDefault(x => x.Enabled);
+                if (voice == default) VoiceName = "(无可用语音包)";
+                VoiceName = voice.VoiceInfo.Name;
+            }
             UseGoogleGlobal = false;
             AllowDownloadMessage = true;
             AllowConnectEvents = true;
