@@ -456,7 +456,7 @@ namespace Re_TTSCat.Windows
             using (var synth = new SpeechSynthesizer())
             {
                 ComboBox_VoiceName.Items.Clear();
-                var voices = synth.GetInstalledVoices().Where(x => x.Enabled);
+                var voices = synth.GetInstalledVoices();
                 if (voices.Count() == 0)
                 {
                     ComboBox_VoiceName.Items.Add(Vars.CurrentConf.VoiceName);
