@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Speech.Synthesis;
+using System.Windows.Forms;
 
 namespace Re_TTSCat.Data
 {
@@ -30,11 +31,20 @@ namespace Re_TTSCat.Data
             ReadPossibility = 100;
             TTSVolume = 100;
             ReadSpeed = 0;
-            using (var synth = new SpeechSynthesizer())
+            try
             {
-                var voice = synth.GetInstalledVoices().FirstOrDefault(x => x.Enabled);
-                if (voice == default) VoiceName = "(无可用语音包)";
-                VoiceName = voice.VoiceInfo.Name;
+                using (var synth = new SpeechSynthesizer())
+                {
+                    Vars.SystemSpeechAvailable = true;
+                    var voice = synth.GetInstalledVoices().FirstOrDefault(x => x.Enabled);
+                    if (voice == default) VoiceName = "(无可用语音包)";
+                    VoiceName = voice.VoiceInfo.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                Vars.SystemSpeechAvailable = false;
+                Vars.SpeechUnavailableString = ex.ToString();
             }
             UseGoogleGlobal = false;
             AllowDownloadMessage = true;

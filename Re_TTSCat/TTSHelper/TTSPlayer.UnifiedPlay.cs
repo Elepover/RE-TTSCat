@@ -40,6 +40,11 @@ namespace Re_TTSCat
                     fileName = await BaiduTTS.Download(content);
                     break;
                 case 1:
+                    if (!Vars.SystemSpeechAvailable)
+                    {
+                        Bridge.Log(".NET 框架引擎在此系统上不可用，无法朗读");
+                        return;
+                    }
                     fileName = FrameworkTTS.Download(content);
                     break;
                 case 2:

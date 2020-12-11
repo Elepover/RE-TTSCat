@@ -69,6 +69,13 @@ namespace Re_TTSCat
                 ALog($"无法切换到首页: {ex.Message}");
             }
             if (Vars.CurrentConf?.AutoStartOnLoad == true) Start();
+            if (!Vars.SystemSpeechAvailable)
+            {
+                Log("技术信息：");
+                Log(Vars.SpeechUnavailableString);
+                Log("警告：无法初始化 .NET 框架引擎！请尝试点击以下链接复制安装 32 位语音平台包并安装修复。");
+                Log("https://www.microsoft.com/en-us/download/confirmation.aspx?id=27225");
+            }
         }
     }
 }
