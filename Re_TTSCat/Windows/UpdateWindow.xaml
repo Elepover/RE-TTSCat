@@ -24,13 +24,13 @@
                 <TextBlock Text="插件更新" VerticalAlignment="Top" FontSize="17"/>
             </StackPanel>
             <TextBlock x:Name="TextBlock_Status" HorizontalAlignment="Left" Margin="10,0,0,10" TextWrapping="Wrap" Text="就绪" VerticalAlignment="Bottom" Width="574" FontSize="11.5"/>
-            <Button x:Name="Button_CheckUpd" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="75" ToolTip="通过弹幕姬 API 检查插件更新" Click="Button_CheckUpd_Click">
+            <Button x:Name="Button_CheckUpd" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="85" ToolTip="通过弹幕姬 API 检查插件更新" Click="Button_CheckUpd_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF2F1;"/>
                     <TextBlock VerticalAlignment="Center" Text="检查更新"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="Button_DLUpd" HorizontalAlignment="Right" Margin="0,34,10,0" VerticalAlignment="Top" Width="75" ToolTip="下载更新" Click="Button_DLUpd_Click">
+            <Button x:Name="Button_DLUpd" HorizontalAlignment="Right" Margin="0,34,10,0" VerticalAlignment="Top" Width="85" ToolTip="下载更新" Click="Button_DLUpd_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Name="FontIcon_DlUpdate" FontFamily="{StaticResource FontAwesome}" VerticalAlignment="Center" Text="&#xF063;"/>
                     <TextBlock x:Name="TextBlock_DownloadUpdate" VerticalAlignment="Center" Text="下载更新"/>
