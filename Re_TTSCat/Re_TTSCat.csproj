@@ -98,6 +98,7 @@
     <Compile Include="Data\VoiceReplyRule.cs" />
     <Compile Include="Data\VoiceReplyRule.Matches.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\InteractRoute.cs" />
+    <Compile Include="EventsHandler\DanmakuRoutes\WarningRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\SuperChatRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\WelcomeGuardRoute.cs" />
     <Compile Include="EventsHandler\DanmakuRoutes\WelcomeRoute.cs" />

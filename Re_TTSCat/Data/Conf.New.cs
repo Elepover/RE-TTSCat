@@ -88,6 +88,7 @@ namespace Re_TTSCat.Data
             OnLiveEnd = "直播已结束";
             OnWelcome = "欢迎老爷: $USER";
             OnWelcomeGuard = "欢迎船员: $USER";
+            OnWarning = "直播间收到超管警告";
             CustomVIP = "老爷";
             CustomGuardLevel0 = "用户";
             CustomGuardLevel1 = "总督";

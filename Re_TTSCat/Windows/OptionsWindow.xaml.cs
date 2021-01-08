@@ -371,6 +371,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.OnGift = TextBox_OnGift.Text;
             Vars.CurrentConf.OnWelcome = TextBox_Welcome.Text;
             Vars.CurrentConf.OnWelcomeGuard = TextBox_WelcomeGuard.Text;
+            Vars.CurrentConf.OnWarning = TextBox_SuperAdminWarnings.Text;
             Vars.CurrentConf.OnInteractEnter = TextBox_InteractEnter.Text;
             Vars.CurrentConf.OnInteractFollow = TextBox_InteractFollow.Text;
             Vars.CurrentConf.OnInteractMutualFollow = TextBox_InteractMutualFollow.Text;
@@ -500,6 +501,7 @@ namespace Re_TTSCat.Windows
             TextBox_Welcome.Text = Vars.CurrentConf.OnWelcome;
             TextBox_WelcomeGuard.Text = Vars.CurrentConf.OnWelcomeGuard;
             TextBox_CustomTitles.Text = $"{Vars.CurrentConf.CustomVIP}/{Vars.CurrentConf.CustomGuardLevel0}/{Vars.CurrentConf.CustomGuardLevel1}/{Vars.CurrentConf.CustomGuardLevel2}/{Vars.CurrentConf.CustomGuardLevel3}";
+            TextBox_SuperAdminWarnings.Text = Vars.CurrentConf.OnWarning;
             Label_AboutTitle.Text = $"Re: TTSCat - Delta ({Vars.CurrentVersion})";
             voiceReplyRulesDataSource.Clear();
             foreach (var item in Vars.CurrentConf.VoiceReplyRules)

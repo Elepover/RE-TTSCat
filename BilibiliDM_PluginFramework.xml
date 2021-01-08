@@ -153,6 +153,11 @@
             观众互动信息
             </summary>
         </member>
+        <member name="F:BilibiliDM_PluginFramework.MsgTypeEnum.Warning">
+            <summary>
+            超管警告
+            </summary>
+        </member>
         <member name="T:BilibiliDM_PluginFramework.InteractTypeEnum">
             <summary>
             观众互动内容

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Elepover")]
 [assembly: AssemblyProduct("Re: TTSCat")]
-[assembly: AssemblyCopyright("Copyright © 2017 - 2020 Elepover")]
+[assembly: AssemblyCopyright("Copyright © 2017 - 2021 Elepover")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

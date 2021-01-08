@@ -22,7 +22,7 @@ namespace Re_TTSCat.Data
         public static readonly string CacheDirTemp = Path.Combine(Path.GetTempPath(), "Re-TTSCat TTS Cache");
         public static readonly string ConfFileName = Path.Combine(ConfDir, "Config.json");
         public static readonly string AudioLibraryFileName = Path.Combine(ConfDir, "NAudio.dll");
-        public static readonly Version CurrentVersion = new Version("3.9.95.677");
+        public static readonly Version CurrentVersion = new Version("3.10.1.695");
         public static readonly string ManagementWindowDefaultTitle = "Re: TTSCat - 插件管理";
 
         public static Conf CurrentConf = new Conf();

@@ -49,6 +49,9 @@ namespace Re_TTSCat
                 case MsgTypeEnum.WelcomeGuard:
                     await WelcomeGuardRoute(sender, e);
                     break;
+                case MsgTypeEnum.Warning:
+                    await WarningRoute(sender, e);
+                    break;
             }
         }
     }

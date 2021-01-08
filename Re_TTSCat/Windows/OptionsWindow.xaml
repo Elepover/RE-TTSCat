@@ -153,24 +153,48 @@
                                 将鼠标悬浮于对应文本框上以查看帮助，<Underline>留空以停用朗读</Underline>；如需更多信息，请查看<Hyperlink Click="Hyperlink_Click" ToolTip="前往弹幕姬官网的插件页面查看有关自定义读出内容的帮助文档">自定义变量帮助</Hyperlink>
                             </TextBlock>
                         </StackPanel>
-                        <local:IconTextBlock HorizontalAlignment="Left" Margin="5,5,0,0" IconGlyph="&#xF086;" Text="收到弹幕时，朗读以下内容：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_OnDanmaku" Height="23" Margin="5,20,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到弹幕时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本"/>
-                        <local:IconTextBlock HorizontalAlignment="Left" Margin="5,48,0,0" IconGlyph="&#xF653;" Text="收到醒目留言时，朗读以下内容：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_OnSuperChat" Height="23" Margin="5,63,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到醒目留言时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本&#xA;$PRICE 发送醒目留言所花费的金额"/>
-                        <local:IconTextBlock HorizontalAlignment="Left" Margin="5,91,0,0" IconGlyph="&#xF06B;" Text="收到礼物时，朗读以下内容：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_OnGift" Height="23" Margin="5,106,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义收到礼物时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$GIFT - 礼物名称&#xA;$COUNT - 礼物数量"/>
-                        <local:IconTextBlock HorizontalAlignment="Left" Margin="5,134,0,0" IconGlyph="&#xF144;" Text="直播开始时，朗读以下内容：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_LiveStart" Height="23" Margin="5,149,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义直播开始时的读出内容&#xA;&#xA;此字段无变量可用"/>
-                        <local:IconTextBlock HorizontalAlignment="Left" Margin="5,177,0,0" IconGlyph="&#xF28D;" Text="直播结束时，朗读以下内容：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_LiveEnd" Height="23" Margin="5,192,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义直播结束时的读出内容&#xA;&#xA;此字段无变量可用"/>
-                        <local:IconTextBlock HorizontalAlignment="Left" Margin="5,220,0,0" IconGlyph="&#xF13D;" Text="船员上船时，朗读以下内容：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_GuardBuy" Height="23" Margin="5,235,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义船员上船时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 上船的船员名称&#xA;$COUNT - 上船月份数目"/>
-                        <local:IconTextBlock HorizontalAlignment="Left" Margin="5,263,0,0" IconGlyph="&#xF507;" Text="老爷进入时，朗读以下内容：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_Welcome" Height="23" Margin="5,278,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义老爷进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 老爷的用户名"/>
-                        <local:IconTextBlock HorizontalAlignment="Left" Margin="5,306,0,0" IconGlyph="&#xF13D;" Text="船员进入时，朗读以下内容：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_WelcomeGuard" Height="23" Margin="5,321,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="自定义船员进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 船员的用户名"/>
-                        <local:IconTextBlock HorizontalAlignment="Left" Margin="5,349,0,0" IconGlyph="&#xF085;" Text="自定义头衔：" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_CustomTitles" Height="23" Margin="5,364,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" ToolTip="顺序: 老爷/普通用户/总督/提督/舰长"/>
+                        <StackPanel Margin="5">
+                            <StackPanel>
+                                <local:IconTextBlock IconGlyph="&#xF086;" Text="收到弹幕时，朗读以下内容："/>
+                                <TextBox x:Name="TextBox_OnDanmaku" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义收到弹幕时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF653;" Text="收到醒目留言时，朗读以下内容："/>
+                                <TextBox x:Name="TextBox_OnSuperChat" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义收到醒目留言时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$DM - 弹幕文本&#xA;$PRICE 发送醒目留言所花费的金额"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF06B;" Text="收到礼物时，朗读以下内容："/>
+                                <TextBox x:Name="TextBox_OnGift" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义收到礼物时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 用户名&#xA;提示: 用户名可包含老爷头衔/舰队等级，具体内容请点击右上角&quot;自定义变量帮助&quot;&#xA;$GIFT - 礼物名称&#xA;$COUNT - 礼物数量"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF144;" Text="直播开始时，朗读以下内容："/>
+                                <TextBox x:Name="TextBox_LiveStart" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义直播开始时的读出内容&#xA;&#xA;此字段无变量可用"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF28D;" Text="直播结束时，朗读以下内容："/>
+                                <TextBox x:Name="TextBox_LiveEnd" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义直播结束时的读出内容&#xA;&#xA;此字段无变量可用"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF13D;" Text="船员上船时，朗读以下内容："/>
+                                <TextBox x:Name="TextBox_GuardBuy" Height="23" Text="" ToolTip="自定义船员上船时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 上船的船员名称&#xA;$COUNT - 上船月份数目"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF507;" Text="老爷进入时，朗读以下内容："/>
+                                <TextBox x:Name="TextBox_Welcome" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义老爷进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 老爷的用户名"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF13D;" Text="船员进入时，朗读以下内容："/>
+                                <TextBox x:Name="TextBox_WelcomeGuard" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义船员进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 船员的用户名"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF085;" Text="自定义头衔："/>
+                                <TextBox x:Name="TextBox_CustomTitles" Height="23" TextWrapping="Wrap" Text="" ToolTip="顺序: 老爷/普通用户/总督/提督/舰长"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0">
+                                <local:IconTextBlock IconGlyph="&#xF071;" Text="超管警告朗读内容："/>
+                                <TextBox x:Name="TextBox_SuperAdminWarnings" Height="23" TextWrapping="Wrap" Text="" ToolTip="当收到超管警告时读出的内容"/>
+                            </StackPanel>
+                        </StackPanel>
                     </Grid>
                 </TabItem>
                 <TabItem>

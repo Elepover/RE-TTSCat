@@ -267,6 +267,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public string OnWelcome { get; set; }
         /// <summary>
+        /// 超管警告文本，留空以禁用
+        /// </summary>
+        public string OnWarning { get; set; }
+        /// <summary>
         /// 欢迎船员文本，留空以禁用
         /// </summary>
         public string OnWelcomeGuard { get; set; }
