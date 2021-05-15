@@ -1,4 +1,6 @@
 ﻿using BilibiliDM_PluginFramework;
+using System.Text.RegularExpressions;
+using System;
 
 namespace Re_TTSCat.Data
 {
@@ -11,9 +13,27 @@ namespace Re_TTSCat.Data
                 default:
                     return true;
                 case 1:
-                    return Vars.CurrentConf.BlackList.Contains(content) ? false : true;
+                    var RegKeyWordArray_black = Vars.CurrentConf.BlackList.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach(string RegKeyWord in RegKeyWordArray_black)
+                    {
+                        Regex r = new Regex(RegKeyWord);
+                        Match m = r.Match(content);
+                        if (m.Success) return false;
+                        if (content.Contains(RegKeyWord)) return false;
+                    }
+                    //return Vars.CurrentConf.BlackList.Contains(content) ? false : true;
+                    return true;
                 case 2:
-                    return Vars.CurrentConf.WhiteList.Contains(content) ? true : false;
+                    var RegKeyWordArray_white = Vars.CurrentConf.WhiteList.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string RegKeyWord in RegKeyWordArray_white)
+                    {
+                        Regex r = new Regex(RegKeyWord);
+                        Match m = r.Match(content);
+                        if (m.Success) return true;
+                        if (content.Contains(RegKeyWord)) return true;
+                    }
+                    //return Vars.CurrentConf.WhiteList.Contains(content) ? true : false;
+                    return false;
             }
         }
 

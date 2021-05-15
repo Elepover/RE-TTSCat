@@ -1,4 +1,5 @@
 ﻿using BilibiliDM_PluginFramework;
+using System.Text.RegularExpressions;
 using System;
 
 namespace Re_TTSCat.Data
@@ -16,12 +17,20 @@ namespace Re_TTSCat.Data
                     foreach (string keyword in list1)
                     {
                         if (content.Contains(keyword)) return false;
+                        Regex r = new Regex(keyword);
+                        Match m = r.Match(content);
+                        if (m.Success) return false;
+                        if (content.Contains(keyword)) return false;
                     }
                     return true;
                 case 2:
                     var list2 = Vars.CurrentConf.KeywordWhiteList.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string keyword in list2)
                     {
+                        if (content.Contains(keyword)) return true;
+                        Regex r = new Regex(keyword);
+                        Match m = r.Match(content);
+                        if (m.Success) return true;
                         if (content.Contains(keyword)) return true;
                     }
                     return false;
