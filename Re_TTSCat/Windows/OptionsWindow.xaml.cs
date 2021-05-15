@@ -1,6 +1,5 @@
 ﻿using BilibiliDM_PluginFramework;
 using Microsoft.VisualBasic; // ← 不愧是我
-using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using Newtonsoft.Json;
 using Re_TTSCat.Data;
@@ -13,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Speech.Synthesis;
 using System.Text;
@@ -330,6 +328,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.VoiceReplyFirst = CheckBox_VoiceReplyFirst.IsChecked ?? false;
             Vars.CurrentConf.IgnoreIfHitVoiceReply = CheckBox_IgnoreIfHit.IsChecked ?? false;
             Vars.CurrentConf.AutoFallback = CheckBox_AutoFallback.IsChecked ?? true;
+            Vars.CurrentConf.UseDirectSound = CheckBox_UseDirectSound.IsChecked ?? true;
             Vars.CurrentConf.BlockUID = ComboBox_BlockType.SelectedIndex == 0;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
@@ -348,6 +347,8 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.GiftBlockMode = (byte)ComboBox_GiftBlockMode.SelectedIndex;
             Vars.CurrentConf.KeywordBlockMode = (byte)ComboBox_KeywordBlockMode.SelectedIndex;
             Vars.CurrentConf.PostData = TextBox_PostData.Text;
+            Vars.CurrentConf.BaiduApiKey = TextBox_BaiduApiKey.Text;
+            Vars.CurrentConf.BaiduApiSecretKey = TextBox_BaiduApiSecretKey.Password;
             try
             {
                 Vars.CurrentConf.Headers = JsonConvert.DeserializeObject<List<Header>>(TextBox_Headers.Text);
@@ -427,6 +428,7 @@ namespace Re_TTSCat.Windows
             CheckBox_VoiceReplyFirst.IsChecked = Vars.CurrentConf.VoiceReplyFirst;
             CheckBox_IgnoreIfHit.IsChecked = Vars.CurrentConf.IgnoreIfHitVoiceReply;
             CheckBox_AutoFallback.IsChecked = Vars.CurrentConf.AutoFallback;
+            CheckBox_UseDirectSound.IsChecked = Vars.CurrentConf.UseDirectSound;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
             Slider_DMLengthLimitMax.Value = Vars.CurrentConf.MaximumDanmakuLength;
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;
@@ -438,6 +440,8 @@ namespace Re_TTSCat.Windows
             TextBox_CustomEngineURL.Text = Vars.CurrentConf.CustomEngineURL;
             TextBox_HTTPAuthUsername.Text = Vars.CurrentConf.HttpAuthUsername;
             TextBox_HTTPAuthPassword.Password = Vars.CurrentConf.HttpAuthPassword;
+            TextBox_BaiduApiKey.Text = Vars.CurrentConf.BaiduApiKey;
+            TextBox_BaiduApiSecretKey.Password = Vars.CurrentConf.BaiduApiSecretKey;
             ComboBox_Engine.SelectedIndex = Vars.CurrentConf.Engine;
             ComboBox_Person.SelectedIndex = Vars.CurrentConf.SpeechPerson;
             ComboBox_PostMethod.SelectedIndex = (int)Vars.CurrentConf.ReqType;
@@ -519,7 +523,7 @@ namespace Re_TTSCat.Windows
             TextBox_Debug.AppendText($"Plugins directory: {Vars.AppDllFilePath}\n");
             if (Vars.CurrentConf.DebugMode)
             {
-                
+                TextBox_Debug.Visibility = Visibility.Visible;
                 try
                 {
                     TextBox_Debug.AppendText("---------- [DEBUG MODE ACTIVE, ADVANCED INFO VISIBLE] ----------\n");
@@ -554,6 +558,7 @@ namespace Re_TTSCat.Windows
                     TextBox_Debug.AppendText($"Error retrieving advanced log: {ex}\n");
                 }
             }
+            else TextBox_Debug.Visibility = Visibility.Collapsed;
             UpdateStats();
 
             TabItem_DebugOptions.Visibility = Vars.CurrentConf.DebugMode ? Visibility.Visible : Visibility.Hidden;
@@ -911,6 +916,11 @@ namespace Re_TTSCat.Windows
         private void Hyperlink_Click_1(object sender, RoutedEventArgs e)
         {
             TabControl_Main.SelectedIndex = 4;
+        }
+
+        private void Hyperlink_Click_2(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://ai.baidu.com/tech/speech/tts_online");
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Re_TTSCat
                             Bridge.ALog("(E6) 正在获取 Access token...");
                             var rawJson =
                                 await downloader.DownloadStringTaskAsync(
-                                    $"https://openapi.baidu.com/oauth/2.0/token?grant_type=client_credentials&client_id={Vars.ApiBaiduAiAppKey}&client_secret={Vars.ApiBaiduAiSecretKey}"
+                                    $"https://openapi.baidu.com/oauth/2.0/token?grant_type=client_credentials&client_id={Vars.CurrentConf.BaiduApiKey}&client_secret={Vars.CurrentConf.BaiduApiSecretKey}"
                                     );
                             Vars.ApiBaiduAiAccessToken = JObject.Parse(rawJson)["access_token"].ToString();
                             Bridge.ALog("(E6) Token 获取成功，本次运行时或 30 天内有效");
