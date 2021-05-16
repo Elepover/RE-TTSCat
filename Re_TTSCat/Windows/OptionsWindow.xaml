@@ -488,7 +488,7 @@
                             <ComboBoxItem Content="POST: text/plain" ToolTip="使用 text/plain 编码的 POST 方法" />
                         </ComboBox>
                         <local:IconTextBlock x:Name="TextBlock_PostData" HorizontalAlignment="Left" Margin="167,219,0,0" IconGlyph="&#xF1C0;" Text="POST 数据" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_PostData" FontFamily="Consolas" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key1&quot;,&#xA;      &quot;Value&quot;: &quot;SGVsbG8gV29ybGQh&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key2&quot;,&#xA;      &quot;Value&quot;: &quot;WW91J3JlIEF3ZXNvbWUh&quot;&#xA;    }&#xA; ]&#xA;}" Margin="167,234,352,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="POST 数据" Height="59" VerticalAlignment="Top"/>
+                        <TextBox x:Name="TextBox_PostData" FontFamily="Consolas" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key1&quot;,&#xA;      &quot;Value&quot;: &quot;SGVsbG8gV29ybGQh&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key2&quot;,&#xA;      &quot;Value&quot;: &quot;WW91J3JlIEF3ZXNvbWUh&quot;&#xA;    }&#xA; ]&#xA;}" Margin="167,234,0,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="POST 数据" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320"/>
                         <local:IconTextBlock x:Name="TextBlock_Headers" HorizontalAlignment="Left" Margin="167,298,0,0" IconGlyph="&#xF1C0;" Text="自定义请求头" VerticalAlignment="Top"/>
                         <TextBox x:Name="TextBox_Headers" FontFamily="Consolas" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Accept-Encoding&quot;,&#xA;      &quot;Value&quot;: &quot;gzip&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Host&quot;,&#xA;      &quot;Value&quot;: &quot;tts.example.com&quot;&#xA;    }&#xA; ]&#xA;}" Margin="167,313,0,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="请求头数据，JSON 格式，与 POST 数据格式保持一致" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320"/>
                         <local:IconTextBlock x:Name="TextBlock_BaiduApiKey" Margin="0,5,162,0" IconGlyph="&#xF023;" Text="百度高级版 API 公钥" VerticalAlignment="Top" HorizontalAlignment="Right" Width="129"/>
@@ -631,11 +631,12 @@
                                                 <TextBlock.TextDecorations>
                                                     <TextDecoration Location="Strikethrough">
                                                         <TextDecoration.Pen>
-                                                            <Pen Brush="White" Thickness="3"/>
+                                                            <Pen Brush="White" Thickness="2"/>
                                                         </TextDecoration.Pen>
                                                     </TextDecoration>
                                                 </TextBlock.TextDecorations>
                                                 系统信息<LineBreak/>
+                                                应用数据<LineBreak/>
                                                 诊断数据<LineBreak/>
                                                 统计数据<LineBreak/>
                                                 用户行为数据
@@ -694,8 +695,7 @@
                                             <TextBlock Style="{StaticResource IconCaptionStyle}" Text="用爱发电"/>
                                         </StackPanel>
                                         <TextBlock Style="{StaticResource CaptionStyle}">
-                                            Re: TTSCat 生来开放，未来也将继续保持开放。它曾经免费，未来也将继续免费。开发和维护的动力只源自于用户和社区的支持。<LineBreak/><LineBreak/>
-                                            也谢谢你读到了这里 <Run FontFamily="Consolas">:)</Run>
+                                            Re: TTSCat 生来开放，未来也将继续保持开放。它曾经免费，未来也将继续免费。开发和维护的动力只源自于用户和社区的支持。
                                         </TextBlock>
                                     </Grid>
                                 </Border>
@@ -731,29 +731,93 @@
                                         <TextBlock Style="{StaticResource CaptionStyle}">
                                             Re: TTSCat 运行过程中会产生语音缓存，同时也能降低内存占用。许多软件在运行过程中都会产生缓存文件，而缓存堆积会占用存储空间并影响性能。<LineBreak/><LineBreak/>
                                             插件产生的这些缓存文件在默认情况下会在下次启动弹幕姬或重启 Windows 后被自动清理，释放空间，无需您进行任何额外操作。<LineBreak/><LineBreak/>
-                                            您也可以启用<Run FontWeight="Bold">不保留缓存选项</Run>，使插件在使用完毕缓存文件后立刻删除它们。
+                                            您也可以启用<Run FontWeight="Bold">不保留缓存</Run>选项，使插件在使用完毕缓存文件后立刻删除它们。
                                         </TextBlock>
                                     </Grid>
                                 </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="Orchid" Offset="0.0"/>
+                                            <GradientStop Color="HotPink" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF599;"/>
+                                            <TextBlock Style="{StaticResource IconCaptionStyle}" Text="安心省事"/>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource CaptionStyle}">
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 开箱即用<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 开放自由<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 自动启动<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 自动更新<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 不留垃圾<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 不收集数据<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 自动缓存清理
+                                            </TextBlock>
+                                            <TextBlock Style="{StaticResource CaptionStyle}">
+                                                只管安安心心的直播，至于剩下的杂七杂八的事情，交给 Re: TTSCat 帮你打理就好。
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="DarkCyan" Offset="0.0"/>
+                                            <GradientStop Color="Teal" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF520;" HorizontalAlignment="Center"/>
+                                        <TextBlock Style="{StaticResource IconCaptionStyle}" Text="致谢" HorizontalAlignment="Center"/>
+                                        <TextBlock TextAlignment="Center" MaxWidth="600" Margin="0,10,0,0" Style="{StaticResource CaptionStyle}" HorizontalAlignment="Center">
+                                            <Run FontWeight="Bold">排序不分先后</Run><LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF121;</Run> <Run FontWeight="Bold">代码贡献</Run><LineBreak/>
+                                            copyliu<LineBreak/>
+                                            Genteure<LineBreak/>
+                                            linnjoy<LineBreak/>
+                                            Stack Overflow<LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF520;</Run> <Run FontWeight="Bold">小伙伴们</Run><LineBreak/>
+                                            开发者和他的小伙伴们<LineBreak/>
+                                            提出各种新功能想法的小伙伴<LineBreak/>
+                                            插件捐赠者<LineBreak/>
+                                            正在阅读这里的你<LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF013;</Run> <Run FontWeight="Bold">开源框架</Run><LineBreak/>
+                                            <Run FontWeight="Bold">Newtonsoft.Json</Run> - MIT License<LineBreak/>
+                                            版权所有 © 2007 James Newton-King<LineBreak/>
+                                            <Run FontWeight="Bold">NAudio</Run> - MIT License<LineBreak/>
+                                            版权所有 © 2020 Mark Heath<LineBreak/>
+                                            <Run FontWeight="Bold">Font Awesome</Run> - SIL Open Font License 1.1<LineBreak/>
+                                            Font Awesome by Dave Gandy - http://fontawesome.io<LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF233;</Run> <Run FontWeight="Bold">基础架构支持</Run><LineBreak/>
+                                            GitHub<LineBreak/>
+                                            AppVeyor<LineBreak/>
+                                            Genteure - 弹幕姬官网<LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF1F9;</Run> <Run FontWeight="Bold">版权信息</Run><LineBreak/>
+                                            Copyright (C) 2021 Elepover.<LineBreak/>
+                                            <LineBreak/>
+                                            This program is free software: you can redistribute it and/or modify<LineBreak/>
+                                            it under the terms of the GNU General Public License as published by<LineBreak/>
+                                            the Free Software Foundation, either version 3 of the License, or<LineBreak/>
+                                            (at your option) any later version.<LineBreak/>
+                                            <LineBreak/>
+                                            This program is distributed in the hope that it will be useful,<LineBreak/>
+                                            but WITHOUT ANY WARRANTY; without even the implied warranty of<LineBreak/>
+                                            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<LineBreak/>
+                                            GNU General Public License for more details.<LineBreak/>
+                                            <LineBreak/>
+                                            You should have received a copy of the GNU General Public License<LineBreak/>
+                                            along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.<LineBreak/>
+                                            <LineBreak/>
+                                            <Run FontSize="12">于此纪念我逝去的一位朋友，愿你于冥冥之中永远快乐。</Run>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
                         </ScrollViewer>
-                        <TextBlock Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontFamily="{StaticResource FontAwesome}" FontSize="30" Text="&#xF0AB;">
-                            <TextBlock.Triggers>
-                                <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <ColorAnimation
-                                                Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"
-                                                From="Black" To="Transparent" Duration="0:0:2">
-                                                <ColorAnimation.EasingFunction>
-                                                    <PowerEase EasingMode="EaseIn" Power="20"/>
-                                                </ColorAnimation.EasingFunction>
-                                            </ColorAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </TextBlock.Triggers>
-                        </TextBlock>
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="TabItem_DebugOptions">
