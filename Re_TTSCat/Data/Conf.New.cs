@@ -71,6 +71,7 @@ namespace Re_TTSCat.Data
             AutoFallback = true;
             UseDirectSound = true;
             FullyAutomaticUpdate = true;
+            AutoBaiduFallback = true;
             HttpAuth = false;
             HttpAuthPassword = "";
             HttpAuthUsername = "";

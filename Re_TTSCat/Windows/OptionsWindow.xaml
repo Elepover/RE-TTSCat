@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理"
-        MinHeight="610" Height="610"
+        MinHeight="620" Height="620"
         MinWidth="850" Width="850"
         Closing="Window_Closing">
     <Window.Resources>
@@ -180,7 +180,7 @@
                                 <TextBox x:Name="TextBox_GuardBuy" Height="23" Text="" ToolTip="自定义船员上船时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 上船的船员名称&#xA;$COUNT - 上船月份数目"/>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
-                                <local:IconTextBlock IconGlyph="&#xF507;" Text="老爷进入时，朗读以下内容："/>
+                                <local:IconTextBlock IconGlyph="&#xF521;" Text="老爷进入时，朗读以下内容："/>
                                 <TextBox x:Name="TextBox_Welcome" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义老爷进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 老爷的用户名"/>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
@@ -188,7 +188,7 @@
                                 <TextBox x:Name="TextBox_WelcomeGuard" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义船员进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 船员的用户名"/>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
-                                <local:IconTextBlock IconGlyph="&#xF085;" Text="自定义头衔："/>
+                                <local:IconTextBlock IconGlyph="&#xF02C;" Text="自定义头衔："/>
                                 <TextBox x:Name="TextBox_CustomTitles" Height="23" TextWrapping="Wrap" Text="" ToolTip="顺序: 老爷/普通用户/总督/提督/舰长"/>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
@@ -497,7 +497,7 @@
                         </TextBlock>
                         <TextBox x:Name="TextBox_BaiduApiKey" FontFamily="Consolas" VerticalAlignment="Top" Margin="0,20,5,0" ToolTip="百度高级版引擎的 API 公钥" HorizontalAlignment="Right" Width="286" />
                         <local:IconTextBlock x:Name="TextBlock_BaiduApiSecretKey" Margin="0,41,161,0" IconGlyph="&#xF084;" Text="百度高级版 API 私钥" VerticalAlignment="Top" HorizontalAlignment="Right" Width="130"/>
-                        <PasswordBox x:Name="TextBox_BaiduApiSecretKey" VerticalAlignment="Top" Margin="0,56,5,0" ToolTip="百度高级版引擎的 API 公钥" HorizontalAlignment="Right" Width="286" />
+                        <PasswordBox x:Name="TextBox_BaiduApiSecretKey" VerticalAlignment="Top" Margin="0,56,5,0" ToolTip="百度高级版引擎的 API 私钥" HorizontalAlignment="Right" Width="286" />
                         <Button x:Name="Button_ClearCache" Margin="0,0,85,5" HorizontalAlignment="Right" Width="75" Click="Button_ClearCache_Click" Height="25" VerticalAlignment="Bottom">
                             <local:IconTextBlock IconGlyph="&#xF2ED;" Text="清理缓存"/>
                         </Button>
@@ -565,7 +565,6 @@
                         <Button x:Name="Button_Suggestions" HorizontalAlignment="Right" Margin="0,2.5,5,0" VerticalAlignment="Top" Width="85" Height="25" ToolTip="前往作者的留言板&#xA;我会尽快回复相关建议，但不一定准时准点，感谢理解" Click="Button_Suggestions_Click">
                             <local:IconTextBlock IconGlyph="&#xF27A;" Text="留言板"/>
                         </Button>
-                        <TextBox x:Name="TextBox_Debug" Visibility="Collapsed" FontFamily="Consolas" Margin="5,30,5,5" TextWrapping="NoWrap" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" AcceptsReturn="True" IsReadOnly="True" ToolTip="这里是我们收集到的一些有助于调试的信息"/>
                         <ScrollViewer Margin="15,35,15,15">
                             <StackPanel>
                                 <StackPanel.Resources>
@@ -776,7 +775,7 @@
                                         <TextBlock TextAlignment="Center" MaxWidth="600" Margin="0,10,0,0" Style="{StaticResource CaptionStyle}" HorizontalAlignment="Center">
                                             <Run FontWeight="Bold">排序不分先后</Run><LineBreak/>
                                             <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF121;</Run> <Run FontWeight="Bold">代码贡献</Run><LineBreak/>
-                                            copyliu<LineBreak/>
+                                            CopyLiu<LineBreak/>
                                             Genteure<LineBreak/>
                                             linnjoy<LineBreak/>
                                             Stack Overflow<LineBreak/>
@@ -818,6 +817,7 @@
                                 </Border>
                             </StackPanel>
                         </ScrollViewer>
+                        <TextBox x:Name="TextBox_Debug" Visibility="Collapsed" FontFamily="Consolas" Margin="5,30,5,5" TextWrapping="NoWrap" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" AcceptsReturn="True" IsReadOnly="True" ToolTip="这里是我们收集到的一些有助于调试的信息"/>
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="TabItem_DebugOptions">
@@ -851,6 +851,7 @@
                             </TextBlock>
                         </CheckBox>
                         <CheckBox x:Name="CheckBox_UrlEncode" Content="合成语音前将文本进行 URL 编码" IsChecked="True" HorizontalAlignment="Left" Margin="5,310,0,0" VerticalAlignment="Top"/>
+                        <CheckBox x:Name="CheckBox_AutoBaiduFallback" Content="版本过渡 - 百度高级版公钥为空时自动回落到百度引擎" IsChecked="True" HorizontalAlignment="Left" Margin="5,330,0,0" VerticalAlignment="Top"/>
                         <TextBlock HorizontalAlignment="Left" Margin="5,0,0,56.5" TextWrapping="Wrap" Text="执行结果" Height="15" VerticalAlignment="Bottom"/>
                         <TextBox x:Name="TextBox_ExecutionResult" IsReadOnly="True" FontFamily="Consolas" Margin="5,0,5,40.5" TextWrapping="Wrap" Height="16" VerticalAlignment="Bottom"/>
                         <TextBlock Margin="5,0,5,5" TextWrapping="Wrap" TextAlignment="Center" FontSize="12" VerticalAlignment="Bottom">

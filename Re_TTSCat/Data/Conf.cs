@@ -210,6 +210,10 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool FullyAutomaticUpdate { get; set; }
         /// <summary>
+        /// 百度高级版密钥为空时自动回落，仅检查公钥
+        /// </summary>
+        public bool AutoBaiduFallback { get; set; }
+        /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
         public bool HttpAuth { get; set; }

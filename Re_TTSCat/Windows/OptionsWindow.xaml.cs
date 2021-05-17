@@ -329,6 +329,7 @@ namespace Re_TTSCat.Windows
             Vars.CurrentConf.IgnoreIfHitVoiceReply = CheckBox_IgnoreIfHit.IsChecked ?? false;
             Vars.CurrentConf.AutoFallback = CheckBox_AutoFallback.IsChecked ?? true;
             Vars.CurrentConf.UseDirectSound = CheckBox_UseDirectSound.IsChecked ?? true;
+            Vars.CurrentConf.AutoBaiduFallback = CheckBox_AutoBaiduFallback.IsChecked ?? true;
             Vars.CurrentConf.BlockUID = ComboBox_BlockType.SelectedIndex == 0;
             Vars.CurrentConf.MinimumDanmakuLength = (int)Math.Round(Slider_DMLengthLimit.Value);
             Vars.CurrentConf.MaximumDanmakuLength = (int)Math.Round(Slider_DMLengthLimitMax.Value);
@@ -429,6 +430,7 @@ namespace Re_TTSCat.Windows
             CheckBox_IgnoreIfHit.IsChecked = Vars.CurrentConf.IgnoreIfHitVoiceReply;
             CheckBox_AutoFallback.IsChecked = Vars.CurrentConf.AutoFallback;
             CheckBox_UseDirectSound.IsChecked = Vars.CurrentConf.UseDirectSound;
+            CheckBox_AutoBaiduFallback.IsChecked = Vars.CurrentConf.AutoBaiduFallback;
             Slider_DMLengthLimit.Value = Vars.CurrentConf.MinimumDanmakuLength;
             Slider_DMLengthLimitMax.Value = Vars.CurrentConf.MaximumDanmakuLength;
             Slider_ReadPossibility.Value = Vars.CurrentConf.ReadPossibility;
@@ -506,7 +508,7 @@ namespace Re_TTSCat.Windows
             TextBox_WelcomeGuard.Text = Vars.CurrentConf.OnWelcomeGuard;
             TextBox_CustomTitles.Text = $"{Vars.CurrentConf.CustomVIP}/{Vars.CurrentConf.CustomGuardLevel0}/{Vars.CurrentConf.CustomGuardLevel1}/{Vars.CurrentConf.CustomGuardLevel2}/{Vars.CurrentConf.CustomGuardLevel3}";
             TextBox_SuperAdminWarnings.Text = Vars.CurrentConf.OnWarning;
-            Label_AboutTitle.Text = $"Re: TTSCat - Delta ({Vars.CurrentVersion})";
+            Label_AboutTitle.Text = $"Re: TTSCat - Elliptical ({Vars.CurrentVersion})";
             voiceReplyRulesDataSource.Clear();
             foreach (var item in Vars.CurrentConf.VoiceReplyRules)
                 voiceReplyRulesDataSource.Add(item);
