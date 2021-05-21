@@ -163,7 +163,7 @@ namespace Re_TTSCat.Windows
                         _ = result.Append($" / avg {listPing[i].Average()}");
                         _ = result.Append($" / ↓ {listPing[i].Min()}");
                         _ = result.Append($" / ↑ {listPing[i].Max()}");
-                        _ = result.Append($" / stdev {Math.Round(Math.Sqrt(listPing[i].Average(x => x * x) - Math.Pow(listPing[i].Average(), 2)), 2)}{Environment.NewLine}");
+                        _ = result.Append($" / stddev {Math.Round(Math.Sqrt(listPing[i].Average(x => x * x) - Math.Pow(listPing[i].Average(), 2)), 2)}{Environment.NewLine}");
                         i++;
                     }
                     window.IsOpen = false;

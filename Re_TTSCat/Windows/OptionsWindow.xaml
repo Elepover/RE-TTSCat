@@ -796,22 +796,24 @@
                                             AppVeyor<LineBreak/>
                                             Genteure - 弹幕姬官网<LineBreak/>
                                             <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF1F9;</Run> <Run FontWeight="Bold">版权信息</Run><LineBreak/>
-                                            Copyright (C) 2021 Elepover.<LineBreak/>
-                                            <LineBreak/>
-                                            This program is free software: you can redistribute it and/or modify<LineBreak/>
-                                            it under the terms of the GNU General Public License as published by<LineBreak/>
-                                            the Free Software Foundation, either version 3 of the License, or<LineBreak/>
-                                            (at your option) any later version.<LineBreak/>
-                                            <LineBreak/>
-                                            This program is distributed in the hope that it will be useful,<LineBreak/>
-                                            but WITHOUT ANY WARRANTY; without even the implied warranty of<LineBreak/>
-                                            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<LineBreak/>
-                                            GNU General Public License for more details.<LineBreak/>
-                                            <LineBreak/>
-                                            You should have received a copy of the GNU General Public License<LineBreak/>
-                                            along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.<LineBreak/>
-                                            <LineBreak/>
-                                            <Run FontSize="12">于此纪念我逝去的一位朋友，愿你不再受人间苦痛。</Run>
+                                            Copyright (C) 2021 Elepover.
+                                        </TextBlock>
+                                        <TextBlock Style="{StaticResource IconCaptionStyle}" TextAlignment="Center" FontWeight="Regular" FontSize="12" HorizontalAlignment="Center" FontFamily="Consolas">
+                                                This program is free software: you can redistribute it and/or modify<LineBreak/>
+                                                it under the terms of the GNU General Public License as published by<LineBreak/>
+                                                the Free Software Foundation, either version 3 of the License, or<LineBreak/>
+                                                (at your option) any later version.<LineBreak/>
+                                                <LineBreak/>
+                                                This program is distributed in the hope that it will be useful,<LineBreak/>
+                                                but WITHOUT ANY WARRANTY; without even the implied warranty of<LineBreak/>
+                                                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<LineBreak/>
+                                                GNU General Public License for more details.<LineBreak/>
+                                                <LineBreak/>
+                                                You should have received a copy of the GNU General Public License<LineBreak/>
+                                                along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+                                        </TextBlock>
+                                        <TextBlock Style="{StaticResource IconCaptionStyle}" HorizontalAlignment="Center" FontSize="12">
+                                            于此纪念我逝去的一位朋友，愿你不再受人间苦痛。
                                         </TextBlock>
                                     </StackPanel>
                                 </Border>
