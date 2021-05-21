@@ -387,7 +387,7 @@
                                     <ComboBoxItem Content="百度（粤语）" ToolTip="粤语 TTS 引擎！"/>
                                     <ComboBoxItem Content="有道（未经加密）" ToolTip="使用网易有道 TTS 引擎&#xA;&#xA;该引擎使用时与服务器的连接未经加密，请酌情使用"/>
                                     <ComboBoxItem Content="用户自定义引擎" ToolTip="使用您在右侧自定义的 TTS 引擎&#xA;&#xA;使用 $TTSTEXT 来代替需要读出的文本"/>
-                                    <ComboBoxItem Content="百度（高级版）" ToolTip="使用百度高级 TTS 引擎"/>
+                                    <ComboBoxItem Content="百度（高级版）" ToolTip="使用百度高级 TTS 引擎&#xA;&#xA;您需要在右侧指定百度高级版语音合成引擎的 API 密钥，否则无法正常使用。"/>
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
@@ -811,7 +811,7 @@
                                             You should have received a copy of the GNU General Public License<LineBreak/>
                                             along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.<LineBreak/>
                                             <LineBreak/>
-                                            <Run FontSize="12">于此纪念我逝去的一位朋友，愿你于冥冥之中永远快乐。</Run>
+                                            <Run FontSize="12">于此纪念我逝去的一位朋友，愿你不再受人间苦痛。</Run>
                                         </TextBlock>
                                     </StackPanel>
                                 </Border>
