@@ -1,4 +1,5 @@
 ﻿using BilibiliDM_PluginFramework;
+using System.Text.RegularExpressions;
 using System;
 
 namespace Re_TTSCat.Data
@@ -7,6 +8,7 @@ namespace Re_TTSCat.Data
     {
         public static bool CheckKeywordEligibility(string content)
         {
+            // i know this is shit code but hey YOLO
             switch (Vars.CurrentConf.KeywordBlockMode)
             {
                 default:
@@ -23,6 +25,20 @@ namespace Re_TTSCat.Data
                     foreach (string keyword in list2)
                     {
                         if (content.Contains(keyword)) return true;
+                    }
+                    return false;
+                case 3:
+                    var list3 = Vars.CurrentConf.KeywordBlackList.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string keyword in list3)
+                    {
+                        if (new Regex(keyword).Match(content).Success) return false;
+                    }
+                    return true;
+                case 4:
+                    var list4 = Vars.CurrentConf.KeywordWhiteList.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string keyword in list4)
+                    {
+                        if (new Regex(keyword).Match(content).Success) return true;
                     }
                     return false;
             }

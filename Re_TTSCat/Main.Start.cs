@@ -22,13 +22,6 @@ namespace Re_TTSCat
                 ALog("配置初始化成功");
                 ALog("正在启用播放器");
                 TTSPlayer.Init();
-                loadWindow.ProgressBar.Value = 80; Conf.Delay(10);
-                if (Vars.CurrentConf.AutoUpdate)
-                {
-                    ALog("正在启动更新检查");
-                    Thread updateChecker = new Thread(() => UpdateThread());
-                    updateChecker.Start();
-                }
                 loadWindow.ProgressBar.Value = 100; Conf.Delay(10);
                 loadWindow.IsOpen = false;
                 Log("启动成功");

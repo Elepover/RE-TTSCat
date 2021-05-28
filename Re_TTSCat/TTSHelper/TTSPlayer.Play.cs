@@ -19,29 +19,39 @@ namespace Re_TTSCat
                 {
                     using (var reader = new AudioFileReader(filename))
                     {
-                        bool exists = false;
-                        var targetDevice = Vars.CurrentConf.DeviceGuid;
-                        foreach (var dev in DirectSoundOut.Devices)
+                        IWavePlayer waveOut;
+                        if (Vars.CurrentConf.UseDirectSound)
                         {
-                            if (dev.Guid == Vars.CurrentConf.DeviceGuid)
+                            bool exists = false;
+                            var targetDevice = Vars.CurrentConf.DeviceGuid;
+                            foreach (var dev in DirectSoundOut.Devices)
                             {
-                                exists = true;
-                                break;
+                                if (dev.Guid == Vars.CurrentConf.DeviceGuid)
+                                {
+                                    exists = true;
+                                    break;
+                                }
                             }
+                            if (!exists)
+                            {
+                                if (Vars.CurrentConf.AutoFallback)
+                                {
+                                    Bridge.ALog($"设备 {Vars.CurrentConf.DeviceGuid} 不存在，正在自动回落到默认设备。");
+                                    targetDevice = Conf.DefaultDeviceGuid;
+                                }
+                                else
+                                {
+                                    throw new ArgumentOutOfRangeException($"设备 {Vars.CurrentConf.DeviceGuid} 不存在。");
+                                }
+                            }
+                            waveOut = new DirectSoundOut(targetDevice);
                         }
-                        if (!exists)
+                        else
                         {
-                            if (Vars.CurrentConf.AutoFallback)
-                            {
-                                Bridge.ALog($"设备 {Vars.CurrentConf.DeviceGuid} 不存在，正在自动回落到默认设备。");
-                                targetDevice = Conf.DefaultDeviceGuid;
-                            }
-                            else
-                            {
-                                throw new ArgumentOutOfRangeException($"设备 {Vars.CurrentConf.DeviceGuid} 不存在。");
-                            }
+                            waveOut = new WaveOutEvent();
                         }
-                        using (var waveOut = new DirectSoundOut(targetDevice))
+                        
+                        using (waveOut)
                         {
                             waveOut.Init(reader);
                             reader.Volume = Volume;

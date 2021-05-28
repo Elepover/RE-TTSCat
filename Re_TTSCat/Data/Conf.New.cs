@@ -69,13 +69,17 @@ namespace Re_TTSCat.Data
             IgnoreIfHitVoiceReply = false;
             DeviceGuid = DefaultDeviceGuid;
             AutoFallback = true;
+            UseDirectSound = true;
             FullyAutomaticUpdate = true;
+            AutoBaiduFallback = true;
             HttpAuth = false;
             HttpAuthPassword = "";
             HttpAuthUsername = "";
             Headers = new List<Header>();
             ReqType = RequestType.JustGet;
             PostData = "";
+            BaiduApiKey = "";
+            BaiduApiSecretKey = "";
 
             CustomEngineURL = "https://tts.example.com/?text=$TTSTEXT";
             OnConnected = "已成功连接至房间: $ROOM";

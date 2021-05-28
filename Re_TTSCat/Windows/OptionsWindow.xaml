@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Re_TTSCat.Windows"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Re: TTSCat - 插件管理"
-        MinHeight="570" Height="570"
+        MinHeight="620" Height="620"
         MinWidth="850" Width="850"
         Closing="Window_Closing">
     <Window.Resources>
@@ -19,7 +19,7 @@
     <Grid>
         <Grid x:Name="Grid_Master">
             <CheckBox x:Name="CheckBox_IsPluginActive" IsEnabled="False" Margin="0,3,3,0" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="插件的运行状态&#xA;&#xA;此处无法切换插件状态，请使用弹幕姬本体插件管理">
-                <local:IconTextBlock IconGlyph="&#xF5E7;" Text="插件已启用"/>
+                <local:IconTextBlock IconGlyph="&#xF0E7;" Text="插件已启用"/>
             </CheckBox>
             <TabControl x:Name="TabControl_Main" Margin="0,0,0,60">
                 <TabItem>
@@ -83,9 +83,10 @@
                                     <local:IconTextBlock IconGlyph="&#xF028;" Text="音频"/>
                                 </TreeViewItem.Header>
                                 <StackPanel>
-                                    <TextBlock Text="选择音频输出设备" Margin="-18.7,2.5,0,2.5"/>
-                                    <ComboBox x:Name="ComboBox_OutputDevice" Width="400" Margin="-18.7,0,0,2.5" ToolTip="选择音频输出设备。"/>
-                                    <CheckBox x:Name="CheckBox_AutoFallback" Content="所选设备不可用时，自动切换回默认音频设备"/>
+                                    <CheckBox x:Name="CheckBox_UseDirectSound" Content="使用 DirectSound 输出" ToolTip="使用 DirectSound 作为音频输出接口。&#xA;DirectSound 通常具有更佳性能和更小占用，并允许您选择特定的输出设备。&#xA;&#xA;此功能可能会在部分声卡设备上产生杂音，如果您遇到了此类问题，请尝试禁用此选项。"/>
+                                    <local:IconTextBlock IconGlyph="&#xF074;" Text="选择音频输出设备"/>
+                                    <ComboBox x:Name="ComboBox_OutputDevice" IsEnabled="{Binding ElementName=CheckBox_UseDirectSound, Path=IsChecked}" Width="400" ToolTip="选择音频输出设备。"/>
+                                    <CheckBox x:Name="CheckBox_AutoFallback" IsEnabled="{Binding ElementName=CheckBox_UseDirectSound, Path=IsChecked}" Margin="0,5,0,0" Content="所选设备不可用时，自动切换回默认音频设备"/>
                                 </StackPanel>
                             </TreeViewItem>
                         </TreeView>
@@ -179,7 +180,7 @@
                                 <TextBox x:Name="TextBox_GuardBuy" Height="23" Text="" ToolTip="自定义船员上船时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 上船的船员名称&#xA;$COUNT - 上船月份数目"/>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
-                                <local:IconTextBlock IconGlyph="&#xF507;" Text="老爷进入时，朗读以下内容："/>
+                                <local:IconTextBlock IconGlyph="&#xF521;" Text="老爷进入时，朗读以下内容："/>
                                 <TextBox x:Name="TextBox_Welcome" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义老爷进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 老爷的用户名"/>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
@@ -187,7 +188,7 @@
                                 <TextBox x:Name="TextBox_WelcomeGuard" Height="23" TextWrapping="Wrap" Text="" ToolTip="自定义船员进入时的读出内容&#xA;&#xA;可用变量:&#xA;$USER - 船员的用户名"/>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
-                                <local:IconTextBlock IconGlyph="&#xF085;" Text="自定义头衔："/>
+                                <local:IconTextBlock IconGlyph="&#xF02C;" Text="自定义头衔："/>
                                 <TextBox x:Name="TextBox_CustomTitles" Height="23" TextWrapping="Wrap" Text="" ToolTip="顺序: 老爷/普通用户/总督/提督/舰长"/>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
@@ -248,10 +249,10 @@
                         <CheckBox Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="CheckBox_EnableVoiceReply">
                             <local:IconTextBlock IconGlyph="&#xF130;" Text="启用语音答复" ToolTip="启用后，插件可对观众的弹幕自动作出回应"/>
                         </CheckBox>
-                        <Button Margin="0,5,95,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="85" x:Name="Button_DeleteRule" Click="Button_DeleteRule_Click">
+                        <Button Margin="0,5,95,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="27.5" Width="85" x:Name="Button_DeleteRule" Click="Button_DeleteRule_Click">
                             <local:IconTextBlock IconGlyph="&#xF2ED;" Text="删除规则" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
-                        <Button Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="85" x:Name="Button_AddRule" Click="Button_AddRule_Click">
+                        <Button Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top" Height="27.5" Width="85" x:Name="Button_AddRule" Click="Button_AddRule_Click">
                             <local:IconTextBlock IconGlyph="&#xF067;" Text="新增规则" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Button>
                         <local:IconTextBlock Margin="5,25,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IconGlyph="&#xF5AE;" Text="规则列表"/>
@@ -386,7 +387,7 @@
                                     <ComboBoxItem Content="百度（粤语）" ToolTip="粤语 TTS 引擎！"/>
                                     <ComboBoxItem Content="有道（未经加密）" ToolTip="使用网易有道 TTS 引擎&#xA;&#xA;该引擎使用时与服务器的连接未经加密，请酌情使用"/>
                                     <ComboBoxItem Content="用户自定义引擎" ToolTip="使用您在右侧自定义的 TTS 引擎&#xA;&#xA;使用 $TTSTEXT 来代替需要读出的文本"/>
-                                    <ComboBoxItem Content="百度（高级版）" ToolTip="使用百度高级 TTS 引擎"/>
+                                    <ComboBoxItem Content="百度（高级版）" ToolTip="使用百度高级 TTS 引擎&#xA;&#xA;您需要在右侧指定百度高级版语音合成引擎的 API 密钥，否则无法正常使用。"/>
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Margin="0,5,0,0">
@@ -472,6 +473,9 @@
                         <CheckBox x:Name="CheckBox_EnableHTTPAuth" IsChecked="False" HorizontalAlignment="Left" Margin="167,84,0,0" VerticalAlignment="Top" ToolTip="如您的自定义 TTS 引擎需要 HTTP 身份验证，请勾选" Checked="CheckBox_EnableHTTPAuth_Checked" Unchecked="CheckBox_EnableHTTPAuth_Unchecked">
                             <local:IconTextBlock IconGlyph="&#xF13E;" Text="启用 HTTP 身份验证"/>
                         </CheckBox>
+                        <CheckBox x:Name="CheckBox_AllowDownloadMessage" IsChecked="True" HorizontalAlignment="Left" Margin="372,84,0,0" VerticalAlignment="Top" ToolTip="允许插件下载管理面板底部消息">
+                            <local:IconTextBlock IconGlyph="&#xF381;" Text="允许下载消息"/>
+                        </CheckBox>
                         <local:IconTextBlock HorizontalAlignment="Left" Margin="167,104,0,0" IconGlyph="&#xF007;" Text="用户名" VerticalAlignment="Top"/>
                         <TextBox x:Name="TextBox_HTTPAuthUsername" IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="167,119,0,0" Width="320" ToolTip="HTTP 身份验证用户名" />
                         <local:IconTextBlock HorizontalAlignment="Left" Margin="167,141,0,0" IconGlyph="&#xF084;" Text="密码" VerticalAlignment="Top"/>
@@ -484,16 +488,20 @@
                             <ComboBoxItem Content="POST: text/plain" ToolTip="使用 text/plain 编码的 POST 方法" />
                         </ComboBox>
                         <local:IconTextBlock x:Name="TextBlock_PostData" HorizontalAlignment="Left" Margin="167,219,0,0" IconGlyph="&#xF1C0;" Text="POST 数据" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_PostData" FontFamily="Consolas" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key1&quot;,&#xA;      &quot;Value&quot;: &quot;SGVsbG8gV29ybGQh&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key2&quot;,&#xA;      &quot;Value&quot;: &quot;WW91J3JlIEF3ZXNvbWUh&quot;&#xA;    }&#xA; ]&#xA;}" Margin="167,234,352,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="POST 数据" Height="59" VerticalAlignment="Top"/>
-                        <local:IconTextBlock x:Name="TextBlock_Headers" HorizontalAlignment="Left" Margin="548,5,0,0" IconGlyph="&#xF1C0;" Text="自定义请求头" VerticalAlignment="Top"/>
-                        <TextBox x:Name="TextBox_Headers" FontFamily="Consolas" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Accept-Encoding&quot;,&#xA;      &quot;Value&quot;: &quot;gzip&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Host&quot;,&#xA;      &quot;Value&quot;: &quot;tts.example.com&quot;&#xA;    }&#xA; ]&#xA;}" Margin="0,20,5,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="请求头数据，JSON 格式，与 POST 数据格式保持一致" Height="59" VerticalAlignment="Top" HorizontalAlignment="Right" Width="286"/>
-                        <CheckBox x:Name="CheckBox_AllowDownloadMessage" IsChecked="True" HorizontalAlignment="Left" Margin="372,84,0,0" VerticalAlignment="Top" ToolTip="允许插件下载管理面板底部消息">
-                            <local:IconTextBlock IconGlyph="&#xF381;" Text="允许下载消息"/>
-                        </CheckBox>
-                        <Button x:Name="Button_ClearCache" Margin="0,0,85,5" HorizontalAlignment="Right" Width="75" Click="Button_ClearCache_Click" Height="20" VerticalAlignment="Bottom">
+                        <TextBox x:Name="TextBox_PostData" FontFamily="Consolas" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key1&quot;,&#xA;      &quot;Value&quot;: &quot;SGVsbG8gV29ybGQh&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Key2&quot;,&#xA;      &quot;Value&quot;: &quot;WW91J3JlIEF3ZXNvbWUh&quot;&#xA;    }&#xA; ]&#xA;}" Margin="167,234,0,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="POST 数据" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320"/>
+                        <local:IconTextBlock x:Name="TextBlock_Headers" HorizontalAlignment="Left" Margin="167,298,0,0" IconGlyph="&#xF1C0;" Text="自定义请求头" VerticalAlignment="Top"/>
+                        <TextBox x:Name="TextBox_Headers" FontFamily="Consolas" TextWrapping="Wrap" Text="{}{&#xA;  [&#xA;    {&#xA;      &quot;Name&quot;: &quot;Accept-Encoding&quot;,&#xA;      &quot;Value&quot;: &quot;gzip&quot;,&#xA;    },&#xA;    {&#xA;      &quot;Name&quot;: &quot;Host&quot;,&#xA;      &quot;Value&quot;: &quot;tts.example.com&quot;&#xA;    }&#xA; ]&#xA;}" Margin="167,313,0,0" AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ToolTip="请求头数据，JSON 格式，与 POST 数据格式保持一致" Height="59" VerticalAlignment="Top" HorizontalAlignment="Left" Width="320"/>
+                        <local:IconTextBlock x:Name="TextBlock_BaiduApiKey" Margin="0,5,162,0" IconGlyph="&#xF023;" Text="百度高级版 API 公钥" VerticalAlignment="Top" HorizontalAlignment="Right" Width="129"/>
+                        <TextBlock Margin="0,5,5,0" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Hyperlink Click="Hyperlink_Click_2" ToolTip="在百度官网了解高级版接口的收费及密钥获取方法">了解更多</Hyperlink>
+                        </TextBlock>
+                        <TextBox x:Name="TextBox_BaiduApiKey" FontFamily="Consolas" VerticalAlignment="Top" Margin="0,20,5,0" ToolTip="百度高级版引擎的 API 公钥" HorizontalAlignment="Right" Width="286" />
+                        <local:IconTextBlock x:Name="TextBlock_BaiduApiSecretKey" Margin="0,41,161,0" IconGlyph="&#xF084;" Text="百度高级版 API 私钥" VerticalAlignment="Top" HorizontalAlignment="Right" Width="130"/>
+                        <PasswordBox x:Name="TextBox_BaiduApiSecretKey" VerticalAlignment="Top" Margin="0,56,5,0" ToolTip="百度高级版引擎的 API 私钥" HorizontalAlignment="Right" Width="286" />
+                        <Button x:Name="Button_ClearCache" Margin="0,0,85,5" HorizontalAlignment="Right" Width="75" Click="Button_ClearCache_Click" Height="25" VerticalAlignment="Bottom">
                             <local:IconTextBlock IconGlyph="&#xF2ED;" Text="清理缓存"/>
                         </Button>
-                        <Button x:Name="Button_Reset" Margin="0,0,5,5" ToolTip="将所有配置还原为默认值" HorizontalAlignment="Right" Width="75" Click="Button_Reset_Click" Height="20" VerticalAlignment="Bottom">
+                        <Button x:Name="Button_Reset" Margin="0,0,5,5" ToolTip="将所有配置还原为默认值" HorizontalAlignment="Right" Width="75" Click="Button_Reset_Click" Height="25" VerticalAlignment="Bottom">
                             <local:IconTextBlock IconGlyph="&#xF011;" Text="重置设置"/>
                         </Button>
                     </Grid>
@@ -528,6 +536,8 @@
                             <ComboBoxItem Content="关闭"/>
                             <ComboBoxItem Content="黑名单"/>
                             <ComboBoxItem Content="白名单"/>
+                            <ComboBoxItem Content="正则表达式黑名单"/>
+                            <ComboBoxItem Content="正则表达式白名单"/>
                         </ComboBox>
                         <TextBlock x:Name="Label_KeywordBlacklist" HorizontalAlignment="Left" Margin="415,46,0,0" TextWrapping="Wrap" Text="黑名单" VerticalAlignment="Top"/>
                         <TextBox x:Name="TextBox_KeywordBlacklist" HorizontalAlignment="Left" Height="150" Margin="415,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ToolTip="关键字黑名单，回车分隔&#xA;&#xA;关键字屏蔽会无视用户屏蔽设置" SpellCheck.IsEnabled="True" AcceptsReturn="True" AcceptsTab="True"/>
@@ -546,16 +556,270 @@
                     </TabItem.Header>
                     <Grid>
                         <local:IconTextBlock x:Name="Label_AboutTitle" HorizontalAlignment="Left" Margin="5,5,0,0" IconGlyph="&#xF085;" Text="Re: TTSCat v3 - Amber" VerticalAlignment="Top" FontSize="16" ToolTip="插件版本"/>
-                        <Button x:Name="Button_PermissionInfo" HorizontalAlignment="Right" Margin="0,5,216,0" VerticalAlignment="Top" Width="100" Height="20" ToolTip="了解插件使用了哪些系统权限" Click="Button_PermissionInfo_Click">
+                        <Button x:Name="Button_PermissionInfo" HorizontalAlignment="Right" Margin="0,2.5,216,0" VerticalAlignment="Top" Width="100" Height="25" ToolTip="了解插件使用了哪些系统权限" Click="Button_PermissionInfo_Click">
                             <local:IconTextBlock IconGlyph="&#xF3ED;" Text="系统权限信息"/>
                         </Button>
-                        <Button x:Name="Button_About" HorizontalAlignment="Right" Margin="0,5,95,0" VerticalAlignment="Top" Width="116" Height="20" ToolTip="在弹幕姬网站上查看插件信息" Click="Button_About_Click">
+                        <Button x:Name="Button_About" HorizontalAlignment="Right" Margin="0,2.5,95,0" VerticalAlignment="Top" Width="116" Height="25" ToolTip="在弹幕姬网站上查看插件信息" Click="Button_About_Click">
                             <local:IconTextBlock IconGlyph="&#xF129;" Text="关于 Re: TTSCat"/>
                         </Button>
-                        <Button x:Name="Button_Suggestions" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="85" Height="20" ToolTip="前往作者的留言板&#xA;我会尽快回复相关建议，但不一定准时准点，感谢理解" Click="Button_Suggestions_Click">
+                        <Button x:Name="Button_Suggestions" HorizontalAlignment="Right" Margin="0,2.5,5,0" VerticalAlignment="Top" Width="85" Height="25" ToolTip="前往作者的留言板&#xA;我会尽快回复相关建议，但不一定准时准点，感谢理解" Click="Button_Suggestions_Click">
                             <local:IconTextBlock IconGlyph="&#xF27A;" Text="留言板"/>
                         </Button>
-                        <TextBox x:Name="TextBox_Debug" FontFamily="Consolas" Margin="5,30,5,5" TextWrapping="NoWrap" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" AcceptsReturn="True" IsReadOnly="True" ToolTip="这里是我们收集到的一些有助于调试的信息"/>
+                        <ScrollViewer Margin="15,35,15,15">
+                            <StackPanel>
+                                <StackPanel.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="20"/>
+                                        <Setter Property="Margin" Value="10"/>
+                                        <Setter Property="Padding" Value="25"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock" x:Key="BigIconStyle">
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                        <Setter Property="FontFamily" Value="{StaticResource FontAwesome}"/>
+                                        <Setter Property="FontSize" Value="45"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock" x:Key="IconCaptionStyle">
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                        <Setter Property="Margin" Value="0,10,0,0"/>
+                                        <Setter Property="FontSize" Value="20"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock" x:Key="CaptionStyle">
+                                        <Setter Property="MaxWidth" Value="375"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                        <Setter Property="Margin" Value="0,2.5,0,0"/>
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="VerticalAlignment" Value="Top"/>
+                                        <Setter Property="FontSize" Value="15"/>
+                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="SteelBlue" Offset="0.0"/>
+                                            <GradientStop Color="DarkSlateBlue" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF3C1;"/>
+                                            <TextBlock Style="{StaticResource IconCaptionStyle}" Text="100% 开源免费"/>
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource CaptionStyle}">
+                                            Re: TTSCat 是使用 GPLv3 授权的 100% 开源软件，您可以在 GitHub 上找到其源代码。如果您是付费购买而得到的本软件，请立刻请求退款以维护您的合法权益。
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="Teal" Offset="0.0"/>
+                                            <GradientStop Color="DarkSlateGray" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF4E2; &#xF539;"/>
+                                            <TextBlock Style="{StaticResource IconCaptionStyle}" Text="无数据收集"/>
+                                        </StackPanel>
+                                        <StackPanel VerticalAlignment="Top">
+                                            <TextBlock Style="{StaticResource CaptionStyle}" TextAlignment="Right">
+                                                <TextBlock.TextDecorations>
+                                                    <TextDecoration Location="Strikethrough">
+                                                        <TextDecoration.Pen>
+                                                            <Pen Brush="White" Thickness="2"/>
+                                                        </TextDecoration.Pen>
+                                                    </TextDecoration>
+                                                </TextBlock.TextDecorations>
+                                                系统信息<LineBreak/>
+                                                应用数据<LineBreak/>
+                                                诊断数据<LineBreak/>
+                                                统计数据<LineBreak/>
+                                                用户行为数据
+                                            </TextBlock>
+                                            <TextBlock Style="{StaticResource CaptionStyle}">
+                                            开发者都<Run FontWeight="Bold">不需要</Run>，也<Run FontWeight="Bold">不会得到</Run>。Re: TTSCat 也不会读取或写入系统临时文件夹和插件文件夹外的任何地方。也不会将仅有的语音数据上传给合成服务外的任何第三方。
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="Orange" Offset="0.0"/>
+                                            <GradientStop Color="DarkGoldenrod" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF0AD;"/>
+                                            <TextBlock Style="{StaticResource IconCaptionStyle}" Text="随处可定制"/>
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource CaptionStyle}">
+                                            数个语音合成引擎，支持高级用户进行更多的自定义。每种事件，都可以像你想要的一样读出来。语音答复，从合成语音到一串音效。Re: TTSCat 把选择权交给你，一切尽在掌控之中。
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="DeepSkyBlue" Offset="0.0"/>
+                                            <GradientStop Color="DodgerBlue" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF56B;"/>
+                                            <TextBlock Style="{StaticResource IconCaptionStyle}" Text="简洁轻量"/>
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource CaptionStyle}">
+                                            遵循最小化设计原则，使用系统原生样式。只需一个 <Run FontFamily="Consolas">.dll</Run> 文件即可运行，一切读写都发生在插件文件夹和系统临时文件夹内，Re: TTSCat 不会污染你的电脑存储，默认情况下也会自动清理垃圾。
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#621e8f" Offset="0.16"/>
+                                            <GradientStop Color="#762ca6" Offset="0.56"/>
+                                            <GradientStop Color="#cf6e88" Offset="1.00"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF4C0;"/>
+                                            <TextBlock Style="{StaticResource IconCaptionStyle}" Text="用爱发电"/>
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource CaptionStyle}">
+                                            Re: TTSCat 生来开放，未来也将继续保持开放。它曾经免费，未来也将继续免费。开发和维护的动力只源自于用户和社区的支持。
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#124d86" Offset="0.0"/>
+                                            <GradientStop Color="#14204e" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF641;"/>
+                                            <TextBlock Style="{StaticResource IconCaptionStyle}" Text="绝无广告"/>
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource CaptionStyle}">
+                                            开发插件的目的并不是赚钱。鉴于插件并没有追踪功能，某些广告商的广告质量也一度堪忧，而我们也不打算恶心用户，所以广告是不可能的，这辈子都不可能的。
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="ForestGreen" Offset="0.0"/>
+                                            <GradientStop Color="DarkGreen" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF0D0;"/>
+                                            <TextBlock Style="{StaticResource IconCaptionStyle}" Text="自动清理"/>
+                                        </StackPanel>
+                                        <TextBlock Style="{StaticResource CaptionStyle}">
+                                            Re: TTSCat 运行过程中会产生语音缓存，同时也能降低内存占用。许多软件在运行过程中都会产生缓存文件，而缓存堆积会占用存储空间并影响性能。<LineBreak/><LineBreak/>
+                                            插件产生的这些缓存文件在默认情况下会在下次启动弹幕姬或重启 Windows 后被自动清理，释放空间，无需您进行任何额外操作。<LineBreak/><LineBreak/>
+                                            您也可以启用<Run FontWeight="Bold">不保留缓存</Run>选项，使插件在使用完毕缓存文件后立刻删除它们。
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="Orchid" Offset="0.0"/>
+                                            <GradientStop Color="HotPink" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF599;"/>
+                                            <TextBlock Style="{StaticResource IconCaptionStyle}" Text="安心省事"/>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Style="{StaticResource CaptionStyle}">
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 开箱即用<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 开放自由<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 自动启动<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 自动更新<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 不留垃圾<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 不收集数据<LineBreak/>
+                                                <Run FontFamily="{StaticResource FontAwesome}">&#xF00C;</Run> 自动缓存清理
+                                            </TextBlock>
+                                            <TextBlock Style="{StaticResource CaptionStyle}">
+                                                只管安安心心的直播，至于剩下的杂七杂八的事情，交给 Re: TTSCat 帮你打理就好。
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <Border>
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="DarkCyan" Offset="0.0"/>
+                                            <GradientStop Color="Teal" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource BigIconStyle}" Text="&#xF520;" HorizontalAlignment="Center"/>
+                                        <TextBlock Style="{StaticResource IconCaptionStyle}" Text="致谢" HorizontalAlignment="Center"/>
+                                        <TextBlock TextAlignment="Center" MaxWidth="600" Margin="0,10,0,0" Style="{StaticResource CaptionStyle}" HorizontalAlignment="Center">
+                                            <Run FontWeight="Bold">排序不分先后</Run><LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF121;</Run> <Run FontWeight="Bold">代码贡献</Run><LineBreak/>
+                                            CopyLiu<LineBreak/>
+                                            Genteure<LineBreak/>
+                                            linnjoy<LineBreak/>
+                                            Stack Overflow<LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF520;</Run> <Run FontWeight="Bold">小伙伴们</Run><LineBreak/>
+                                            开发者和他的小伙伴们<LineBreak/>
+                                            提出各种新功能想法的小伙伴<LineBreak/>
+                                            插件捐赠者<LineBreak/>
+                                            正在阅读这里的你<LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF013;</Run> <Run FontWeight="Bold">开源框架</Run><LineBreak/>
+                                            <Run FontWeight="Bold">Newtonsoft.Json</Run> - MIT License<LineBreak/>
+                                            版权所有 © 2007 James Newton-King<LineBreak/>
+                                            <Run FontWeight="Bold">NAudio</Run> - MIT License<LineBreak/>
+                                            版权所有 © 2020 Mark Heath<LineBreak/>
+                                            <Run FontWeight="Bold">Font Awesome</Run> - SIL Open Font License 1.1<LineBreak/>
+                                            Font Awesome by Dave Gandy - http://fontawesome.io<LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF233;</Run> <Run FontWeight="Bold">基础架构支持</Run><LineBreak/>
+                                            GitHub<LineBreak/>
+                                            AppVeyor<LineBreak/>
+                                            Genteure - 弹幕姬官网<LineBreak/>
+                                            <LineBreak/><Run FontFamily="{StaticResource FontAwesome}">&#xF1F9;</Run> <Run FontWeight="Bold">版权信息</Run><LineBreak/>
+                                            Copyright (C) 2021 Elepover.
+                                        </TextBlock>
+                                        <TextBlock Style="{StaticResource IconCaptionStyle}" TextAlignment="Center" FontWeight="Regular" FontSize="12" HorizontalAlignment="Center" FontFamily="Consolas">
+                                                This program is free software: you can redistribute it and/or modify<LineBreak/>
+                                                it under the terms of the GNU General Public License as published by<LineBreak/>
+                                                the Free Software Foundation, either version 3 of the License, or<LineBreak/>
+                                                (at your option) any later version.<LineBreak/>
+                                                <LineBreak/>
+                                                This program is distributed in the hope that it will be useful,<LineBreak/>
+                                                but WITHOUT ANY WARRANTY; without even the implied warranty of<LineBreak/>
+                                                MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<LineBreak/>
+                                                GNU General Public License for more details.<LineBreak/>
+                                                <LineBreak/>
+                                                You should have received a copy of the GNU General Public License<LineBreak/>
+                                                along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+                                        </TextBlock>
+                                        <TextBlock Style="{StaticResource IconCaptionStyle}" HorizontalAlignment="Center" FontSize="12">
+                                            于此纪念我逝去的一位朋友，愿你不再受人间苦痛。
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                        <TextBox x:Name="TextBox_Debug" Visibility="Collapsed" FontFamily="Consolas" Margin="5,30,5,5" TextWrapping="NoWrap" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" AcceptsReturn="True" IsReadOnly="True" ToolTip="这里是我们收集到的一些有助于调试的信息"/>
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="TabItem_DebugOptions">
@@ -589,6 +853,7 @@
                             </TextBlock>
                         </CheckBox>
                         <CheckBox x:Name="CheckBox_UrlEncode" Content="合成语音前将文本进行 URL 编码" IsChecked="True" HorizontalAlignment="Left" Margin="5,310,0,0" VerticalAlignment="Top"/>
+                        <CheckBox x:Name="CheckBox_AutoBaiduFallback" Content="版本过渡 - 百度高级版公钥为空时自动回落到百度引擎" IsChecked="True" HorizontalAlignment="Left" Margin="5,330,0,0" VerticalAlignment="Top"/>
                         <TextBlock HorizontalAlignment="Left" Margin="5,0,0,56.5" TextWrapping="Wrap" Text="执行结果" Height="15" VerticalAlignment="Bottom"/>
                         <TextBox x:Name="TextBox_ExecutionResult" IsReadOnly="True" FontFamily="Consolas" Margin="5,0,5,40.5" TextWrapping="Wrap" Height="16" VerticalAlignment="Bottom"/>
                         <TextBlock Margin="5,0,5,5" TextWrapping="Wrap" TextAlignment="Center" FontSize="12" VerticalAlignment="Bottom">

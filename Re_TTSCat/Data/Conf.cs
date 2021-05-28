@@ -33,7 +33,7 @@ namespace Re_TTSCat.Data
         public byte GiftBlockMode { get; set; }
         /// <summary>
         /// 关键字屏蔽模式<br/>
-        /// 0 = 已关闭, 1 = 黑名单, 2 = 白名单
+        /// 0 = 已关闭, 1 = 黑名单, 2 = 白名单, 3 = 正则表达式黑名单, 4 = 正则表达式白名单
         /// </summary>
         public byte KeywordBlockMode { get; set; }
         /// <summary>
@@ -202,9 +202,17 @@ namespace Re_TTSCat.Data
         /// </summary>
         public bool AutoFallback { get; set; }
         /// <summary>
+        /// 是否使用 DirectSound 输出
+        /// </summary>
+        public bool UseDirectSound { get; set; }
+        /// <summary>
         /// 全自动更新
         /// </summary>
         public bool FullyAutomaticUpdate { get; set; }
+        /// <summary>
+        /// 百度高级版密钥为空时自动回落，仅检查公钥
+        /// </summary>
+        public bool AutoBaiduFallback { get; set; }
         /// <summary>
         /// 是否启用 HTTP 身份验证
         /// </summary>
@@ -229,6 +237,14 @@ namespace Re_TTSCat.Data
         /// POST 数据内容，若为 multipart formdata 则使用 base64 编码
         /// </summary>
         public string PostData { get; set; }
+        /// <summary>
+        /// 百度 API 公钥
+        /// </summary>
+        public string BaiduApiKey { get; set; }
+        /// <summary>
+        /// 百度 API 私钥
+        /// </summary>
+        public string BaiduApiSecretKey { get; set; }
 
         /// <summary>
         /// 在连接成功后读出的内容，留空以禁用
